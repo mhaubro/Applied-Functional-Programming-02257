@@ -1,4 +1,4 @@
-module Game
+module EventQueue
 
 // Prelude
 open System
