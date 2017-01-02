@@ -1,10 +1,10 @@
 ﻿namespace Logic
 
 type Heap = int;;
-type Player = string;;
+type User = string;;
+type Opponent = string;;
 
-type GameInfo = Heap list;;
-type Game = Player * Player * GameInfo;;
+type Game = Heap list * User * Opponent;;
 
-type Class1() = 
-    member this.X = "F#"
+
+
