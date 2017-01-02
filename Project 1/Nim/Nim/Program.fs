@@ -5,8 +5,8 @@ open System
 open System.Windows.Forms
 
 [<EntryPoint>]
-[<STAThread>]
-let main argv = 
+[<STAThread>]//Necessary for UI elements. Indicates single-threaded apartment
+let main argv = //Main-method
     use form = new Form()
  
     Application.Run(form);
