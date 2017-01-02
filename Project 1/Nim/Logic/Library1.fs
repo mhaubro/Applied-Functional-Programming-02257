@@ -1,4 +1,4 @@
-﻿namespace Game_Logic
+﻿namespace Logic
 
 type Class1() = 
     member this.X = "F#"
