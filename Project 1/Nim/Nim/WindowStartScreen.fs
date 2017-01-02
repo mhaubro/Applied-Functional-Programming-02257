@@ -3,38 +3,44 @@
 open System.Windows.Forms
 open System.Drawing
 
-//let WindowStartForm = new Form(Text="HI13", Size=Size(300,300), Visible=true)
-
-let urlBox =
-  new TextBox(Location=Point(50,25),Size=Size(400,25), Visible=true)
-
-let ansBox =
-  new TextBox(Location=Point(150,150),Size=Size(200,25), Visible=true)
-
+//Button for starting a game with a randomly defined number of heaps with
+//Randomly defined matches (1-6 heaps with 1-6 matches)
 let startButton =
   new Button(Location=Point(50,65),MinimumSize=Size(100,50),
               MaximumSize=Size(100,50),Text="START", Visible=true)
 
-let clearButton =
+//Button for starting a game with a userdefined number of heaps and
+//random matches
+let startUserDefinedHeapButton =
   new Button(Location=Point(200,65),MinimumSize=Size(100,50),
               MaximumSize=Size(100,50),Text="CLEAR", Visible=true)
 
-let cancelButton =
+//Button for starting a game with number of heaps and number of matches
+//In each heap user defined
+let startUserDefinedAllButton =
   new Button(Location=Point(350,65),MinimumSize=Size(100,50),
               MaximumSize=Size(100,50),Text="CANCEL", Visible=true)
 
+//Adds the controls to the basic form
 let setUpForm (form:System.Windows.Forms.Form) =
-    form.Controls.Add(urlBox)
-    form.Controls.Add(ansBox)
     form.Controls.Add(startButton)
-    form.Controls.Add(clearButton)
-    form.Controls.Add(cancelButton)
-//    form = WindowStartForm
-//
-let hideForm _ =
-    urlBox.Visible <- false
-    ansBox.Visible <- false
+    form.Controls.Add(startUserDefinedHeapButton)
+    form.Controls.Add(startUserDefinedAllButton)
 
+//Shows the form by setting the visibility-state.
+let showStartScreen _ =
+    startButton.Visible <- true
+    startUserDefinedHeapButton.Visible <- true
+    startUserDefinedAllButton.Visible <- true
 
-startButton.Click.Add(hideForm)
+//Hides the form by setting the visibility-state.
+let hideStartScreen _ =
+    startButton.Visible <- false
+    startUserDefinedHeapButton.Visible <- false
+    startUserDefinedAllButton.Visible <- false
 
+//Adds functions related to the clicks. Goes to different state.
+//As of right now, this is only used to display as an example
+startButton.Click.Add(hideStartScreen)
+startUserDefinedHeapButton.Click.Add(hideStartScreen)
+startUserDefinedAllButton.Click.Add(hideStartScreen)
