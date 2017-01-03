@@ -41,9 +41,10 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventQueue.fs" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Library1.fs" />
     <Compile Include="AI.fs" />
+    <Compile Include="Game.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <PropertyGroup>
