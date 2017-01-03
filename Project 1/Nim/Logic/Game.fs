@@ -6,6 +6,8 @@ open System.Net
 open System.Threading
 
 open EventQueue
+
+open AI
 //open WindowsStartScreen
 
 type Heap = int
@@ -17,8 +19,12 @@ type Game = Heap list * User * Opponent
 // Events for the AsyncEventQueue
 //type End = Win | Lose
 type Message = 
-    | Start of Game | UserMove of Game | OpponentMove of Game | End of User | Error | Clear 
-let ev = AsyncEventQueue()
+    | Start of Game | UserMove of Game | OpponentMove of Game | End of User | Error | Clear
+let ev = AsyncEventQueue();;
+
+let isGameEnded = function
+                    | hl -> List.fold (+) 0 hl = 0;;
+
 let rec ready() = async {
     // GUI Setup
 
@@ -31,21 +37,31 @@ let rec ready() = async {
 
 and getUserInput(game) = async {
     // GUI Setup
+    let (hl,u,o)=game
+
+    if isGameEnded hl then ev.Post(End(o))
+    else
+        ev.Post(OpponentMove(AI.opponentAI game))
 
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | UserMove game -> return! getOpponentInput(game)
+        | UserMove game' -> return! getOpponentInput(game')
         | End e -> return! gameEnded(e)
         | _ -> failwith("getUserInput: Unexpected Message.")}
 
 and getOpponentInput(game) = async {
     // GUI Setup
+    
+    let (hl,u,o)=game
+    if isGameEnded hl then ev.Post(End(u))
+    else
+        ev.Post(OpponentMove(AI.opponentAI game))
 
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | OpponentMove game -> return! getUserInput(game)
+        | OpponentMove game' -> return! getUserInput(game')
         | End e -> return! gameEnded(e)
         | _ -> failwith("getOpponentInput: Unexpected Message.")}
 
@@ -55,6 +71,6 @@ and gameEnded(e) = async {
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Clear -> ready()
-        | _ -> failwith("gameEnded: Unexpected Message.")}
+        | Clear -> return! ready()
+        | _ -> failwith("gameEnded: Unexpected Message.")};;
 

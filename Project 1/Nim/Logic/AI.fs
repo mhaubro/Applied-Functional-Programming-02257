@@ -15,6 +15,6 @@ let heapOp hl =
     | _ -> critListReplace (fun v -> v ^^^ m < v) (fun v -> v ^^^ m) hl;;
 
 //Perfom optimal move in a game of Nim
-let opponentAI g = match g with
+let opponentAI = function
                     | (hl, o, p) -> (heapOp hl, o, p)
 
