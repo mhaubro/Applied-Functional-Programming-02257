@@ -7,19 +7,19 @@ open System.Drawing
 //Randomly defined matches (1-6 heaps with 1-6 matches)
 let startButton =
   new Button(Location=Point(50,65),MinimumSize=Size(100,50),
-              MaximumSize=Size(100,50),Text="START", Visible=true)
+              MaximumSize=Size(100,50),Text="Completely Random", Visible=true)
 
 //Button for starting a game with a userdefined number of heaps and
 //random matches
 let startUserDefinedHeapButton =
   new Button(Location=Point(200,65),MinimumSize=Size(100,50),
-              MaximumSize=Size(100,50),Text="CLEAR", Visible=true)
+              MaximumSize=Size(100,50),Text="User picks heap amount", Visible=true)
 
 //Button for starting a game with number of heaps and number of matches
 //In each heap user defined
 let startUserDefinedAllButton =
   new Button(Location=Point(350,65),MinimumSize=Size(100,50),
-              MaximumSize=Size(100,50),Text="CANCEL", Visible=true)
+              MaximumSize=Size(100,50),Text="Completely Userdefined", Visible=true)
 
 //Adds the controls to the basic form
 let setUpForm (form:System.Windows.Forms.Form) =

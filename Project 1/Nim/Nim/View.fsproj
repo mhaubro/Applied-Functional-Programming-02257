@@ -51,6 +51,8 @@
     <None Include="App.config" />
     <Compile Include="WindowStartScreen.fs" />
     <Compile Include="WindowGameScreen.fs" />
+    <Compile Include="ViewPicker.fs" />
+    <Compile Include="HeapSelector.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
