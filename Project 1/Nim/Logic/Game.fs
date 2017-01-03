@@ -23,7 +23,7 @@ type Message =
 let ev = AsyncEventQueue();;
 
 let isGameEnded = function
-                    | hl -> List.fold (+) 0 hl = 0;;
+                    | hl -> Array.fold (+) 0 hl = 0;;
 
 let rec ready() = async {
     // GUI Setup
