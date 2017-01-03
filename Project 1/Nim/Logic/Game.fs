@@ -13,8 +13,8 @@ open AI
 type Heap = int
 
 [<AbstractClass>]
-type Player (name:string) =
-    member this.name = name 
+type Player (n:string) =
+    member this.name = n
     abstract member getMove : Heap[] -> int*int
 
 type Game = Heap[] * Player * Player

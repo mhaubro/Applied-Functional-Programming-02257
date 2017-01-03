@@ -5,7 +5,7 @@ type Heap = int
 [<AbstractClass>]
 type Player =
     class
-        new : name:string -> Player
+        new : string -> Player
         member name : string
         abstract member getMove : Heap[] -> int*int
     end
