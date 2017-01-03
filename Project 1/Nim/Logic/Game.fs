@@ -23,7 +23,7 @@ let rec ready() = async {
     // GUI Setup
 
     // Recurs
-    let! msg = ev.recieve()
+    let! msg = ev.Receive()
     match msg with
         | Start game    -> return! getUserInput(game)
         | Clear         -> return! ready()
@@ -33,7 +33,7 @@ and getUserInput(game) = async {
     // GUI Setup
 
     // Recurs
-    let! msg = ev.recieve()
+    let! msg = ev.Receive()
     match msg with
         | UserMove game -> return! getOpponentInput(game)
         | End e -> return! gameEnded(e)
@@ -43,7 +43,7 @@ and getOpponentInput(game) = async {
     // GUI Setup
 
     // Recurs
-    let! msg = ev.recieve()
+    let! msg = ev.Receive()
     match msg with
         | OpponentMove game -> return! getUserInput(game)
         | End e -> return! gameEnded(e)
@@ -53,7 +53,7 @@ and gameEnded(e) = async {
     // GUI Setup
 
     // Recurs
-    let! msg = ev.recieve()
+    let! msg = ev.Receive()
     match msg with
         | Clear -> ready()
         | _ -> failwith("gameEnded: Unexpected Message.")}

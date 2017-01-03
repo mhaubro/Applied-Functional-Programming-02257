@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core"/>
+    <Reference Include="FSharp.Core" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -52,6 +52,13 @@
     <Compile Include="WindowStartScreen.fs" />
     <Compile Include="WindowGameScreen.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logic\Logic.fsproj">
+      <Name>Logic</Name>
+      <Project>{cfc600d5-e3ed-4cf1-9dab-66a624858cff}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
