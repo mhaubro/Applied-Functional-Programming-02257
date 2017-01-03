@@ -15,9 +15,9 @@ type Opponent = string
 type Game = Heap list * User * Opponent
 
 // Events for the AsyncEventQueue
-type End = Win | Lose
+//type End = Win | Lose
 type Message = 
-    | Start of Game | UserMove of Game | OpponentMove of Game | End | Error | Clear 
+    | Start of Game | UserMove of Game | OpponentMove of Game | End of User | Error | Clear 
 let ev = AsyncEventQueue()
 let rec ready() = async {
     // GUI Setup
