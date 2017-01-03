@@ -6,13 +6,11 @@
 open EventQueue
 open Game
 
-let _ = getUserInput([1..100],"A","B");;
-
-let f = async{
-    let! msg = ev.Receive()
-    printf "%A" ("Bob")
-    };;
-
-let _ = Async.StartImmediate(f);;
-// Define your library scripting code here
-
+let _ = Async.Start(ready());;
+let mutable counter = 1;;
+while counter < 1000 do
+    ev.Post(Start(([|1..100|],"Q","Z")))
+    Async.Sleep 100 |> ignore
+    ev.Post(Clear)
+    counter <- counter + 1
+ev.Post(Error)

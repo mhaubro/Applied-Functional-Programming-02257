@@ -41,7 +41,7 @@ and getUserInput(game) = async {
 
     if isGameEnded hl then ev.Post(End(o))
     else
-        ev.Post(OpponentMove(AI.opponentAI game))
+        ev.Post(UserMove(AI.opponentAI game))
 
     // Recurs
     let! msg = ev.Receive()
@@ -67,7 +67,8 @@ and getOpponentInput(game) = async {
 
 and gameEnded(e) = async {
     // GUI Setup
-
+    printf "%A wins\n" e
+    System.Console.Out.Flush |> ignore
     // Recurs
     let! msg = ev.Receive()
     match msg with

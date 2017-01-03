@@ -9,7 +9,6 @@ let heapOp hl =
            hl'.[maxi] <- 0;
     | _ -> let vi = Array.findIndex (fun v -> v ^^^ m < v) hl
            hl'.[vi] <- hl.[vi]^^^m
-    |> ignore
     hl'
            
 let opponentAI g = match g with
