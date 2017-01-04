@@ -1,6 +1,4 @@
-﻿//module GuiCallInterface
-
-
+﻿module GuiCallInterface
 
 
 //let getUserMove heaparray gui =
