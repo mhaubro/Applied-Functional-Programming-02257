@@ -12,4 +12,4 @@ type Game = Heap[] * Player * Player
 val startGameFromGUI : Game -> unit
 
 val startGameFromGUI : Game -> unit
-val mutable gameEnder : Player -> unit
+val mutable gameEnder : (Player -> unit)
