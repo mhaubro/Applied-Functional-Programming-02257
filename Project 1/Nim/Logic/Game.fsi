@@ -1,15 +1,15 @@
 ﻿module Game
 
+
 type Heap = int
 
-[<AbstractClass>]
-type Player =
-    class
-        new : name:string -> Player
-        member name : string
-        abstract member getMove : Heap[] -> int*int
-    end
+type Player = {Name:string; getMove:int[]->int*int}
+
+type PlayerID = A|B
 
 type Game = Heap[] * Player * Player
 
+val startGameFromGUI : Game -> unit
 
+val startGameFromGUI : Game -> unit
+val mutable gameEnder : Player -> unit
