@@ -12,6 +12,10 @@ open GUIPlayer
 let p1 = new GUIPlayer("bob");;
 let p2 = new GUIPlayer("sven");;
 
+let game = ([|1;5;7;3|],p1,p2);;
+
+let _ = Async.Start(ready());;
+ev.Post(Start(game));;
 
 
 

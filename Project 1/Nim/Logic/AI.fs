@@ -1,4 +1,4 @@
-module AI
+﻿module AI
 
 let heapOp hl =
     let m = Array.fold (^^^) 0 hl
@@ -13,3 +13,5 @@ let heapOp hl =
            
 let opponentAI g = match g with
                     | (hl, o, p) -> (heapOp hl, o, p)
+
+       

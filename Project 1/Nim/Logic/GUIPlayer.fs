@@ -11,8 +11,7 @@ let processMove (heapArray:Heap[]) =
 type GUIPlayer (name:string) as this =
     inherit Player(name)
     do this.showWindow
-    member internal this.window = new Form(Text=name, Size=Size(500, 500))
+    member private this.window = new Form(Text=name, Size=Size(500, 500))
+    member private this.showWindow = this.window.Show()
     override this.getMove (heapArray:Heap[]) = processMove heapArray
-    member internal this.showWindow = this.window.Show()
-
-
+    
