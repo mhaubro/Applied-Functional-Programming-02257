@@ -49,8 +49,6 @@
     <Compile Include="Game.fs" />
     <Compile Include="AI.fs" />
     <None Include="Script.fsx" />
-    <Compile Include="GUIPlayer.fs" />
-    <None Include="GUIPlayerScriptTest.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
