@@ -13,4 +13,3 @@ while counter < 1000 do
     Async.Sleep 100 |> ignore
     ev.Post(Clear)
     counter <- counter + 1
-ev.Post(Error)
