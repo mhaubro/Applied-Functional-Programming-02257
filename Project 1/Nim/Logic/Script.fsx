@@ -9,7 +9,7 @@ open Game
 let _ = Async.Start(ready());;
 let mutable counter = 1;;
 while counter < 1000 do
-    ev.Post(Start(([|1..100|],"Q","Z")))
+    ev.Post(Start(([|1..100|],{Name="Q"; getMove=AI.getAIMove},{Name="Z"; getMove=AI.getAIMove})))
     Async.Sleep 100 |> ignore
     ev.Post(Clear)
     counter <- counter + 1
