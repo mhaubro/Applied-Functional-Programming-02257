@@ -7,7 +7,6 @@ open System.Threading
 
 open EventQueue
 
-open AI
 //open WindowsStartScreen
 
 type Heap = int
@@ -19,7 +18,7 @@ type Heap = int
 
 type Player = {Name:string; getMove:int[]->int*int}
 
-type Turn = A|B
+type PlayerID = A|B
 
 type Game = Heap[] * Player * Player
 
@@ -28,6 +27,11 @@ type Message =
 
 
 let ev = AsyncEventQueue();;
+
+let mutable gameOn = false
+let startGameFromGUI = function | game -> if not gameOn then ev.Post(Start(game)) else ()
+
+let mutable gameEnder = fun p -> printfn "Player named %s won" p.Name
 
 let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
     (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
@@ -49,14 +53,15 @@ let rec ready() = async {
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Start game    -> return! getPlayerInput A (game)
+        | Start game    -> gameOn <- true
+                           return! Turn A (game)
         | Clear         -> return! ready()
         | _             -> failwith("ready: Unexpected Message." )}
         
-and getPlayerInput turn  game = async {
+and Turn p game = async {
     let (heapArray,playerA,playerB) = game
 
-    let thisPlayer, nextPlayer, turn' = match turn with
+    let thisPlayer, nextPlayer, p' = match p with
                                         | A -> playerA, playerB, B
                                         | B -> playerB, playerA, A
 
@@ -75,14 +80,14 @@ and getPlayerInput turn  game = async {
     let! msg = ev.Receive()
     match msg with
         | Move (id,num) -> //printf "Move:%A\n" (id,num)
-                          return! getPlayerInput turn' (ProcessMove game (id,num))
-        | Win e -> return! gameEnded(e)
+                          return! Turn p' (ProcessMove game (id,num))
+        | Win e -> return! _end(e)
         | _ -> failwith("getUserInput: Unexpected Message.")}
 
-and gameEnded(e) = async {
+and _end(e) = async {
     // GUI Setup
-    printf "%A wins\n" e
-    System.Console.Out.Flush |> ignore
+    gameOn<- false
+    gameEnder(e)
     // Recurs
     let! msg = ev.Receive()
     match msg with
