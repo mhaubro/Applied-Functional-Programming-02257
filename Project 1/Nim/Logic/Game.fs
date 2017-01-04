@@ -12,10 +12,14 @@ open AI
 
 type Heap = int
 
-[<AbstractClass>]
-type Player (name:string) =
-    member this.name = name 
-    abstract member getMove : Heap[] -> int*int
+//[<AbstractClass>]
+//type Player (name:string) =
+//    member this.name = name 
+//    abstract member getMove : Heap[] -> int*int
+
+type Player = {Name:string; getMove:int[]->int*int}
+
+type Turn = A|B
 
 type Game = Heap[] * Player * Player
 
@@ -26,11 +30,11 @@ type Message =
 let ev = AsyncEventQueue();;
 
 let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
-    (id > 0 && id < heapArray.Length && num > 0 && num < heapArray.[id])
+    (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
 
-let ApplyMove ((heapArray,A,B):Game) ((id,num):(int*int)) = 
+let ApplyMove ((heapArray,a,b):Game) ((id,num):(int*int)) = 
     heapArray.[id] <- heapArray.[id] - num
-    (heapArray, A, B)
+    (heapArray, a, b)
 
 let ProcessMove (game:Game) (move:(int*int)) =
     if (validateMove game move) then ApplyMove game move
@@ -45,19 +49,23 @@ let rec ready() = async {
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Start game    -> return! getPlayerAInput(game)
+        | Start game    -> return! getPlayerInput A (game)
         | Clear         -> return! ready()
         | _             -> failwith("ready: Unexpected Message." )}
+        
+and getPlayerInput turn  game = async {
+    let (heapArray,playerA,playerB) = game
 
-and getPlayerAInput(game) = async {
-    let (heapArray,PlayerA,PlayerB) = game
+    let thisPlayer, nextPlayer, turn' = match turn with
+                                        | A -> playerA, playerB, B
+                                        | B -> playerB, playerA, A
 
     if (isGameEnded heapArray) then 
-        ev.Post(Win(PlayerB))
+        ev.Post(Win(nextPlayer))
     else
         use ts = new CancellationTokenSource()
         Async.StartWithContinuations
-            (async {return PlayerA.getMove heapArray},
+            (async {return thisPlayer.getMove heapArray},
             (fun (id,num)   -> ev.Post (Move(id,num))),
             (fun _          -> ev.Post Error),
             (fun _          -> ev.Post Cancelled),
@@ -66,28 +74,8 @@ and getPlayerAInput(game) = async {
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Move (id,num) -> return! getPlayerBInput(ProcessMove game (id,num))
-        | Win e -> return! gameEnded(e)
-        | _ -> failwith("getUserInput: Unexpected Message.")}
-
-and getPlayerBInput(game) = async {
-    let (heapArray,PlayerA,PlayerB) = game
-
-    if (isGameEnded heapArray) then 
-        ev.Post(Win(PlayerA))
-    else
-        use ts = new CancellationTokenSource()
-        Async.StartWithContinuations
-            (async {return PlayerB.getMove heapArray},
-            (fun (id,num)   -> ev.Post (Move(id,num))),
-            (fun _          -> ev.Post Error),
-            (fun _          -> ev.Post Cancelled),
-            ts.Token)
-
-    // Recurs
-    let! msg = ev.Receive()
-    match msg with
-        | Move (id,num) -> return! getPlayerAInput(ProcessMove game (id,num))
+        | Move (id,num) -> //printf "Move:%A\n" (id,num)
+                          return! getPlayerInput turn' (ProcessMove game (id,num))
         | Win e -> return! gameEnded(e)
         | _ -> failwith("getUserInput: Unexpected Message.")}
 
