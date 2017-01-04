@@ -109,8 +109,25 @@ let hideGameScreen _ =
     dataTextLabel.Visible <- false
     backButton.Visible <- false    
 
-    //This is always to be called, since it will set up the data in the game.
+    //Makes the game screen inactive while waiting
+let inactiveGameScreen _ =
+    ComboboxHeaps.Enabled <- false
+    numericUpDown.Enabled <- false
+    okButton.Enabled <- false
+    dataTextLabel.Enabled <- false
+    backButton.Enabled <- false    
 
+    //Makes the game screen active again
+let activeGameScreen _ =
+    ComboboxHeaps.Enabled <- true
+    numericUpDown.Enabled <- true
+    okButton.Enabled <- true
+    dataTextLabel.Enabled <- true
+    backButton.Enabled <- true
+    showGameScreen//Maybe unnecessary 
+
+
+    //This is always to be called, since it will set up the data in the game.
     //Refreshing the display
 let setUpGameScreen (game:Game) = 
     let (gamearr, name1, name2) = game
