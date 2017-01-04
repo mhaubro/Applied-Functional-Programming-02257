@@ -1,4 +1,4 @@
-﻿module Game
+module Game
 
 // Prelude
 open System 
@@ -93,7 +93,3 @@ and _end(e) = async {
     match msg with
         | Clear -> return! ready()
         | _ -> failwith("gameEnded: Unexpected Message.")};;
-
-
-
-

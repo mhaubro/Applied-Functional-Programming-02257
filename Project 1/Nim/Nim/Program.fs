@@ -8,12 +8,14 @@ open System.Windows.Forms
 open System.Drawing
 open WindowStartScreen
 open WindowGameScreen
+open ViewPicker
 
 
 [<EntryPoint>]
 [<STAThread>]
 let main argv = 
     let window = new Form(Text="HI!", Size=Size(500, 500))
-    setUpForm(window)
-    Application.Run(window);
+    initializeForm(window)
+    initButtons
+    Application.Run(window)
     0 // return an integer exit code
