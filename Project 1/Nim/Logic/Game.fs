@@ -7,20 +7,42 @@ open System.Threading
 
 open EventQueue
 
-open AI
 //open WindowsStartScreen
 
 type Heap = int
-type User = string
-type Opponent = string
 
-type Game = Heap[] * User * Opponent
+//[<AbstractClass>]
+//type Player (name:string) =
+//    member this.name = name 
+//    abstract member getMove : Heap[] -> int*int
 
-// Events for the AsyncEventQueue
-//type End = Win | Lose
-type Message = 
-    | Start of Game | UserMove of Game | OpponentMove of Game | End of User | Error | Clear
+type Player = {Name:string; getMove:int[]->int*int}
+
+type PlayerID = A|B
+
+type Game = Heap[] * Player * Player
+
+type Message =
+    | Start of Game | Move of int*int | Win of Player | Error | Clear | Cancelled
+
+
 let ev = AsyncEventQueue();;
+
+let mutable gameOn = false
+let startGameFromGUI = function | game -> if not gameOn then ev.Post(Start(game)) else ()
+
+let mutable gameEnder = fun p -> printfn "Player named %s won" p.Name
+
+let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
+    (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
+
+let ApplyMove ((heapArray,a,b):Game) ((id,num):(int*int)) = 
+    heapArray.[id] <- heapArray.[id] - num
+    (heapArray, a, b)
+
+let ProcessMove (game:Game) (move:(int*int)) =
+    if (validateMove game move) then ApplyMove game move
+    else failwith("ProcessMove: move not valid")
 
 let isGameEnded = function
                     | hl -> Array.fold (+) 0 hl = 0;;
@@ -31,44 +53,41 @@ let rec ready() = async {
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Start game    -> return! getUserInput(game)
+        | Start game    -> gameOn <- true
+                           return! Turn A (game)
         | Clear         -> return! ready()
         | _             -> failwith("ready: Unexpected Message." )}
+        
+and Turn p game = async {
+    let (heapArray,playerA,playerB) = game
 
-and getUserInput(game) = async {
-    // GUI Setup
-    let (hl,u,o)=game
+    let thisPlayer, nextPlayer, p' = match p with
+                                        | A -> playerA, playerB, B
+                                        | B -> playerB, playerA, A
 
-    if isGameEnded hl then ev.Post(End(o))
+    if (isGameEnded heapArray) then 
+        ev.Post(Win(nextPlayer))
     else
-        ev.Post(UserMove(AI.opponentAI game))
+        use ts = new CancellationTokenSource()
+        Async.StartWithContinuations
+            (async {return thisPlayer.getMove heapArray},
+            (fun (id,num)   -> ev.Post (Move(id,num))),
+            (fun _          -> ev.Post Error),
+            (fun _          -> ev.Post Cancelled),
+            ts.Token)
 
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | UserMove game' -> return! getOpponentInput(game')
-        | End e -> return! gameEnded(e)
+        | Move (id,num) -> //printf "Move:%A\n" (id,num)
+                          return! Turn p' (ProcessMove game (id,num))
+        | Win e -> return! _end(e)
         | _ -> failwith("getUserInput: Unexpected Message.")}
 
-and getOpponentInput(game) = async {
+and _end(e) = async {
     // GUI Setup
-    
-    let (hl,u,o)=game
-    if isGameEnded hl then ev.Post(End(u))
-    else
-        ev.Post(OpponentMove(AI.opponentAI game))
-
-    // Recurs
-    let! msg = ev.Receive()
-    match msg with
-        | OpponentMove game' -> return! getUserInput(game')
-        | End e -> return! gameEnded(e)
-        | _ -> failwith("getOpponentInput: Unexpected Message.")}
-
-and gameEnded(e) = async {
-    // GUI Setup
-    printf "%A wins\n" e
-    System.Console.Out.Flush |> ignore
+    gameOn<- false
+    gameEnder(e)
     // Recurs
     let! msg = ev.Receive()
     match msg with

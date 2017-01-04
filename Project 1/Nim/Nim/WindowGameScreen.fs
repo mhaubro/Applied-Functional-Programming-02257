@@ -55,7 +55,6 @@ let loadHeaps (heaparray) =
 let getHeapString heapArray = 
     (fst (Array.fold (fun (s,i) heap -> (s + i.ToString() + ": " + heap.ToString() + "\n",i+1)) ("",0) heapArray)).Trim();;
 
-
 //Event handler, To be triggered, when the heap number is changed, because
 //Then the match-counter has to be changed as well.
 let heapChangeEventHandler (eventargs) =
