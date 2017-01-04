@@ -4,6 +4,8 @@ open System.Drawing
 open System
 open System.Threading
 
+open Game
+
 type GUI(name:string, form:System.Windows.Forms.Form) as _this = 
     let _window = form
     let _button1 = new Button(Location=Point(200,400), Text="A", Visible=false, 
