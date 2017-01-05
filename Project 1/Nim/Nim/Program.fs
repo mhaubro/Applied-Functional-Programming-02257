@@ -11,6 +11,7 @@ open WindowGameScreen
 open ViewPicker
 open Game
 
+
 [<EntryPoint>]
 [<STAThread>]
 let main argv = 
@@ -22,8 +23,8 @@ let main argv =
     let startscreen = new StartScreen(window)
     initializeStart window startscreen
     initializeGame gui window
-    initStartButtons startscreen gui heaps   
-    initguiButtons gui  
+    initStartButtons startscreen gui (fun _ -> [|4;5;6;7;7;8;8;9;9;10|])
+    initguiButtons gui startscreen
     showStartScreen startscreen
     //showGameScreen gui
     //initializeGame gui window
