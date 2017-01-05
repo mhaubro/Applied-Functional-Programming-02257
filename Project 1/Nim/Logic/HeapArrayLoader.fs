@@ -23,7 +23,7 @@ let downloadString (uri:System.Uri) = async {
 
 /// Takes all numbers sepperated from text and puts them into a array parsed as ints
 let parseHeapString (s:string) = async {
-    return Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[0-9]+$")) (s.Split [|' '|]))}
+    return Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[1-9][0-9]*$")) (s.Split [|' '|]))}
 
 /// Loads a string from the uri using downloadString and then parses it using parseHeapString
 let loadFromSite (uri:System.Uri) = async{
