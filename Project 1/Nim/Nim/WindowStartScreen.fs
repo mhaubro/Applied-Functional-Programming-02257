@@ -48,8 +48,8 @@ let initializeStart (form:System.Windows.Forms.Form) (SC:StartScreen)=
 //Shows the form by setting the visibility-state.
 let showStartScreen (SC:StartScreen) =
     SC.startButton.Visible <- true
-    SC.startUserDefinedHeapButton.Visible <- true
-    SC.startUserDefinedAllButton.Visible <- true
+    //SC.startUserDefinedHeapButton.Visible <- true
+    //SC.startUserDefinedAllButton.Visible <- true
     SC.internetButton.Visible <- true
     SC.urlbox.Visible <- true
 
