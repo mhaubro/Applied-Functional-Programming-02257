@@ -23,20 +23,24 @@ open GuiCallInterface
 //    hideGameScreen gui
 
     //Must be called to fix the functions to buttons.
-let initguiButtons (gui:GUI) =
+let initguiButtons (gui:GUI) (SC:StartScreen) =
     //As of right now, these do the same.
 //    startButton.Click.Add(fun _ -> Game.startGameFromUI {heaps, {Name="User"; getMove=gui.getUserMove}})
     //startUserDefinedHeapButton.Click.Add(gotoGame)
     //startUserDefinedAllButton.Click.Add(gotoGame)
-    //gui.backButton.Click.Add(fun  evArgs -> gotoStart gui)
+    gui.backButton.Click.Add(fun  evArgs -> hideGameScreen gui 
+                                            showStartScreen SC)
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
     Game.gameEnder <- (fun player -> gui.dataTextLabel.Text <- player.Name + "Someone won")
     ()
 
-let initStartButtons (SC:StartScreen) (gui:GUI) (heaps)=
+let initStartButtons (SC:StartScreen) (gui:GUI) (heaps) =
     //The gameender is to be removed when the GUI is appended
-    SC.internetButton.Click.Add(fun _ -> startGameFromGUI (loadInternetPage SC, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
+
+    SC.internetButton.Click.Add(fun _ -> startGameFromGUI (loadInternetPage SC, {Name="User"; getMove=(fun heapsfun -> getUserMove heapsfun gui)}, {Name="AI"; getMove=AI.getAIMove})
+                                         hideStartScreen SC)
     SC.startButton.Click.Add(fun _ -> hideStartScreen SC
-                                      Game.startGameFromGUI (heaps, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
+                                      showGameScreen gui
+                                      Game.startGameFromGUI (heaps(), {Name="User"; getMove=(fun heapsfun -> getUserMove heapsfun gui)}, {Name="AI"; getMove=AI.getAIMove}))
 
 
