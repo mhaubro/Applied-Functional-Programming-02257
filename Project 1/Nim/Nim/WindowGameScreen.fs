@@ -74,10 +74,21 @@ let loadHeaps (gui:GUI) (heaparray) =
     //Sets the box to point to the first element. If there is no elements, exception.
     if (gui.ComboboxHeaps.Items.Count > 0) then gui.ComboboxHeaps.SelectedIndex <- 0 else failwith("Exception e raised")
 
-
+let rec heapMatches i s:string = match i, s with 
+                                    | 0, s -> s
+                                    | i, s -> (heapMatches (i-1) s) + "|"
+let heapAsMatches i heap =
+    let heap' = if heap>10 then 10 else heap
+    let sb = new System.Text.StringBuilder();
+    sb.Append( String.init heap' (fun _ -> "|"))|>ignore
+    if heap' < heap then sb.Append("+"+ (heap-heap').ToString())|>ignore
+    String.Format("{0,-15} \t {1,-20}\t {2}", i, heap, sb.ToString())
+                 
 //gets the string for displaying
 let getHeapString heapArray = 
-    (fst (Array.fold (fun (s,i) heap -> (s + i.ToString() + ": " + heap.ToString() + "\n",i+1)) ("",0) heapArray)).Trim();;
+    String.Format("{0,-15} \t {1,-20} \t {2}\n", "id", "size", "matches")+
+        (fst (Array.fold (fun (s,i) heap -> (s + (heapAsMatches i heap) + "\n",i+1)) ("",0) heapArray));;
+
 
 //Event handler, To be triggered, when the heap number is changed, because
 //Then the match-counter has to be changed as well.
