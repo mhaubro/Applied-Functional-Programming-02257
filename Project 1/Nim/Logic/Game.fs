@@ -17,7 +17,12 @@ type Game = int[] * Player * Player
 
 /// Enumeration of messages - alphabet of FSM
 type Message =
-    | Start of Game | Move of int*int | Win of Player | Error | Clear | Cancelled
+    | Start of Game
+    | Move of int*int
+    | Win of Player
+    | Error
+    | Clear
+    | Cancelled
 
 ///Eventqueue for messages that change game FSM - if you are seeing this outside of Game.fs you are doing something wrong
 let ev = AsyncEventQueue();;
