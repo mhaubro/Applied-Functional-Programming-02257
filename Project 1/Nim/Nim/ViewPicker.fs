@@ -31,7 +31,7 @@ let initguiButtons (gui:GUI) (SC:StartScreen) =
     gui.backButton.Click.Add(fun  evArgs -> hideGameScreen gui 
                                             showStartScreen SC)
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
-    Game.gameEnder <- (fun player -> gui.dataTextLabel.Text <- player.Name + "Someone won")
+    Game.gameEnder <- (fun player -> setGameEndScreen gui player)
     ()
 
 let initStartButtons (SC:StartScreen) (gui:GUI) (heaps) =
