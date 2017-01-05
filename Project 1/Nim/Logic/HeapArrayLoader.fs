@@ -4,10 +4,17 @@ open System.Net
 open System.Threading
 open System.Text.RegularExpressions
 
+
+
+
 /// Return Array of ints, reprecenting heaps, with numHeaps elements between minSize and maxSize
 let loadRandom (numHeaps:int) (minSize:int) (maxSize:int) =
     let random = new System.Random()
     Array.init numHeaps (fun i -> random.Next(minSize, maxSize))
+
+let loadStandardRandom() =
+    let random = new System.Random()
+    loadRandom (random.Next (4, 12)) 3 10
 
 /// Returns a Array of int downloaded from the given uri
 let downloadString (uri:System.Uri) = async {

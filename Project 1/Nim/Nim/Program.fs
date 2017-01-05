@@ -10,20 +10,20 @@ open WindowStartScreen
 open WindowGameScreen
 open ViewPicker
 open Game
+open HeapArrayLoader
 
 
 [<EntryPoint>]
 [<STAThread>]
 let main argv = 
-    let window = new Form(Text="HI!", Size=Size(500, 500))
-    let game = ([|4;5;6;5|], "P1", "P2")
-    let (heaps, _, _) = game
+    let window = new Form(Text="Nim!", Size=Size(500, 500))
     Async.Start(Game.ready())
-    let gui = new GUI(heaps, window)
+    let gui = new GUI([|1;2;3|], window)
     let startscreen = new StartScreen(window)
     initializeStart window startscreen
     initializeGame gui window
-    initStartButtons startscreen gui (fun _ -> [|4;5;6;7;7;8;8;9;9;10|])
+
+    initStartButtons startscreen gui loadStandardRandom
     initguiButtons gui startscreen
     showStartScreen startscreen
     //showGameScreen gui

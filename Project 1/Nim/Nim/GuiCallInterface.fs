@@ -16,7 +16,7 @@ let getUserMove heaparray (gui:GUI) =
         let! msg = gui.eventQueue.Receive()
         
         match msg with
-        | (a, b) ->    hideGameScreen gui//Hides the gui again 
+        | (a, b) ->    //hideGameScreen gui//Hides the gui again 
                        return (a, b)//Lazy fix
         | _ ->  hideGameScreen gui//Hides the gui again
                 return failwith("Unexpected user input")}
