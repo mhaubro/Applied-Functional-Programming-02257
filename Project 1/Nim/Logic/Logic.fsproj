@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="EventQueue.fs" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Game.fsi" />
     <Compile Include="Game.fs" />
     <Compile Include="AI.fs" />
     <None Include="Script.fsx" />

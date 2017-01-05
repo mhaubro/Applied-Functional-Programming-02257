@@ -8,11 +8,11 @@ open EventQueue
 /////////////////
 // UI-ELEMENTS //
 /////////////////
-
-type GUI (game:Game, form:System.Windows.Forms.Form) =
+//No game needed
+type GUI (heaparray, form:System.Windows.Forms.Form) =
     
     //Game object
-    let _g = game
+    let _h = heaparray
     //Combobox
     let _c = new ComboBox(Location=Point(100,350), Visible=false, 
                                     DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList)
@@ -31,7 +31,7 @@ type GUI (game:Game, form:System.Windows.Forms.Form) =
                                  MinimumSize=Size(100,50), MaximumSize=Size(100,50))
     let _eq = AsyncEventQueue()
 
-    member this.game = _g
+    member this.heaparray = _h
     member this.parentForm = _f
     //Combobox containing list for drop-down menu with heaps
     member this.ComboboxHeaps = _c
@@ -45,6 +45,10 @@ type GUI (game:Game, form:System.Windows.Forms.Form) =
 //Personal Event Queue
     member this.eventQueue = _eq
 
+    //Function
+    member this.getUserMove heaparray = 
+        AI.getAIMove heaparray
+
 ///////////////////
 // Setting up UI //
 ///////////////////
@@ -54,8 +58,7 @@ let setUpMatchNumericUpDown (gui:GUI) = //NumericUpDown is based on decimals
 //    numericUpDown.Value <- (decimal) 1
     gui.numericUpDown.Increment <- (decimal) 1
     gui.numericUpDown.Minimum <- (decimal) 1
-    let (heaparr, _, _) = gui.game
-    gui.numericUpDown.Maximum <- ((decimal) (Array.get heaparr (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()))))//TODO EDIT
+    gui.numericUpDown.Maximum <- ((decimal) (Array.get gui.heaparray (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()))))//TODO EDIT
     //numericUpDown.Visible = true
 
 //Auxiliary function to be used when loading the heaps.
@@ -140,9 +143,8 @@ let activeGameScreen (gui:GUI) =
     //This is always to be called, since it will set up the data in the game.
     //Refreshing the display
 let setUpGameScreen (gui:GUI) = //(game:Game)
-    let (gamearr, name1, name2) = gui.game
-    loadHeaps gui (gamearr)
+    loadHeaps gui (gui.heaparray)
     //dataTextLabel.Text = "TestTest"
-    setText gamearr gui //Returns a bool, but bool should be ignored.
+    setText gui.heaparray gui //Returns a bool, but bool should be ignored.
     //Sets up the match-counter.
     setUpMatchNumericUpDown gui//(Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()))

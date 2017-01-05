@@ -52,9 +52,9 @@
     <None Include="App.config" />
     <Compile Include="WindowGameScreen.fs" />
     <Compile Include="WindowStartScreen.fs" />
-    <Compile Include="ViewPicker.fs" />
     <Compile Include="HeapSelector.fs" />
     <Compile Include="GuiCallInterface.fs" />
+    <Compile Include="ViewPicker.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

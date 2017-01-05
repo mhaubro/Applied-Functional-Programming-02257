@@ -31,7 +31,9 @@ let ev = AsyncEventQueue();;
 let mutable gameOn = false
 let startGameFromGUI = function | game -> if not gameOn then ev.Post(Start(game)) else ()
 
-let mutable gameEnder = fun p -> printfn "Player named %s won" p.Name
+let clearGameFromGUI = function () -> ev.Post(Clear)
+
+let mutable gameEnder = (fun p -> printfn "Player named %s won" p.Name)
 
 let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
     (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
@@ -86,12 +88,13 @@ and Turn p game = async {
 
 and _end(e) = async {
     // GUI Setup
-    gameOn<- false
     gameEnder(e)
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Clear -> return! ready()
+        | Clear -> 
+                gameOn<- false
+                return! ready()
         | _ -> failwith("gameEnded: Unexpected Message.")};;
 
 

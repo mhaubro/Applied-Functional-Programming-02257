@@ -1,7 +1,8 @@
 ﻿module GuiCallInterface
+open Game
 
-
-//let getUserMove heaparray gui =
+let getUserMove heaparray gui =
+    Move(1,1)
 //    let game = (heaparray, "", "")
 //        use ts = new CancellationTokenSource()
 //        Async.StartWithContinuations
