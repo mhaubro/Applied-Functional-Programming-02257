@@ -14,15 +14,13 @@ open Game
 [<EntryPoint>]
 [<STAThread>]
 let main argv = 
-    let window = new Form(Text="HI!", Size=Size(500, 500))
-    let game = ([|4;5;6;5|], "P1", "P2")
-    let (heaps, _, _) = game
+    let window = new Form(Text="Nim!", Size=Size(500, 500))
     Async.Start(Game.ready())
-    let gui = new GUI(heaps, window)
+    let gui = new GUI([|1;2;3|], window)
     let startscreen = new StartScreen(window)
     initializeStart window startscreen
     initializeGame gui window
-    initStartButtons startscreen gui heaps   
+    initStartButtons startscreen gui (Array.init(15) (fun i -> Math.Abs 25-i))
     initguiButtons gui  
     showStartScreen startscreen
     //showGameScreen gui
