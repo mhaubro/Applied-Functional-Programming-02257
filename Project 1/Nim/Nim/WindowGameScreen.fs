@@ -29,7 +29,7 @@ type GUI (heaparr, form:System.Windows.Forms.Form) =
     //Backbutton
     let _back = new Button(Location=Point(0,400), Text="Back", Visible=false, 
                                  MinimumSize=Size(100,50), MaximumSize=Size(100,50))
-    let _eq = new AsyncEventQueue<int *int>()
+    let _eq = new AsyncEventQueue<int*int>()
 
     member this.heaparray = _h
     member this.parentForm = _f
@@ -180,5 +180,3 @@ let setGameEndScreen (gui:GUI) (winner:Player) =
     gui.numericUpDown.Enabled <- false
     gui.okButton.Enabled <- false
 
-
-    
