@@ -38,6 +38,7 @@ let initStartButtons (SC:StartScreen) (gui:GUI) (heaps) =
     //The gameender is to be removed when the GUI is appended
 
     SC.internetButton.Click.Add(fun _ -> startGameFromGUI (loadInternetPage SC, {Name="User"; getMove=(fun heapsfun -> getUserMove heapsfun gui)}, {Name="AI"; getMove=AI.getAIMove})
+                                         activeGameScreen gui
                                          hideStartScreen SC)
     SC.startButton.Click.Add(fun _ -> hideStartScreen SC
                                       activeGameScreen gui
