@@ -201,6 +201,7 @@ let setGameEndScreen (gui:GUI) (winner:Player) =
 
 let setGameBackScreen (gui:GUI) (winner:Player) =
     gui.dataTextLabel.Text <- getEndGameText winner.Name
+    gui.dataTextLabel.Text <- ""
     Game.clearGameFromGUI ()
 //    gui.backButton.Visible <- true
 //    gui.backButton.Enabled <- true
