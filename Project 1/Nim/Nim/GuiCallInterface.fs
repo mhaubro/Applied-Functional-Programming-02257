@@ -8,7 +8,7 @@ let getUserMove heaparray (gui:GUI) =
     //Shows the gui
     showGameScreen gui
     //if not gui.ComboboxHeaps.Visible then failwith("Wtf") else failwith("Should be visible")
-    setUpGameScreen gui
+    setUpGameScreen gui heaparray
     //Listens for gui input
     async{
         //failwith("Receive")

@@ -45,6 +45,8 @@ type GUI (heaparr, form:System.Windows.Forms.Form) =
 //Personal Event Queue
     member this.eventQueue = _eq
 
+    member this.setHeap heaparr =
+           _h <- heaparr
     //Function
 //    member this.getUserMove heaparray = 
            //AI.getAIMove heaparray//Used to make AI play against AI
@@ -141,12 +143,12 @@ let activeGameScreen (gui:GUI) =
 
 
 let getSelected (gui:GUI) = //number of heap, number of matches
-    (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()), Array.get gui.heaparray (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString())))
+    (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()), (int) gui.numericUpDown.Value)
 
     //This is always to be called, since it will set up the data in the game.
     //Refreshing the display
 let setUpGameScreen (gui:GUI) heaparray = //(game:Game)
-    gui.heaparray <- heaparray
+    gui.setHeap heaparray
     loadHeaps gui (gui.heaparray)
     //dataTextLabel.Text = "TestTest"
     setText gui.heaparray gui //Returns a bool, but bool should be ignored.
