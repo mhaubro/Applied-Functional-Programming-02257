@@ -35,6 +35,8 @@ let clearGameFromGUI = function () -> ev.Post(Clear)
 
 let mutable gameEnder = (fun p -> printfn "Player named %s won" p.Name)
 
+let mutable guiCancellation = (fun () -> ())
+
 let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
     (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
 
@@ -71,11 +73,12 @@ and Turn p game = async {
         ev.Post(Win(nextPlayer))
     else
         use ts = new CancellationTokenSource()
+        guiCancellation <- (fun () -> ts.Cancel())
         Async.StartWithContinuations
             (async {return thisPlayer.getMove heapArray},
             (fun (id,num)   -> ev.Post (Move(id,num))),
             (fun _          -> ev.Post Error),
-            (fun _          -> ev.Post Cancelled),
+            (fun _          -> ev.Post(Win(nextPlayer))),
             ts.Token)
 
     // Recurs
