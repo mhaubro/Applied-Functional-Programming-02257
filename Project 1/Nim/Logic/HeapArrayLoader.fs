@@ -4,14 +4,12 @@ open System.Net
 open System.Threading
 open System.Text.RegularExpressions
 
-
-
-
 /// Return Array of ints, reprecenting heaps, with numHeaps elements between minSize and maxSize
 let loadRandom (numHeaps:int) (minSize:int) (maxSize:int) =
     let random = new System.Random()
     Array.init numHeaps (fun i -> random.Next(minSize, maxSize))
 
+///Return Array of ints, random length, random intervals - still within reason
 let loadStandardRandom() =
     let random = new System.Random()
     loadRandom (random.Next (4, 12)) 3 10
@@ -31,28 +29,6 @@ let loadFromSite (uri:System.Uri) = async{
     let! array = parseHeapString netString
     return array
 }
-
-let rec getMatchString n = 
-    match n with
-        | n when n < 37 -> String.init n (fun _ -> "|")
-        | n -> (getMatchString 34) + "+" + (n-34).ToString()
-
-//let uri = System.Uri("http://www2.compute.dtu.dk/~mire/02257/nim1.game");;
-//let ts = new CancellationTokenSource()
-//let s = "3 3 2 532 64 36 43 4 25 4 42 9\n"
-//let array1 = Async.RunSynchronously(parseHeapString s)
-//let s2 = Async.RunSynchronously(downloadString uri)
-//let array2 = Async.RunSynchronously(parseHeapString s2)
-//let array3 = Async.RunSynchronously(loadFromSite uri);;
-
-
-
-// a bit of test
-//let s = "7 1 4 1 42 12 24 3f f4 3f4 gds g";;
-//let predicate = (fun x -> Regex.IsMatch(x,"^[0-9]+$"));;
-
-//let array = Array.filter predicate (s.Split [|' '|]);;
-   
 
 
 

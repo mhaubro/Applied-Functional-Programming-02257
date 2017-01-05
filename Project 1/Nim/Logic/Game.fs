@@ -64,7 +64,7 @@ let ProcessMove ((heapArray,a,b):Game) (move:(int*int)) =
 ///Test to determine whether the game can continue
 let isGameEnded = function hl -> Array.fold (+) 0 hl = 0;;
 
-///Initial state - awaits a game posted to eventqueue, possibly through startGameFromGUI
+///Initial state - awaits a game posted through startGameFromGUI
 let rec ready() = async {
     // GUI Setup
 
