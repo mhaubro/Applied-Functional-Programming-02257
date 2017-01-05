@@ -86,18 +86,20 @@ and Turn p game = async {
     if (isGameEnded heapArray) then 
         ev.Post(Win(nextPlayer))
     else
-        use ts = new CancellationTokenSource()
-        guiCancellation <- (fun () -> ts.Cancel())
+        let ts = new CancellationTokenSource()
+        guiCancellation <- (fun () -> ts.Cancel() )
         Async.StartWithContinuations
             (async {return! thisPlayer.getMove heapArray},
-            (fun (id,num)   -> ev.Post(Move(id,num))),
+            (fun (id,num)   -> match id,num with
+                                |0,0-> ()
+                                | _,_ ->ev.Post(Move(id,num))),
             (fun _          -> ev.Post Error),
             (fun _          -> ev.Post(Win(nextPlayer))),
             ts.Token)
 
     // Recurs
     let! msg = ev.Receive()
-    guiCancellation <- fun ()->()//reset cancellation handle
+    //guiCancellation <- fun ()->()//reset cancellation handle
     match msg with
         | Move (id,num) -> return! Turn p' (ProcessMove game (id,num))
         | Win e         -> return! _end(e)
