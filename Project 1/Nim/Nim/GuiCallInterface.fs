@@ -8,7 +8,7 @@ let getUserMove heaparray (gui:GUI) =
     showGameScreen gui
     setUpGameScreen gui
     //Listens for gui input
-    let mutable move = (0,0)
+    let mutable move = (1,1)
     Async.StartImmediate(async{
         //failwith("Receive")
 

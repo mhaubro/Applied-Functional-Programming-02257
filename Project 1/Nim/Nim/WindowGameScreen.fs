@@ -46,9 +46,8 @@ type GUI (heaparray, form:System.Windows.Forms.Form) =
     member this.eventQueue = _eq
 
     //Function
-    member this.getUserMove heaparray = 
+//    member this.getUserMove heaparray = 
            //AI.getAIMove heaparray//Used to make AI play against AI
-           this.eventQueue
 ///////////////////
 // Setting up UI //
 ///////////////////
