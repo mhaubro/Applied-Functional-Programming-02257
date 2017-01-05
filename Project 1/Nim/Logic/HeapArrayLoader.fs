@@ -4,27 +4,31 @@ open System.Net
 open System.Threading
 open System.Text.RegularExpressions
 
-///<param name="numHeaps">the number of heaps in the array</param>
-///<param name="minSize">the minimum number of matches in the heaps</param>
-///<param name="maxSize">the maximum number of matches in the heaps</param>
-///<returns>Array of ints, reprecenting heaps, with <param name="numHeaps"/> elements between <param name="minSize"/> and <param name="maxSize"/> </returns>
-let loadRandom (numHeaps:int) (minSize:int) (maxSize:int) = async{
+/// Return Array of ints, reprecenting heaps, with numHeaps elements between minSize and maxSize
+let loadRandom (numHeaps:int) (minSize:int) (maxSize:int) =
     let random = new System.Random()
-    return Array.init numHeaps (fun i -> random.Next(minSize, maxSize))}
+    Array.init numHeaps (fun i -> random.Next(minSize, maxSize))
 
+/// Returns a Array of int downloaded from the given uri
 let downloadString (uri:System.Uri) = async {
     let webCl = new WebClient()
-    let! html = webCl.AsyncDownloadString(uri)
-    return html} 
+    return! webCl.AsyncDownloadString(uri)} 
 
-let parseHeapString (s:string) =
-    Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[0-9]+$")) (s.Split [|' '|]))
+/// Takes all numbers sepperated from text and puts them into a array parsed as ints
+let parseHeapString (s:string) = async {
+    return Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[0-9]+$")) (s.Split [|' '|]))}
 
-let loadFromSite (uri:System.Uri) (ts:CancellationTokenSource) = async{
+/// Loads a string from the uri using downloadString and then parses it using parseHeapString
+let loadFromSite (uri:System.Uri) = async{
     let! netString = downloadString uri
-    let array = parseHeapString netString
+    let! array = parseHeapString netString
     return array
 }
+
+let rec getMatchString n = 
+    match n with
+        | n when n < 37 -> String.init n (fun _ -> "|")
+        | n -> (getMatchString 34) + "+" + (n-34).ToString()
 
 //let uri = System.Uri("http://www2.compute.dtu.dk/~mire/02257/nim1.game");;
 //let ts = new CancellationTokenSource();;
