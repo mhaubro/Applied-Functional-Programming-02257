@@ -1,13 +1,12 @@
 ﻿module Game
 
-
-type Heap = int
-
-type Player = {Name:string; getMove:int[]->int*int}
+type Player = {Name:string; getMove:int[]->Async<int*int>}
 
 type PlayerID = A|B
 
-type Game = Heap[] * Player * Player
+type Game = int[] * Player * Player
+
+val ready : unit -> Async<unit>
 
 val startGameFromGUI : Game -> unit
 
