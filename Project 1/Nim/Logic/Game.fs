@@ -92,7 +92,7 @@ and Turn p game = async {
             (async {return! thisPlayer.getMove heapArray},
             (fun (id,num)   -> match id,num with
                                 |0,0-> ()
-                                | _,_ ->ev.Post(Move(id,num))),
+                                | _,_ -> ev.Post(Move(id,num))),
             (fun _          -> ev.Post Error),
             (fun _          -> ev.Post(Win(nextPlayer))),
             ts.Token)

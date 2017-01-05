@@ -23,5 +23,5 @@ val clearGameFromGUI : unit -> unit
 
 val startGameFromGUI : Game -> unit
 
-val clearGameFromGUI : unit -> unit
+val startGameFromGUI : Game -> unit
 val mutable gameEnder : (Player -> unit)
