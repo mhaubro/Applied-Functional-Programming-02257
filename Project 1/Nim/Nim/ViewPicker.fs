@@ -40,7 +40,7 @@ let initStartButtons (SC:StartScreen) (gui:GUI) (heaps) =
     SC.internetButton.Click.Add(fun _ -> startGameFromGUI (loadInternetPage SC, {Name="User"; getMove=(fun heapsfun -> getUserMove heapsfun gui)}, {Name="AI"; getMove=AI.getAIMove})
                                          hideStartScreen SC)
     SC.startButton.Click.Add(fun _ -> hideStartScreen SC
-                                      showGameScreen gui
+                                      activeGameScreen gui
                                       Game.startGameFromGUI (heaps(), {Name="User"; getMove=(fun heapsfun -> getUserMove heapsfun gui)}, {Name="AI"; getMove=AI.getAIMove}))
 
 

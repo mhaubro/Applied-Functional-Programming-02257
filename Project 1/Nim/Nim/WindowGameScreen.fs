@@ -149,7 +149,7 @@ let activeGameScreen (gui:GUI) =
     gui.okButton.Enabled <- true
     gui.dataTextLabel.Enabled <- true
     gui.backButton.Enabled <- true
-    showGameScreen//Maybe unnecessary 
+    showGameScreen gui//Maybe unnecessary 
 
 
 
