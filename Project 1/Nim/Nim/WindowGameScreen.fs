@@ -167,10 +167,9 @@ let setUpGameScreen (gui:GUI) heaparray = //(game:Game)
     setUpMatchNumericUpDown gui//(Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()))
 
 let getEndGameText (winner:string)= 
-    "#########################\n" +
-    "####    GAME OVER    ####\n" +
-    "#########################\n" +
-    " Winner = " + winner
+    "=# GAME OVER #=\n" +
+    "\n" +
+    "   Winner = " + winner
 
 let setGameEndScreen (gui:GUI) (winner:Player) = 
     gui.dataTextLabel.Text <- getEndGameText winner.Name
