@@ -45,9 +45,12 @@
   <ItemGroup>
     <Compile Include="EventQueue.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Game.fsi" />
     <Compile Include="Game.fs" />
     <Compile Include="AI.fs" />
     <None Include="Script.fsx" />
+    <Compile Include="HeapArrayLoader.fsi" />
+    <Compile Include="HeapArrayLoader.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

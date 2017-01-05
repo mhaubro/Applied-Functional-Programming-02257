@@ -4,7 +4,8 @@ open System.Drawing
 open System
 open System.Threading
 
-open Game
+//#r "Logic"
+//open HeapArrayLoader
 
 type GUI(name:string, form:System.Windows.Forms.Form) as _this = 
     let _window = form
@@ -42,6 +43,7 @@ type GUI(name:string, form:System.Windows.Forms.Form) as _this =
 
 let form = new Form(Text="this is a form", Size=Size(500,500));;
 
-let gui = new GUI("hab",form);;
+let heapArray
+
 
       
