@@ -149,7 +149,7 @@ let activeGameScreen (gui:GUI) =
     gui.okButton.Enabled <- true
     gui.dataTextLabel.Enabled <- true
     gui.backButton.Enabled <- true
-    showGameScreen//Maybe unnecessary 
+    showGameScreen gui//Maybe unnecessary 
 
 
 
@@ -173,6 +173,7 @@ let getEndGameText (winner:string)=
 
 let setGameEndScreen (gui:GUI) (winner:Player) = 
     gui.dataTextLabel.Text <- getEndGameText winner.Name
+    Game.clearGameFromGUI ()
     gui.backButton.Visible <- true
     gui.backButton.Enabled <- true
     gui.dataTextLabel.Visible <- true
