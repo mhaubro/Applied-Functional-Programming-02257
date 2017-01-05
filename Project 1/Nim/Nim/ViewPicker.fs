@@ -28,7 +28,8 @@ let initguiButtons (gui:GUI) (SC:StartScreen) =
 //    startButton.Click.Add(fun _ -> Game.startGameFromUI {heaps, {Name="User"; getMove=gui.getUserMove}})
     //startUserDefinedHeapButton.Click.Add(gotoGame)
     //startUserDefinedAllButton.Click.Add(gotoGame)
-    gui.backButton.Click.Add(fun  evArgs -> hideGameScreen gui 
+    gui.backButton.Click.Add(fun  evArgs -> hideGameScreen gui
+                                            Game.clearGameFromGUI ()
                                             showStartScreen SC)
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
     Game.gameEnder <- (fun player -> setGameEndScreen gui player)

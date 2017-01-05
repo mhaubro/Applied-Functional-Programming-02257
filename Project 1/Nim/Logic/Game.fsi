@@ -10,5 +10,5 @@ val ready : unit -> Async<unit>
 
 val startGameFromGUI : Game -> unit
 
-val startGameFromGUI : Game -> unit
+val clearGameFromGUI : unit -> unit
 val mutable gameEnder : (Player -> unit)
