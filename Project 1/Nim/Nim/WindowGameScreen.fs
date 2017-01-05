@@ -9,10 +9,10 @@ open EventQueue
 // UI-ELEMENTS //
 /////////////////
 //No game needed
-type GUI (heaparray, form:System.Windows.Forms.Form) =
+type GUI (heaparr, form:System.Windows.Forms.Form) =
     
     //Game object
-    let _h = heaparray
+    let mutable _h = heaparr
     //Combobox
     let _c = new ComboBox(Location=Point(100,350), Visible=false, 
                                     DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList)
@@ -145,7 +145,8 @@ let getSelected (gui:GUI) = //number of heap, number of matches
 
     //This is always to be called, since it will set up the data in the game.
     //Refreshing the display
-let setUpGameScreen (gui:GUI) = //(game:Game)
+let setUpGameScreen (gui:GUI) heaparray = //(game:Game)
+    gui.heaparray <- heaparray
     loadHeaps gui (gui.heaparray)
     //dataTextLabel.Text = "TestTest"
     setText gui.heaparray gui //Returns a bool, but bool should be ignored.
