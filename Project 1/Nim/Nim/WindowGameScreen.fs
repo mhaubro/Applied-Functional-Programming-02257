@@ -199,3 +199,12 @@ let setGameEndScreen (gui:GUI) (winner:Player) =
     gui.numericUpDown.Enabled <- false
     gui.okButton.Enabled <- false
 
+let setGameBackScreen (gui:GUI) (winner:Player) =
+    gui.dataTextLabel.Text <- getEndGameText winner.Name
+    Game.clearGameFromGUI ()
+//    gui.backButton.Visible <- true
+//    gui.backButton.Enabled <- true
+    gui.dataTextLabel.Visible <- true
+    gui.ComboboxHeaps.Enabled <- false
+    gui.numericUpDown.Enabled <- false
+    gui.okButton.Enabled <- false

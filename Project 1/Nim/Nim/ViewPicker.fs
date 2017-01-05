@@ -15,7 +15,7 @@ let initguiButtons (gui:GUI) (SC:StartScreen) =
 
 
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
-    Game.gameEnder <- (fun player -> setGameEndScreen gui player)
+    Game.gameEnder <- (fun player -> setGameBackScreen gui player)
     ()
 
 let initStartButtons (SC:StartScreen) (gui:GUI) (heaps) =
