@@ -23,7 +23,7 @@ let downloadString (uri:System.Uri) = async {
 
 /// Takes all numbers sepperated from text and puts them into a array parsed as ints
 let parseHeapString (s:string) = async {
-    return Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[1-9][0-9]*$")) (s.Split [|' '|]))}
+    return Array.collect (fun s -> [|s |> int|]) (Array.filter (fun s -> Regex.IsMatch(s,"^[1-9][0-9]*$")) ((s.Trim()).Split [|' ';'\n';'\t';'\r'|]))}
 
 /// Loads a string from the uri using downloadString and then parses it using parseHeapString
 let loadFromSite (uri:System.Uri) = async{
@@ -38,9 +38,13 @@ let rec getMatchString n =
         | n -> (getMatchString 34) + "+" + (n-34).ToString()
 
 //let uri = System.Uri("http://www2.compute.dtu.dk/~mire/02257/nim1.game");;
-//let ts = new CancellationTokenSource();;
+//let ts = new CancellationTokenSource()
+//let s = "3 3 2 532 64 36 43 4 25 4 42 9\n"
+//let array1 = Async.RunSynchronously(parseHeapString s)
+//let s2 = Async.RunSynchronously(downloadString uri)
+//let array2 = Async.RunSynchronously(parseHeapString s2)
+//let array3 = Async.RunSynchronously(loadFromSite uri);;
 
-//let array = Async.RunSynchronously(loadFromSite uri ts);;
 
 
 // a bit of test
