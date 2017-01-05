@@ -15,10 +15,10 @@ type StartScreen (form:System.Windows.Forms.Form) =
     let _custom = new Button(Location=Point(350,65),MinimumSize=Size(100,50),
                       MaximumSize=Size(100,50),Text="Completely Userdefined", Visible=false)
 
-    let _internet = new Button(Location=Point(350,65),MinimumSize=Size(100,50),
+    let _internet = new Button(Location=Point(200,265),MinimumSize=Size(100,50),
                       MaximumSize=Size(100,50),Text="Load from Internet", Visible=false)
 
-    let _urlbox = new TextBox(Location=Point(50,25),Size=Size(400,25), Visible=false)
+    let _urlbox = new TextBox(Location=Point(50,200),Size=Size(400,25), Visible=false)
 
 //Button for starting a game with a randomly defined number of heaps with random matches
     member this.startButton = _rand
