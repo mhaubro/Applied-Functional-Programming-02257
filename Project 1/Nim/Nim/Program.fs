@@ -10,6 +10,7 @@ open WindowStartScreen
 open WindowGameScreen
 open ViewPicker
 open Game
+open HeapArrayLoader
 
 
 [<EntryPoint>]
@@ -22,7 +23,7 @@ let main argv =
     initializeStart window startscreen
     initializeGame gui window
 
-    initStartButtons startscreen gui (fun _ -> Array.init(15) (fun i -> Math.Abs 25-i))
+    initStartButtons startscreen gui loadStandardRandom
     initguiButtons gui startscreen
     showStartScreen startscreen
     //showGameScreen gui
