@@ -21,6 +21,10 @@ type AsyncEventQueue<'T>() =
         cont <- Some d
         tryTrigger()
 
+    member this.clear =
+            queue.Clear
+
+
     member x.Post msg = queue.Enqueue msg; tryTrigger()
     member x.Receive() = 
         Async.FromContinuations (fun (cont,econt,ccont) -> 

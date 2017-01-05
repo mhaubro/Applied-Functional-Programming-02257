@@ -8,9 +8,12 @@ let initguiButtons (gui:GUI) (SC:StartScreen) =
     gui.backButton.Click.Add(fun  evArgs -> hideGameScreen gui
                                             Game.cancelGameFromGUI ()
                                             gui.eventQueue.Post(0,0)
+                                            gui.eventQueue.clear()
                                             Game.clearGameFromGUI()
 
                                             showStartScreen SC)
+
+
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
     Game.gameEnder <- (fun player -> setGameEndScreen gui player)
     ()

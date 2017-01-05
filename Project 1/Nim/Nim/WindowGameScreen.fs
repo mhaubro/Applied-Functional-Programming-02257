@@ -31,6 +31,9 @@ type GUI (heaparr, form:System.Windows.Forms.Form) =
                                  MinimumSize=Size(100,50), MaximumSize=Size(100,50))
     let _eq = new AsyncEventQueue<int*int>()
 
+    let _heaplabel = new Label(Location=Point(100,330),Visible=false,Text="Heap number")
+    let _matchlabel = new Label(Location=Point(300,330),Visible=false,Text="Matches")
+
     member this.heaparray = _h
     member this.parentForm = _f
     //Combobox containing list for drop-down menu with heaps
@@ -44,6 +47,9 @@ type GUI (heaparr, form:System.Windows.Forms.Form) =
     member this.backButton = _back
 //Personal Event Queue
     member this.eventQueue = _eq
+
+    member this.h = _heaplabel
+    member this.m = _matchlabel
 
     member this.setHeap heaparr =
            _h <- heaparr
@@ -106,6 +112,8 @@ let initializeGame (gui:GUI) (form:System.Windows.Forms.Form) =
     form.Controls.Add(gui.okButton)
     form.Controls.Add(gui.dataTextLabel)
     form.Controls.Add(gui.backButton)
+    form.Controls.Add(gui.h)
+    form.Controls.Add(gui.m)
     //Add event handler for change in heap selection
     gui.ComboboxHeaps.SelectedIndexChanged.Add (fun evArgs -> heapChangeEventHandler evArgs gui)
 
@@ -125,6 +133,8 @@ let showGameScreen (gui:GUI) =
     gui.okButton.Visible <- true
     gui.dataTextLabel.Visible <- true
     gui.backButton.Visible <- true
+    gui.m.Visible <- true
+    gui.h.Visible <- true 
 
     //Hides the game screen
 let hideGameScreen (gui:GUI) =
@@ -132,7 +142,9 @@ let hideGameScreen (gui:GUI) =
     gui.numericUpDown.Visible <- false
     gui.okButton.Visible <- false
     gui.dataTextLabel.Visible <- false
-    gui.backButton.Visible <- false    
+    gui.backButton.Visible <- false   
+    gui.m.Visible <- false
+    gui.h.Visible <- false 
 
     //Makes the game screen inactive while waiting
 let inactiveGameScreen (gui:GUI) =
@@ -140,7 +152,10 @@ let inactiveGameScreen (gui:GUI) =
     gui.numericUpDown.Enabled <- false
     gui.okButton.Enabled <- false
     gui.dataTextLabel.Enabled <- false
-    gui.backButton.Enabled <- false    
+    gui.backButton.Enabled <- false  
+    gui.m.Enabled <- false
+    gui.h.Enabled <- false 
+  
 
     //Makes the game screen active again
 let activeGameScreen (gui:GUI) =
@@ -149,6 +164,9 @@ let activeGameScreen (gui:GUI) =
     gui.okButton.Enabled <- true
     gui.dataTextLabel.Enabled <- true
     gui.backButton.Enabled <- true
+    gui.m.Enabled <- true
+    gui.h.Enabled <- true 
+
     showGameScreen gui//Maybe unnecessary 
 
 
