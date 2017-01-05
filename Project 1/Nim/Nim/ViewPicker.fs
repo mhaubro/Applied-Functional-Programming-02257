@@ -29,12 +29,13 @@ let initguiButtons (gui:GUI) =
     //startUserDefinedHeapButton.Click.Add(gotoGame)
     //startUserDefinedAllButton.Click.Add(gotoGame)
     //gui.backButton.Click.Add(fun  evArgs -> gotoStart gui)
+    gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
     Game.gameEnder <- fun player -> gui.dataTextLabel.Text <- "Someone won"
     ()
 
 let initStartButtons (SC:StartScreen) (gui:GUI) (heaps)=
     //The gameender is to be removed when the GUI is appended
     Game.gameEnder <- fun player -> SC.startButton.Text <- "Someone won"
-    SC.startButton.Click.Add(fun _ -> Game.startGameFromGUI (heaps, {Name="User"; getMove=gui.getUserMove}, {Name="AI"; getMove=AI.getAIMove}))
+    SC.startButton.Click.Add(fun _ -> Game.startGameFromGUI (heaps, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
 
 

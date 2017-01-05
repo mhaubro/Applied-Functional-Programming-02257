@@ -29,7 +29,7 @@ type GUI (heaparray, form:System.Windows.Forms.Form) =
     //Backbutton
     let _back = new Button(Location=Point(0,400), Text="Back", Visible=false, 
                                  MinimumSize=Size(100,50), MaximumSize=Size(100,50))
-    let _eq = AsyncEventQueue()
+    let _eq = new AsyncEventQueue<int *int>()
 
     member this.heaparray = _h
     member this.parentForm = _f
@@ -47,8 +47,8 @@ type GUI (heaparray, form:System.Windows.Forms.Form) =
 
     //Function
     member this.getUserMove heaparray = 
-        AI.getAIMove heaparray
-
+           //AI.getAIMove heaparray//Used to make AI play against AI
+           this.eventQueue
 ///////////////////
 // Setting up UI //
 ///////////////////
@@ -139,6 +139,10 @@ let activeGameScreen (gui:GUI) =
     gui.backButton.Enabled <- true
     showGameScreen//Maybe unnecessary 
 
+
+
+let getSelected (gui:GUI) = //number of heap, number of matches
+    (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()), Array.get gui.heaparray (Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString())))
 
     //This is always to be called, since it will set up the data in the game.
     //Refreshing the display
