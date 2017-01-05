@@ -18,14 +18,12 @@ let main argv =
     let game = ([|4;5;6;5|], "P1", "P2")
     let (heaps, _, _) = game
     Async.Start(Game.ready())
-    
     let gui = new GUI(heaps, window)
     let startscreen = new StartScreen(window)
-
     initializeStart window startscreen
-    
-    initStartButtons startscreen gui heaps 
-    
+    initializeGame gui window
+    initStartButtons startscreen gui heaps   
+    initguiButtons gui  
     showStartScreen startscreen
     //showGameScreen gui
     //initializeGame gui window
