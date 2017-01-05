@@ -30,12 +30,11 @@ let initguiButtons (gui:GUI) =
     //startUserDefinedAllButton.Click.Add(gotoGame)
     //gui.backButton.Click.Add(fun  evArgs -> gotoStart gui)
     gui.okButton.Click.Add(fun _ -> gui.eventQueue.Post (getSelected gui))
-    Game.gameEnder <- fun player -> gui.dataTextLabel.Text <- "Someone won"
+    Game.gameEnder <- (fun player -> gui.dataTextLabel.Text <- player.Name + "Someone won")
     ()
 
 let initStartButtons (SC:StartScreen) (gui:GUI) (heaps)=
     //The gameender is to be removed when the GUI is appended
-    Game.gameEnder <- fun player -> SC.startButton.Text <- "Someone won"
     SC.internetButton.Click.Add(fun _ -> startGameFromGUI (loadInternetPage SC, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
     SC.startButton.Click.Add(fun _ -> hideStartScreen SC
                                       Game.startGameFromGUI (heaps, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))

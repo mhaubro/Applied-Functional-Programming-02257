@@ -154,3 +154,23 @@ let setUpGameScreen (gui:GUI) heaparray = //(game:Game)
     setText gui.heaparray gui //Returns a bool, but bool should be ignored.
     //Sets up the match-counter.
     setUpMatchNumericUpDown gui//(Int32.Parse (gui.ComboboxHeaps.SelectedItem.ToString()))
+
+let setGameEndScreen (gui:GUI) (winner:Player) = 
+    gui.dataTextLabel.Text 
+    gui.backButton.Visible <- true
+    gui.backButton.Enabled <- true
+    gui.dataTextLabel.Visible <- true
+    gui.ComboboxHeaps.Enabled <- false
+    gui.numericUpDown.Enabled <- false
+    gui.okButton.Enabled <- false
+
+let getWinText =
+    "################################\n" +
+    "##        !! YOU WIN !!       ##\n" +
+    "################################\n"
+
+let getLoseText =
+    "################################\n" +
+    "##       !! YOU LOSE !!       ##\n" +
+    "################################\n"
+    
