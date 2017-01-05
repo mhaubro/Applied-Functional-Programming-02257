@@ -4,53 +4,62 @@
 open System 
 open System.Net 
 open System.Threading
-
 open EventQueue
 
-//open WindowsStartScreen
-
-type Heap = int
-
-//[<AbstractClass>]
-//type Player (name:string) =
-//    member this.name = name 
-//    abstract member getMove : Heap[] -> int*int
-
+/// Player struct with name and function handle to produce moves from gamestate
 type Player = {Name:string; getMove:int[]->int*int}
 
+/// Enumaration used to alternate between player turns
 type PlayerID = A|B
 
-type Game = Heap[] * Player * Player
+/// Game state with handles for player structs
+type Game = int[] * Player * Player
 
+/// Enumeration of messages - alphabet of FSM
 type Message =
     | Start of Game | Move of int*int | Win of Player | Error | Clear | Cancelled
 
-
+///Eventqueue for messages that change game FSM - if you are seeing this outside of Game.fs you are doing something wrong
 let ev = AsyncEventQueue();;
 
+///Flag to determine whether the gui is allowed to start a game
 let mutable gameOn = false
-let startGameFromGUI = function | game -> if not gameOn then ev.Post(Start(game)) else ()
-
-let clearGameFromGUI = function () -> ev.Post(Clear)
-
-let mutable gameEnder = (fun p -> printfn "Player named %s won" p.Name)
-
+///Flag to determine whether the gui is allowed to clear an ended game
+let mutable gameEnded = false
+///Handler for when the gui wants to cancel a game
 let mutable guiCancellation = (fun () -> ())
 
-let validateMove ((heapArray,_,_):Game) ((id,num):(int*int)) = 
-    (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
+/// Guarded function to start a game from gui
+let startGameFromGUI = function game -> if not gameOn then ev.Post(Start(game)) else ()
+/// Guarded function to clear an ended game from gui
+let clearGameFromGUI = function () -> if gameEnded then ev.Post(Clear) else ()
+/// Function to forfeit game from gui
+let cancelGameFromGUI = function () -> guiCancellation()
 
-let ApplyMove ((heapArray,a,b):Game) ((id,num):(int*int)) = 
+///Handler for function to be called when the game ends
+let mutable gameEnder = (fun p -> printfn "Player named %s won" p.Name)
+
+
+/// Test to check if the given move is valid for the state of the game
+let validateMove (heapArray:int[]) (id,num) = (id >= 0 && id < heapArray.Length && num > 0 && num <= heapArray.[id])
+
+/// Alter the supplied game state based on a move - the move should be validated elsewhere
+let ApplyMove (heapArray:int[]) ((id,num):(int*int)) = 
     heapArray.[id] <- heapArray.[id] - num
-    (heapArray, a, b)
+    heapArray
 
-let ProcessMove (game:Game) (move:(int*int)) =
-    if (validateMove game move) then ApplyMove game move
-    else failwith("ProcessMove: move not valid")
+/// Apply a given move if it is consistent with the state of the game - throw exception otherwise
+/// The returned game contains a new heapArray that is a copy of the supplied one.
+let ProcessMove ((heapArray,a,b):Game) (move:(int*int)) =
+    let heapArray' = if (validateMove heapArray move)
+                        then ApplyMove (Array.copy heapArray) move //ensure that we return a copy of the array
+                        else failwith("ProcessMove: move not valid")
+    (heapArray',a,b)
 
-let isGameEnded = function
-                    | hl -> Array.fold (+) 0 hl = 0;;
+///Test to determine whether the game can continue
+let isGameEnded = function hl -> Array.fold (+) 0 hl = 0;;
 
+///Initial state - awaits a game posted to eventqueue, possibly through startGameFromGUI
 let rec ready() = async {
     // GUI Setup
 
@@ -61,7 +70,7 @@ let rec ready() = async {
                            return! Turn A (game)
         | Clear         -> return! ready()
         | _             -> failwith("ready: Unexpected Message." )}
-        
+/// State representing turn of player represented by p   
 and Turn p game = async {
     let (heapArray,playerA,playerB) = game
 
@@ -76,29 +85,30 @@ and Turn p game = async {
         guiCancellation <- (fun () -> ts.Cancel())
         Async.StartWithContinuations
             (async {return thisPlayer.getMove heapArray},
-            (fun (id,num)   -> ev.Post (Move(id,num))),
+            (fun (id,num)   -> ev.Post(Move(id,num))),
             (fun _          -> ev.Post Error),
             (fun _          -> ev.Post(Win(nextPlayer))),
             ts.Token)
 
     // Recurs
     let! msg = ev.Receive()
+    guiCancellation <- fun ()->()//reset cancellation handle
     match msg with
-        | Move (id,num) -> //printf "Move:%A\n" (id,num)
-                          return! Turn p' (ProcessMove game (id,num))
-        | Win e -> return! _end(e)
+        | Move (id,num) -> return! Turn p' (ProcessMove game (id,num))
+        | Win e         -> return! _end(e)
         | _ -> failwith("getUserInput: Unexpected Message.")}
 
+/// End state, notifies someone of a winner through gameEnder and waits to be cleared
 and _end(e) = async {
     // GUI Setup
+    gameEnded <- true
     gameEnder(e)
     // Recurs
     let! msg = ev.Receive()
     match msg with
-        | Clear -> 
-                gameOn<- false
-                return! ready()
-        | _ -> failwith("gameEnded: Unexpected Message.")};;
+        | Clear -> gameOn<- false
+                   return! ready()
+        | _     -> failwith("gameEnded: Unexpected Message.")};;
 
 
 
