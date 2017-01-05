@@ -9,8 +9,6 @@ let getUserMove heaparray (gui:GUI) =
     showGameScreen gui
     setUpGameScreen gui
     //Listens for gui input
-    Thread.Sleep(1000)
-    let mutable move = (1,1)
     async{
         //failwith("Receive")
 
