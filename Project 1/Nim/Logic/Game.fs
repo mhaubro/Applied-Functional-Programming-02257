@@ -7,7 +7,7 @@ open System.Threading
 open EventQueue
 
 /// Player struct with name and function handle to produce moves from gamestate
-type Player = {Name:string; getMove:int[]->int*int}
+type Player = {Name:string; getMove:int[]->Async<int*int>}
 
 /// Enumaration used to alternate between player turns
 type PlayerID = A|B
@@ -84,7 +84,7 @@ and Turn p game = async {
         use ts = new CancellationTokenSource()
         guiCancellation <- (fun () -> ts.Cancel())
         Async.StartWithContinuations
-            (async {return thisPlayer.getMove heapArray},
+            (async {return! thisPlayer.getMove heapArray},
             (fun (id,num)   -> ev.Post(Move(id,num))),
             (fun _          -> ev.Post Error),
             (fun _          -> ev.Post(Win(nextPlayer))),

@@ -36,6 +36,7 @@ let initguiButtons (gui:GUI) =
 let initStartButtons (SC:StartScreen) (gui:GUI) (heaps)=
     //The gameender is to be removed when the GUI is appended
     Game.gameEnder <- fun player -> SC.startButton.Text <- "Someone won"
-    SC.startButton.Click.Add(fun _ -> Game.startGameFromGUI (heaps, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
+    SC.startButton.Click.Add(fun _ -> hideStartScreen SC
+                                      Game.startGameFromGUI (heaps, {Name="User"; getMove=(fun heaps -> getUserMove heaps gui)}, {Name="AI"; getMove=AI.getAIMove}))
 
 
