@@ -19,10 +19,12 @@ let main argv =
     let (heaps, _, _) = game
     Async.Start(Game.ready())
     
+    let gui = new GUI(heaps, window)
     let startscreen = new StartScreen(window)
 
     initializeStart window startscreen
     
+    initStartButtons startscreen gui heaps 
     
     showStartScreen startscreen
     //showGameScreen gui
