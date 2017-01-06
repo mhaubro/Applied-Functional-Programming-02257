@@ -2,9 +2,12 @@
 
 // You must revise 4 pathes occurring in this file 
 // The first three are:
-#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.PowerPack.dll";;
-#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\Machine.dll";
-#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\\VirtualMachine.dll";
+
+#if INTERACTIVE
+#r "bin/Debug/FSharp.PowerPack.dll"
+#r "bin/Debug/Machine.dll"
+#r "bin/Debug/VirtualMachine.dll";
+#endif
 
 #load "AST.fs"
 #load "Parser.fs"
@@ -27,7 +30,7 @@ open Machine
 open VirtualMachine
 
 // You must revise this path
-System.IO.Directory.SetCurrentDirectory @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands";;
+System.IO.Directory.SetCurrentDirectory (System.IO.Directory.GetCurrentDirectory());;
 
 // The Ex0.gc example:
 
