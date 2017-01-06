@@ -2,9 +2,9 @@
 
 // You must revise 4 pathes occurring in this file 
 // The first three are:
-#r @"C:\Users\mire\Documents\MRH data\Kurser\02257-16\GuardedCommandsVersion2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.PowerPack.dll";;
-#r @"C:\Users\mire\Documents\MRH data\Kurser\02257-16\GuardedCommandsVersion2\GuardedCommands\GuardedCommands\bin\Debug\Machine.dll";
-#r @"C:\Users\mire\Documents\MRH data\Kurser\02257-16\GuardedCommandsVersion2\GuardedCommands\GuardedCommands\bin\Debug\\VirtualMachine.dll";
+#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.PowerPack.dll";;
+#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\Machine.dll";
+#r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\\VirtualMachine.dll";
 
 #load "AST.fs"
 #load "Parser.fs"
@@ -13,7 +13,7 @@
 #load "CodeGen.fs"
 #load "CodeGenOpt.fs"
 #load "Util.fs"
-
+ 
 
 open GuardedCommands.Util
 open GuardedCommands.Frontend.TypeCheck
@@ -27,7 +27,7 @@ open Machine
 open VirtualMachine
 
 // You must revise this path
-System.IO.Directory.SetCurrentDirectory @"C:\Users\mire\Documents\MRH data\Kurser\02257-16\GuardedCommandsVersion2\GuardedCommands\GuardedCommands";;
+System.IO.Directory.SetCurrentDirectory @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands";;
 
 // The Ex0.gc example:
 

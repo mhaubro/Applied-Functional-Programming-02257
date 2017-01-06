@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+Project 2/GuardedCommands/GuardedCommands/Script.fsx
+Project 2/GuardedCommands/GuardedCommands/Script.fsx
