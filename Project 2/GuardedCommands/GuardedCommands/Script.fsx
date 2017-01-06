@@ -30,11 +30,11 @@ open Machine
 open VirtualMachine
 
 // You must revise this path
-System.IO.Directory.SetCurrentDirectory (System.IO.Directory.GetCurrentDirectory());;
+System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 
 // The Ex0.gc example:
 
-let ex0Tree = parseFromFile "Ex0.gc";;
+let ex0Tree = parseFromFile "Ex4.gc";;
 
 let _ = tcP ex0Tree;;
 

@@ -50,6 +50,13 @@ module TypeCheck =
          | ADeref e       -> failwith "tcA: pointer dereferencing not supported yes"
  
 
+   and tgC expDeclList gtenv ltenv = List.iter(fun (exp,stmList) -> match tcE gtenv ltenv exp with
+                                                                    | BTyp -> List.iter (tcS gtenv ltenv) stmList 
+                                                                    | _ -> failwith("Illegal typed Alternative Statement")
+                                               ) expDeclList
+    
+
+
 /// tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
 /// for global and local variables and the possible type of return expressions 
    and tcS gtenv ltenv = function                           
@@ -63,7 +70,8 @@ module TypeCheck =
                          //Right now no extra declarations is supported - tests for blocks statements on parents decls
                          | Block([],stms) -> List.iter (tcS gtenv ltenv) stms
                          //Adds alternative statements (If and while) below this line
-
+                         | Alt(GC expDeclList)-> tgC expDeclList gtenv ltenv
+                         | Do(GC expDeclList) -> tgC expDeclList gtenv ltenv
                          | _              -> failwith "tcS: this statement is not supported yet"
 
 ///Adds an element tuple (t,s) to a map gtenv
