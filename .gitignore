@@ -19,7 +19,7 @@
 [Xx]86/
 [Bb]uild/
 bld/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 
 # Visual Studio 2015 cache/options directory
@@ -243,5 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-Project 2/GuardedCommands/GuardedCommands/Script.fsx
 Project 2/GuardedCommands/GuardedCommands/Script.fsx

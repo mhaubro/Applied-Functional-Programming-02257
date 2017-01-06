@@ -5,7 +5,7 @@
 #r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.PowerPack.dll";;
 #r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\Machine.dll";
 #r @"C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\\VirtualMachine.dll";
-
+ 
 #load "AST.fs"
 #load "Parser.fs"
 #load "Lexer.fs"
