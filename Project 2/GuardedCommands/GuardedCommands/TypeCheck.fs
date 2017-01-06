@@ -50,28 +50,44 @@ module TypeCheck =
          | ADeref e       -> failwith "tcA: pointer dereferencing not supported yes"
  
 
+   and tgC expDeclList gtenv ltenv = List.iter(fun (exp,stmList) -> match tcE gtenv ltenv exp with
+                                                                    | BTyp -> List.iter (tcS gtenv ltenv) stmList 
+                                                                    | _ -> failwith("Illegal typed Alternative Statement")
+                                               ) expDeclList
+    
+
+
 /// tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
 /// for global and local variables and the possible type of return expressions 
    and tcS gtenv ltenv = function                           
                          | PrintLn e -> ignore(tcE gtenv ltenv e)
+                         //Tests an assignment. tcA gets the type of acc, while tcE gets the type of e.
                          | Ass(acc,e) -> if tcA gtenv ltenv acc = tcE gtenv ltenv e 
                                          then ()
                                          else failwith "illtyped assignment"                                
 
+                         //Block is a subblock, where everything is tested
+                         //Right now no extra declarations is supported - tests for blocks statements on parents decls
                          | Block([],stms) -> List.iter (tcS gtenv ltenv) stms
+                         //Adds alternative statements (If and while) below this line
+                         | Alt(GC expDeclList)-> tgC expDeclList gtenv ltenv
+                         | Do(GC expDeclList) -> tgC expDeclList gtenv ltenv
                          | _              -> failwith "tcS: this statement is not supported yet"
 
+///Adds an element tuple (t,s) to a map gtenv
    and tcGDec gtenv = function  
                       | VarDec(t,s)               -> Map.add s t gtenv
                       | FunDec(topt,f, decs, stm) -> failwith "type check: function/procedure declarations not yet supported"
 
+///Adds all elements from a list to a map. Classic functional iteration through list.
    and tcGDecs gtenv = function
                        | dec::decs -> tcGDecs (tcGDec gtenv dec) decs
                        | _         -> gtenv
 
 
 /// tcP prog checks the well-typeness of a program prog
-   and tcP(P(decs, stms)) = let gtenv = tcGDecs Map.empty decs
+   and tcP(P(decs, stms)) = let gtenv = tcGDecs Map.empty decs//Creates a decl list           
+                            //Iterates through all statements with the list of decls, applying tcS <decls> Map.empty on all statements
                             List.iter (tcS gtenv Map.empty) stms
 
   
