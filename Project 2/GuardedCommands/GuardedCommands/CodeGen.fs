@@ -45,7 +45,17 @@ module CodeGeneration =
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
                                           | _    -> failwith "CE: this case is not possible"
-                                CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins 
+                                CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
+       | Apply(f,es)        -> match Map.tryFind f fEnv with
+                                | Some(label,Some(t),pDecs) -> let ps = List.length es
+                                                               let dps = List.length pDecs
+                                                               if ps = dps then
+                                                                  List.collect (CE vEnv fEnv) es
+                                                                   @ [CALL(ps, label)]
+                                                               else failwith("CE: The function " + f + " takes " + dps.ToString() + 
+                                                                        " arguments, but it was only supplied with " + ps.ToString())
+                                | None -> failwith ("CE: The function " + f + " has not been defined")
+                                | _    -> failwith "CE: Cannot use procedure as function"
 
        | _            -> failwith "CE: not supported yet"
        
@@ -88,7 +98,14 @@ module CodeGeneration =
        | Do(gcl)          -> CSrep vEnv fEnv gcl
 
        | Block([],stms)   -> CSs vEnv fEnv stms
+       | Block(decs,stms) -> let vEnv',vCode = decs
+                                                |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
+                                                |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate LocVar dec vE in (vE',code@code')) (vEnv,[])
+                             vCode @ CSs vEnv' fEnv stms
 
+       | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
+       | Return None            -> [RET (snd vEnv - 1)]
+                                                          
        | _                -> failwith "CS: this statement is not supported yet"
        //CSs is the function called in CS, creating everythin.
        //List.Collect -> CS vEnv fEnv is done for every element, the results concatednated and returned in a new list
@@ -101,19 +118,19 @@ module CodeGeneration =
        //If b = 1, execute somecode ending with goto end line of code (of if)
    and CSalt vEnv fEnv = function
        | GC []               -> [STOP]
-       | GC gcl              -> let lastLabel = newLabel() in
-                                let nextLabel = ref "" in
-                                let currLabel = ref lastLabel in
-                                List.foldBack (fun (b, sl) c ->
-                                                nextLabel := !currLabel //pointers are strange in F#
-                                                currLabel := newLabel() //very strange
-                                                [Label !currLabel] @
-                                                CE vEnv fEnv b @
-                                                [IFZERO !nextLabel] @
-                                                CSs vEnv fEnv sl @ 
-                                                [GOTO lastLabel] @
-                                                 c)
-                                              gcl [STOP; Label lastLabel]
+       | GC gcl              -> let lastLabel = newLabel() in    //make label for end of this if..fi
+                                let nextLabel = ref "" in        //make ref to hold next label in this if..fi
+                                let currLabel = ref lastLabel in //make ref to hold current label in this if..fi
+                                List.foldBack (fun (b, sl) c ->      // fold back so last label ends up last - could also be done forwardslike for optimization (superfluous label at very begining)
+                                                nextLabel := !currLabel     //folding back, so make sure to goto currlabel next 
+                                                currLabel := newLabel()     //make new label for current
+                                                [Label !currLabel] @        //label this position in case previous guard was TRUE
+                                                CE vEnv fEnv b @            //evaluate guard, leaves value on top of stack
+                                                [IFZERO !nextLabel] @       //if FALSE continue to next guard
+                                                CSs vEnv fEnv sl @          //otherwise evaluate statements
+                                                [GOTO lastLabel] @          //and leave this if..fi
+                                                 c)                         // and collect code
+                                              gcl [STOP; Label lastLabel]   //terminate if no applicable guard otherwise there was a goto lastlabel
 
    ///Transforms do..od to code
        //Strategy: Statement b is written code for. If b = 0 -> next bool statement.
@@ -153,19 +170,39 @@ module CodeGeneration =
                                     let (vEnv2, fEnv2, code2) = addv decr vEnv1 fEnv
                                     //Returns global environment, which is a list of code
                                     (vEnv2, fEnv2, code1 @ code2)
-             //Function declaration in Guardedcommands-Code
-             | FunDec (tyOpt, f, xs, body) -> failwith "makeGlobalEnvs: function/procedure declarations not supported yet"
+             //inspired by MICRO-C, we simply add the function to the environment, saving a label for it. Compiling functions comes later.
+             | FunDec (tyOpt, f, xs, body) -> addv decr vEnv (Map.add f (newLabel(),tyOpt,List.choose (function | VarDec(t,s)->Some(t,s)|_-> None) xs) fEnv)
        //Return element
        addv decs (Map.empty, 0) Map.empty
 
+(* Bind declared parameters in env: *)
+
+   let bindParam (env, fdepth) (typ, x)  : varEnv =
+       let env' = env |> Map.add x (LocVar fdepth, typ)
+       (env', fdepth+1)
+
+   let bindParams paras ((env, fdepth) : varEnv) : varEnv = 
+    List.fold bindParam (env, fdepth) paras;
 
 //ENTRY POINT
 /// CP prog gives the code for a program prog
    let CP (P(decs,stms)) = 
-       let _ = resetLabels ()
-       //(It seems that "(gvM, _) as" is unnecessary, since gvM isn't used?//MH
+       resetLabels()
+       //(It seems that "(gvM, _) as" is unnecessary, since gvM isn't used?//MH --- den skal bruges til funktionerne :)
        let ((gvM,_) as gvEnv, fEnv, initCode) = makeGlobalEnvs decs
-       initCode @ CSs gvEnv fEnv stms @ [STOP]     
+       let compileFun (tyOpt, f, xs, body) =
+            let (labf, _, paras) = Map.find f fEnv
+            let (envf, fdepthf) = bindParams paras (gvM, 0)//<- altså lige her!
+            let code = CS (envf, fdepthf) fEnv body 
+            [Label labf] @ code @ [RET (List.length paras-1)]
+            (*  is it necesarry to handle local variables explicitly? will block handle it?
+                tune in later to find out the answers to these and other similarly trivial questions.*)
+       //The above and the following are adapted from MICRO-C
+       let funcode = decs
+                      |> List.choose (function | FunDec(topt, f, paras, stm) -> Some (topt, f, paras, stm) | _-> None)
+                      |> List.map compileFun
+                      |> List.collect (fun l->l)
+       initCode @ CSs gvEnv fEnv stms @ [STOP]  @ funcode
 
 
 
