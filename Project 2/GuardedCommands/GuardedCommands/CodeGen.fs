@@ -93,13 +93,17 @@ module CodeGeneration =
 
 
       ///Transforms if to code
+   and CAlt vEnv fEnv Gc = 
        //Strategy: 
        //All the way through, Statement b is written code for. If b = 0, jump to next bool statement.
        //If b = 1, execute somecode ending with goto end line of code (of if)
+       []
 
    ///Transforms repetition (while) to code
+   and CRep vEnv fEnv Gc = 
        //Strategy: Statement b is written code for. If b = 0 -> next bool statement.
        //If b = 1, execute some code, goto start line of code (of do).
+       []
 
 (* ------------------------------------------------------------------- *)
 
@@ -117,6 +121,7 @@ module CodeGeneration =
                                     let (vEnv1, code1) = allocate GloVar (typ, var) vEnv
                                     //Allokerer decs ved at køre rekursivt på resten
                                     let (vEnv2, fEnv2, code2) = addv decr vEnv1 fEnv
+                                    //Returns global environment, which is a list of code
                                     (vEnv2, fEnv2, code1 @ code2)
              //Function declaration in Guardedcommands-Code
              | FunDec (tyOpt, f, xs, body) -> failwith "makeGlobalEnvs: function/procedure declarations not supported yet"
