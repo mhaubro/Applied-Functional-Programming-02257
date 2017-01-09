@@ -106,6 +106,8 @@ type nonTerminalId =
     | NONTERM_GuardedCommand
     | NONTERM_GCList
     | NONTERM_Exp
+    | NONTERM_ExpL
+    | NONTERM_ExpList
     | NONTERM_FuncDec
     | NONTERM_Block
 /// This function maps tokens to integer indexes
