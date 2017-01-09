@@ -77,7 +77,8 @@ module TypeCheck =
                          //Block is a subblock, where everything is tested
                          //Right now no extra declarations is supported - tests for blocks statements on parents decls
                          | Block([],stms)   -> List.iter (tcS gtenv ltenv) stms
-                         | Block(decs,stms) -> List.iter (tcS gtenv (tcLDecs Map.empty decs)) stms
+                         | Block(decs,stms) -> List.iter (tcS gtenv (tcLDecs ltenv decs)) stms
+
                          //Adds alternative statements (If and while) below this line
                          | Alt(GC expDeclList)-> tgC expDeclList gtenv ltenv
                          | Do(GC expDeclList) -> tgC expDeclList gtenv ltenv
