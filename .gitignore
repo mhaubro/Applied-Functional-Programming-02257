@@ -244,3 +244,9 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 #Project 2/GuardedCommands/GuardedCommands/Script.fsx
+*.dll
+Project 2/GuardedCommands/GuardedCommands/Lexer.fs
+*.XML
+Project 2/GuardedCommands/GuardedCommands/obj/Debug/GuardedCommands.fsproj.FileListAbsolute.txt
+*.pdb
+Project 2/GuardedCommands/GuardedCommands/Parser.fs
