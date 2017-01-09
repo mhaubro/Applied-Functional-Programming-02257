@@ -18,7 +18,8 @@ module TypeCheck =
                             -> tcMonadic gtenv ltenv f e        
 
          | Apply(f,[e1;e2]) when List.exists (fun x ->  x=f) ["-";"+";"*"; "="; "&&"]        
-                            -> tcDyadic gtenv ltenv f e1 e2   
+                            -> tcDyadic gtenv ltenv f e1 e2
+         | Apply(f, es) -> tcNaryFunction gtenv ltenv f es
 
          | _                -> failwith "tcE: not supported yet"
 
@@ -33,7 +34,13 @@ module TypeCheck =
                                       | (o, BTyp, BTyp) when List.exists (fun x ->  x=o) ["&&";"="]     -> BTyp 
                                       | _                      -> failwith("illegal/illtyped dyadic expression: " + f)
 
-   and tcNaryFunction gtenv ltenv f es = failwith "type check: functions not supported yet"
+   and tcNaryFunction gtenv ltenv f es = let pts,ft =  match Map.tryFind f gtenv with
+                                                       | Some(FTyp(pts, Some ft)) -> (pts,ft)
+                                                       | _ -> failwith ("no declaration for function " + f)
+                                         let ets = List.map (tcE gtenv ltenv) es
+                                         if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
+                                         List.iter2 (fun e p -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
+                                         ft
  
    and tcNaryProcedure gtenv ltenv f es = failwith "type check: procedures not supported yet"
       
@@ -69,21 +76,48 @@ module TypeCheck =
 
                          //Block is a subblock, where everything is tested
                          //Right now no extra declarations is supported - tests for blocks statements on parents decls
-                         | Block([],stms) -> List.iter (tcS gtenv ltenv) stms
+                         | Block([],stms)   -> List.iter (tcS gtenv ltenv) stms
+                         | Block(decs,stms) -> List.iter (tcS gtenv (tcLDecs Map.empty decs)) stms
                          //Adds alternative statements (If and while) below this line
                          | Alt(GC expDeclList)-> tgC expDeclList gtenv ltenv
                          | Do(GC expDeclList) -> tgC expDeclList gtenv ltenv
+                         | Return e -> match e with
+                                        | Some e' -> match Map.tryFind "return" ltenv with
+                                                     | None   -> failwith "tcS: unexpected return"
+                                                     | Some t -> if t = tcE gtenv ltenv e'
+                                                                 then ()
+                                                                 else failwith "illtyped return"   
+                                        | None    -> failwith "tcS: procedures not yet supported"
                          | _              -> failwith "tcS: this statement is not supported yet"
 
 ///Adds an element tuple (t,s) to a map gtenv
    and tcGDec gtenv = function  
                       | VarDec(t,s)               -> Map.add s t gtenv
-                      | FunDec(topt,f, decs, stm) -> failwith "type check: function/procedure declarations not yet supported"
+                      | FunDec(topt,f, decs, stm) -> match topt with
+                                                        | Some t -> let ts,ps = decs |> List.map (function | VarDec(t',a)-> (t',a)| _ -> failwith "tcGDec: Cannot have nested function declarations")
+                                                                                     |> List.unzip
+                                                                    let doubles = ps |> List.countBy (fun a -> a)
+                                                                                     |> List.where (fun (a,i) -> i > 1)
+                                                                    if not(List.isEmpty doubles) then failwith("tcGDec: The following parameters where declared more than once in function " + f + ":\n" + doubles.ToString())
+                                                                    let ltenv = tcLDecs Map.empty decs
+                                                                                |> Map.add "return" t
+                                                                    
+                                                                    let gtenv' = Map.add f (FTyp(ts,Some t)) gtenv
+                                                                    ignore(tcS gtenv' ltenv stm)
+                                                                    gtenv'
+                                                        | None   -> failwith "procedure declarations not yet supported"
 
 ///Adds all elements from a list to a map. Classic functional iteration through list.
    and tcGDecs gtenv = function
                        | dec::decs -> tcGDecs (tcGDec gtenv dec) decs
                        | _         -> gtenv
+
+   and tcLDec ltenv = function
+                       | VarDec(t,s) -> Map.add s t ltenv
+                       | FunDec(_)   -> failwith "tcLDec: function declarations are not permitted in this context"
+   and tcLDecs ltenv = function
+                       | dec::decs -> tcLDecs (tcLDec ltenv dec) decs
+                       | _         -> ltenv
 
 
 /// tcP prog checks the well-typeness of a program prog
