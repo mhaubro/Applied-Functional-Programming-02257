@@ -99,6 +99,7 @@
     </Reference>
     <Reference Include="FSharp.PowerPack.Linq">
       <HintPath>..\packages\FSPowerPack.Linq.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.Linq.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FSharp.PowerPack.Metadata">
       <HintPath>..\packages\FSPowerPack.Metadata.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.Metadata.dll</HintPath>

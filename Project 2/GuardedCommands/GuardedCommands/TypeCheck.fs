@@ -97,9 +97,9 @@ module TypeCheck =
                       | FunDec(topt,f, decs, stm) -> match topt with
                                                         | Some t -> let ts,ps = decs |> List.map (function | VarDec(t',a)-> (t',a)| _ -> failwith "tcGDec: Cannot have nested function declarations")
                                                                                      |> List.unzip
-                                                                    let doubles = ps |> List.countBy (fun a -> a)
-                                                                                     |> List.where (fun (a,i) -> i > 1)
-                                                                    if not(List.isEmpty doubles) then failwith("tcGDec: The following parameters where declared more than once in function " + f + ":\n" + doubles.ToString())
+                                                                    let doubles = ps |> Seq.countBy (fun a -> a)
+                                                                                     |> Seq.where (fun (a,i) -> i > 1)
+                                                                    if not(Seq.isEmpty doubles) then failwith("tcGDec: The following parameters where declared more than once in function " + f + ":\n" + doubles.ToString())
                                                                     let ltenv = tcLDecs Map.empty decs
                                                                                 |> Map.add "return" t
                                                                     
