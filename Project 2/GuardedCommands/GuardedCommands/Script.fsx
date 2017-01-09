@@ -77,8 +77,8 @@ let pts = List.map parseFromFile ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc
 // The parse tree for Ex3.gc
 List.nth pts 2;
 
-(*
-// Test of programs covered by the first task (Section 3.7):
+
+// Test of programs covered by the first task (Section 3.7): check!!!
 List.iter exec ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip.gc"];;
 
 // Test of programs covered by the second task (Section 4.3):
@@ -96,4 +96,3 @@ List.iter exec ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
 // Test of programs covered by the fifth task using optimized compilation (Section 8.2):
 List.iter execOpt ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
 
-*)

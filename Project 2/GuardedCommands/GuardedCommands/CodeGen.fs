@@ -31,14 +31,16 @@ module CodeGeneration =
        | Access acc   -> CA vEnv fEnv acc @ [LDI] 
 
        | Apply("-", [e]) -> CE vEnv fEnv e @  [CSTI 0; SWAP; SUB]
+       | Apply("!", [e]) -> CE vEnv fEnv e @  [NOT]
 
        | Apply("&&",[b1;b2]) -> let labend   = newLabel()
                                 let labfalse = newLabel()
                                 CE vEnv fEnv b1 @ [IFZERO labfalse] @ CE vEnv fEnv b2
                                 @ [GOTO labend; Label labfalse; CSTI 0; Label labend]
 
-       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["+"; "*"; "="]
+       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["-";"+"; "*"; "="]
                              -> let ins = match o with
+                                          | "-"  -> [SUB]
                                           | "+"  -> [ADD]
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
@@ -79,12 +81,13 @@ module CodeGeneration =
        | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
 
        | Ass(acc,e)       -> CA vEnv fEnv acc @ CE vEnv fEnv e @ [STI; INCSP -1]
-       //If-statement. 
-       | Alt(GC expDeclList) -> CAlt vEnv fEnv expDeclList
-       //Do-while statement. 
-       | Do(GC expDeclList) -> CRep vEnv fEnv expDeclList
 
-       | Block([],stms) ->   CSs vEnv fEnv stms
+       //If-statement. 
+       | Alt(gcl)         -> CSalt vEnv fEnv gcl
+       //Do-while statement. 
+       | Do(gcl)          -> CSrep vEnv fEnv gcl
+
+       | Block([],stms)   -> CSs vEnv fEnv stms
 
        | _                -> failwith "CS: this statement is not supported yet"
        //CSs is the function called in CS, creating everythin.
@@ -92,19 +95,46 @@ module CodeGeneration =
    and CSs vEnv fEnv stms = List.collect (CS vEnv fEnv) stms 
 
 
-      ///Transforms if to code
-   and CAlt vEnv fEnv Gc = 
+   ///Transforms if..fi to code
        //Strategy: 
        //All the way through, Statement b is written code for. If b = 0, jump to next bool statement.
        //If b = 1, execute somecode ending with goto end line of code (of if)
-       []
+   and CSalt vEnv fEnv = function
+       | GC []               -> [STOP]
+       | GC gcl              -> let lastLabel = newLabel() in
+                                let nextLabel = ref "" in
+                                let currLabel = ref lastLabel in
+                                List.foldBack (fun (b, sl) c ->
+                                                nextLabel := !currLabel //pointers are strange in F#
+                                                currLabel := newLabel() //very strange
+                                                [Label !currLabel] @
+                                                CE vEnv fEnv b @
+                                                [IFZERO !nextLabel] @
+                                                CSs vEnv fEnv sl @ 
+                                                [GOTO lastLabel] @
+                                                 c)
+                                              gcl [STOP; Label lastLabel]
 
-   ///Transforms repetition (while) to code
-   and CRep vEnv fEnv Gc = 
+   ///Transforms do..od to code
        //Strategy: Statement b is written code for. If b = 0 -> next bool statement.
        //If b = 1, execute some code, goto start line of code (of do).
-       []
-
+   and CSrep vEnv fEnv = function
+       | GC []               -> []  
+       | GC gcl              -> let firstLabel = newLabel() in
+                                let lastLabel = newLabel() in
+                                let nextLabel = ref "" in
+                                let currLabel = ref lastLabel in
+                                [Label firstLabel] @
+                                List.foldBack (fun (b, sl) c ->
+                                                nextLabel := !currLabel
+                                                currLabel := newLabel()
+                                                [Label !currLabel] @
+                                                CE vEnv fEnv b @
+                                                [IFZERO !nextLabel] @
+                                                CSs vEnv fEnv sl @ 
+                                                [GOTO firstLabel] @
+                                                 c)
+                                              gcl [Label lastLabel]
 (* ------------------------------------------------------------------- *)
 
 (* Build environments for global variables and functions *)
