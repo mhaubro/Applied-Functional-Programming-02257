@@ -68,35 +68,59 @@ module CodeGeneration =
       let code = [INCSP 1]
       (newEnv, code)
 
+
+
                       
-/// CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment                          
+/// CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
+//Creates the code                      
+//vEnv = variable environment, fenv = function
    let rec CS vEnv fEnv = function
+                            //Gets code for an expression e, prints, reduces stack with 1 (Removes last thing pushed, the value of e)
        | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
 
        | Ass(acc,e)       -> CA vEnv fEnv acc @ CE vEnv fEnv e @ [STI; INCSP -1]
+       //If-statement. 
+       | Alt(GC expDeclList) -> CAlt vEnv fEnv expDeclList
+       //Do-while statement. 
+       | Do(GC expDeclList) -> CRep vEnv fEnv expDeclList
 
        | Block([],stms) ->   CSs vEnv fEnv stms
 
        | _                -> failwith "CS: this statement is not supported yet"
-
+       //CSs is the function called in CS, creating everythin.
+       //List.Collect -> CS vEnv fEnv is done for every element, the results concatednated and returned in a new list
    and CSs vEnv fEnv stms = List.collect (CS vEnv fEnv) stms 
 
 
+      ///Transforms if to code
+       //Strategy: 
+       //All the way through, Statement b is written code for. If b = 0, jump to next bool statement.
+       //If b = 1, execute somecode ending with goto end line of code (of if)
+
+   ///Transforms repetition (while) to code
+       //Strategy: Statement b is written code for. If b = 0 -> next bool statement.
+       //If b = 1, execute some code, goto start line of code (of do).
 
 (* ------------------------------------------------------------------- *)
 
 (* Build environments for global variables and functions *)
-
+//Obs: This function is running despite not implementing as/if, since it is only related to variable declaration
    let makeGlobalEnvs decs = 
+       //Function definition
        let rec addv decs vEnv fEnv = 
            match decs with 
            | []         -> (vEnv, fEnv, [])
            | dec::decr  -> 
              match dec with
-             | VarDec (typ, var) -> let (vEnv1, code1) = allocate GloVar (typ, var) vEnv
+             //Variable declaration in guardedcommands-code
+             | VarDec (typ, var) -> //Allokerer dec - bliver kørt på samtlige elementer
+                                    let (vEnv1, code1) = allocate GloVar (typ, var) vEnv
+                                    //Allokerer decs ved at køre rekursivt på resten
                                     let (vEnv2, fEnv2, code2) = addv decr vEnv1 fEnv
                                     (vEnv2, fEnv2, code1 @ code2)
+             //Function declaration in Guardedcommands-Code
              | FunDec (tyOpt, f, xs, body) -> failwith "makeGlobalEnvs: function/procedure declarations not supported yet"
+       //Return element
        addv decs (Map.empty, 0) Map.empty
 
 
@@ -104,6 +128,7 @@ module CodeGeneration =
 /// CP prog gives the code for a program prog
    let CP (P(decs,stms)) = 
        let _ = resetLabels ()
+       //(It seems that "(gvM, _) as" is unnecessary, since gvM isn't used?//MH
        let ((gvM,_) as gvEnv, fEnv, initCode) = makeGlobalEnvs decs
        initCode @ CSs gvEnv fEnv stms @ [STOP]     
 
