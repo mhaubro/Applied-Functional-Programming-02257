@@ -94,9 +94,7 @@ fsyacc -v  --module Parser "$(ProjectDir)Parser.fsy"</PreBuildEvent>
     <Reference Include="FSharp.PowerPack">
       <HintPath>bin\Debug\FSharp.PowerPack.dll</HintPath>
     </Reference>
-    <Reference Include="Machine">
-      <HintPath>bin\Debug\Machine.dll</HintPath>
-    </Reference>
+    <Reference Include="Machine" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
