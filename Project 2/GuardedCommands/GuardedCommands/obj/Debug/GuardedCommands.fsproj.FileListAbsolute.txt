@@ -45,8 +45,7 @@ C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\GuardedCommands.dll
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\GuardedCommands.pdb
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.Core.dll
-C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FsLexYacc.Runtime.dll
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FSharp.Core.xml
-C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\bin\Debug\FsLexYacc.Runtime.xml
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\obj\Debug\GuardedCommands.dll
 C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\obj\Debug\GuardedCommands.pdb
+C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\obj\Debug\GuardedCommands.fsprojResolveAssemblyReference.cache
