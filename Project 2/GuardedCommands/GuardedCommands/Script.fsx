@@ -83,8 +83,8 @@ System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 
 //List.iter exec ["Ex3ill.gc"];;
 
-// Test of programs covered by the second task (Section 4.3):
-//List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
+// Test of programs covered by the second task (Section 4.3): check!!!
+List.iter exec ["Ex7.gc"(*; "fact.gc"; "factRec.gc"; "factCBV.gc"*)];;
 
 // Test of programs covered by the fourth task (Section 5.4):
 //List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
