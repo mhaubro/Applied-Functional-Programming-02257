@@ -54,7 +54,11 @@ module TypeCheck =
                                          | None   -> failwith ("no declaration for : " + x)
                                          | Some t -> t
                              | Some t -> t            
-         | AIndex(acc, e) -> failwith "tcA: array indexing not supported yes"
+         //Array Indexing
+         | AIndex(acc, e) -> 
+         
+         
+         failwith "tcA: array indexing not supported yes"
          | ADeref e       -> failwith "tcA: pointer dereferencing not supported yes"
  
 
@@ -112,7 +116,7 @@ module TypeCheck =
    and tcGDecs gtenv = function
                        | dec::decs -> tcGDecs (tcGDec gtenv dec) decs
                        | _         -> gtenv
-
+///For block type-check
    and tcLDec ltenv = function
                        | VarDec(t,s) -> Map.add s t ltenv
                        | FunDec(_)   -> failwith "tcLDec: function declarations are not permitted in this context"
