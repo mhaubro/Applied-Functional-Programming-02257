@@ -64,10 +64,11 @@ module CodeGeneration =
    and CA vEnv fEnv = function | AVar x         -> match Map.find x (fst vEnv) with
                                                    | (GloVar addr,_) -> [CSTI addr]
                                                    | (LocVar addr,_) -> [GETBP; CSTI addr; ADD]
-                               | AIndex(acc, e) -> CE vEnv fEnv e // push the index from the expression to the stack
-                                                 @ CA vEnv fEnv acc // push the adress of the array to the stack
-                                                 @ [ADD] // adds the index to the array pointer
+                               | AIndex(acc, e) -> CA vEnv fEnv acc // push the adress of the array to the stack
                                                  @ [LDI] // goes to the address of the index
+                                                 @ CE vEnv fEnv e // push the index from the expression to the stack                                                                                                  
+                                                 @ [ADD] // adds the index to the array pointer
+
                                | ADeref e       -> failwith "CA: pointer dereferencing not supported yet"
 
   
