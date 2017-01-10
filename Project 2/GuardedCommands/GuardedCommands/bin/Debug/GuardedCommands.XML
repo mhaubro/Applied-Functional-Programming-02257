@@ -52,6 +52,16 @@ Transforms if..fi to code
  tcP prog checks the well-typeness of a program prog
 </summary>
 </member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcLDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
+<summary>
+For block type-check
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcVarDec(GuardedCommands.Frontend.AST.Typ)">
+<summary>
+Checks if a type declared in a block or the main program has a negative length/no length
+</summary>
+</member>
 <member name="M:GuardedCommands.Frontend.TypeCheck.tcGDecs(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Dec})">
 <summary>
 Adds all elements from a list to a map. Classic functional iteration through list.
