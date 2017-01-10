@@ -83,7 +83,7 @@ List.iter exec ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip
 
 //List.iter exec ["Ex3ill.gc"];;
 
-// Test of programs covered by the second task (Section 4.3):
+// Test of programs covered by the second task (Section 4.3): check!!!
 List.iter exec ["Ex7.gc"(*; "fact.gc"; "factRec.gc"; "factCBV.gc"*)];;
 
 // Test of programs covered by the fourth task (Section 5.4):
