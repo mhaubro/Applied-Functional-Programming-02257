@@ -1,4 +1,4 @@
-# 1 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 1 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
  
 module Lexer
 open System
@@ -25,7 +25,7 @@ let keyword s =
     | "return"    -> RETURN
     | _           -> NAME s  
 
-# 28 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 28 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
 let trans : uint16[] array = 
     [| 
    (* State 0 *)
@@ -102,140 +102,140 @@ and tokenize  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_toke
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 41 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 41 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  tokenize lexbuf 
-# 107 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 107 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 1 -> ( 
-# 42 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 42 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf 
-# 112 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 112 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 2 -> ( 
-# 43 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 43 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  INT<| Int32.Parse(Encoding.UTF8.GetString(lexbuf.Lexeme)) 
-# 117 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 117 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 3 -> ( 
-# 44 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 44 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  LP  
-# 122 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 122 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 4 -> ( 
-# 45 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 45 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  RP  
-# 127 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 127 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 5 -> ( 
-# 46 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 46 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  LSP 
-# 132 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 132 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 6 -> ( 
-# 47 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 47 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  RSP 
-# 137 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 137 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 7 -> ( 
-# 48 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 48 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  LCP 
-# 142 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 142 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 8 -> ( 
-# 49 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 49 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  RCP 
-# 147 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 147 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 9 -> ( 
-# 50 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 50 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  COMMA 
-# 152 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 152 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 10 -> ( 
-# 51 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 51 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  SEMI  
-# 157 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 157 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 11 -> ( 
-# 52 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 52 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  COLON 
-# 162 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 162 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 12 -> ( 
-# 53 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 53 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  BAR 
-# 167 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 167 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 13 -> ( 
-# 54 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 54 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  TO 
-# 172 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 172 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 14 -> ( 
-# 55 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 55 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  ASG   
-# 177 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 177 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 15 -> ( 
-# 56 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 56 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  NEG 
-# 182 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 182 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 16 -> ( 
-# 57 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 57 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  AND 
-# 187 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 187 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 17 -> ( 
-# 58 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 58 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  NEQ 
-# 192 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 192 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 18 -> ( 
-# 59 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 59 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  LT 
-# 197 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 197 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 19 -> ( 
-# 60 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 60 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  GT 
-# 202 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 202 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 20 -> ( 
-# 61 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 61 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  LE 
-# 207 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 207 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 21 -> ( 
-# 62 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 62 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  TIMES 
-# 212 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 212 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 22 -> ( 
-# 63 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 63 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  MINUS 
-# 217 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 217 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 23 -> ( 
-# 64 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 64 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  EQ 
-# 222 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 222 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 24 -> ( 
-# 65 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 65 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  PLUS 
-# 227 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 227 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 25 -> ( 
-# 66 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 66 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  keyword(Encoding.UTF8.GetString(lexbuf.Lexeme)) 
-# 232 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 232 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | 26 -> ( 
-# 67 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
+# 67 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fsl"
                                  EOF 
-# 237 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 237 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
           )
   | _ -> failwith "tokenize"
 
-# 3000000 "C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
+# 3000000 "C:\Users\mathi\Dropbox\Studie\Anvendt_Funktionsprogrammering\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Lexer.fs"
