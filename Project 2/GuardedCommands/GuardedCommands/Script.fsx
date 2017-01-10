@@ -89,7 +89,7 @@ List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
 ((goTrace (parseFromFile "A0.gc")))
 
 // Test of programs covered by the fourth task (Section 5.4):
-List.iter exec ["A0.gc"; (*"A1.gc"; "A2.gc"; "A3.gc"*)];;
+List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
 
 // Test of programs covered by the fifth task (Section 6.1):
 //List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
