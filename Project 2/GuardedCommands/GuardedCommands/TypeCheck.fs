@@ -26,17 +26,17 @@ module TypeCheck =
    and tcMonadic gtenv ltenv f e = match (f, tcE gtenv ltenv e) with
                                    | ("-", ITyp) -> ITyp
                                    | ("!", BTyp) -> BTyp
-                                   | _           -> failwith "illegal/illtyped monadic expression" 
+                                   | _           -> failwith "tcMonadic: illegal/illtyped monadic expression" 
    
    and tcDyadic gtenv ltenv f e1 e2 = match (f, tcE gtenv ltenv e1, tcE gtenv ltenv e2) with
                                       | (o, ITyp, ITyp) when List.exists (fun x ->  x=o) ["-";"+";"*"]  -> ITyp
                                       | (o, ITyp, ITyp) when List.exists (fun x ->  x=o) ["=";"<";">";"<>";"<="] -> BTyp
                                       | (o, BTyp, BTyp) when List.exists (fun x ->  x=o) ["&&";"=";"||"]     -> BTyp 
-                                      | _                      -> failwith("illegal/illtyped dyadic expression: " + f)
+                                      | _                      -> failwith("tcDyadic: illegal/illtyped dyadic expression: " + f)
 
    and tcNaryFunction gtenv ltenv f es = let pts,ft =  match Map.tryFind f gtenv with
                                                        | Some(FTyp(pts, Some ft)) -> (pts,ft)
-                                                       | _ -> failwith ("no declaration for function " + f)
+                                                       | _ -> failwith ("tcNaryFunction: no declaration for function " + f)
                                          let ets = List.map (tcE gtenv ltenv) es
                                          if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
                                          List.iter2 (fun e p -> match e, p with
@@ -45,7 +45,7 @@ module TypeCheck =
                                                                 | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
                                          ft
  
-   and tcNaryProcedure gtenv ltenv f es = failwith "type check: procedures not supported yet"
+   and tcNaryProcedure gtenv ltenv f es = failwith "tcNaryProcedre: procedures not supported yet"
       
 
 /// tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
@@ -56,14 +56,14 @@ module TypeCheck =
                              | None   -> match Map.tryFind x gtenv with
                                          | None   -> //Map.iter (fun key value -> (printf "Local %A" key))  ltenv
                                                      //Map.iter (fun key value -> (printf "Global %A" key))  gtenv
-                                                     failwith ("no declaration for : " + x)
+                                                     failwith ("tcA: no declaration for : " + x)
                                          | Some t -> t
                              | Some t -> t            
          //Array Indexing
          | AIndex(AVar s, e) -> match Map.tryFind s ltenv with
                                 | None   -> match Map.tryFind s gtenv with
                                             //Not found
-                                            | None   -> failwith ("no declaration for : " + s)
+                                            | None   -> failwith ("tcA: no declaration for : " + s)
                                             //Found in local vars
                                             | Some t -> tcE gtenv Map.empty e
                                 //Found in global vars
@@ -73,14 +73,14 @@ module TypeCheck =
 
 
          //Error messages for unimplemented stuff
-         | AIndex(ADeref e, _) -> failwith "tca: Pointer dereferencing in array not supported yet"
-         | AIndex(AIndex (a,b), _) -> failwith "tca: Not possible to access array in array"
+         | AIndex(ADeref e, _) -> failwith "tcA: Pointer dereferencing in array not supported yet"
+         | AIndex(AIndex (a,b), _) -> failwith "tcA: Not possible to access array in array"
          | ADeref e       -> failwith "tcA: pointer dereferencing not supported yes"
  
 
    and tgC expDeclList gtenv ltenv = List.iter(fun (exp,stmList) -> match tcE gtenv ltenv exp with
                                                                     | BTyp -> List.iter (tcS gtenv ltenv) stmList 
-                                                                    | _ -> failwith("Illegal typed Alternative Statement")
+                                                                    | _ -> failwith("tgC: Illegal typed Alternative Statement")
                                                ) expDeclList
     
 
@@ -92,7 +92,7 @@ module TypeCheck =
                          //Tests an assignment. tcA gets the type of acc, while tcE gets the type of e.
                          | Ass(acc,e) -> if tcA gtenv ltenv acc = tcE gtenv ltenv e 
                                          then ()
-                                         else failwith "illtyped assignment"                                
+                                         else failwith "tcS: illtyped assignment"                                
 
                          //Block is a subblock, where everything is tested
                          //Right now no extra declarations is supported - tests for blocks statements on parents decls
@@ -107,7 +107,7 @@ module TypeCheck =
                                                      | None   -> failwith "tcS: unexpected return"
                                                      | Some t -> if t = tcE gtenv ltenv e'
                                                                  then ()
-                                                                 else failwith "illtyped return"   
+                                                                 else failwith "tcS: illtyped return"   
                                         | None    -> failwith "tcS: procedures not yet supported"
                          | _              -> failwith "tcS: this statement is not supported yet"
 
@@ -137,7 +137,7 @@ module TypeCheck =
                                                                     ignore(tcS gtenv' ltenv2 stm)
                                                                     if not (checkReturnStatement gtenv' ltenv2 stm) then failwith "Doesn't return for all branches"
                                                                     gtenv'
-                                                        | None   -> failwith "procedure declarations not yet supported"
+                                                        | None   -> failwith "tcGDec: procedure declarations not yet supported"
 
    and checkReturnStatement gtenv ltenv = function
                                            | Return stm -> (tcS gtenv ltenv (Return(stm)))
@@ -159,11 +159,11 @@ module TypeCheck =
                        | _         -> gtenv
     ///Checks if a type declared in a block or the main program has a negative length/no length
    and tcVarDec typedec = match typedec with
-                          | ATyp(a, Some(b)) -> if b < 0 then failwith "Array with negative length declared" else ()
-                          | ATyp(a, None)    -> failwith "Must declare length for array"
+                          | ATyp(a, Some(b)) -> if b < 0 then failwith "tcVarDec: Array with negative length declared" else ()
+                          | ATyp(a, None)    -> failwith "tcVarDec: Must declare length for array"
                           | _ -> ()
    and tcVarDecFunc typedec = match typedec with
-                              | ATyp(a, Some(b)) -> failwith "Array in function parameter with length declared"
+                              | ATyp(a, Some(b)) -> failwith "tcVarDecFunc: Array in function parameter with length declared"
                               | _ -> ()
 
 ///For block type-check
@@ -178,7 +178,7 @@ module TypeCheck =
    and tcFDec ltenv = function
                       | VarDec(t,s) -> tcVarDecFunc t
                                        Map.add s t ltenv
-                      | _ -> failwith "Declaration in function is not a variable"
+                      | _ -> failwith "tcFDec: Declaration in function is not a variable"
 
    and tcFDecs ltenv = function
                        | dec::decs -> tcFDecs (tcFDec ltenv dec) decs
