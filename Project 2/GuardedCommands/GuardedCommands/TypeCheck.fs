@@ -54,7 +54,9 @@ module TypeCheck =
          function 
          | AVar x         -> match Map.tryFind x ltenv with
                              | None   -> match Map.tryFind x gtenv with
-                                         | None   -> failwith ("no declaration for : " + x)
+                                         | None   -> //Map.iter (fun key value -> (printf "Local %A" key))  ltenv
+                                                     //Map.iter (fun key value -> (printf "Global %A" key))  gtenv
+                                                     failwith ("no declaration for : " + x)
                                          | Some t -> t
                              | Some t -> t            
          //Array Indexing
@@ -122,10 +124,34 @@ module TypeCheck =
                                                                     let ltenv = tcFDecs Map.empty decs
                                                                                 |> Map.add "return" t
                                                                     
+                                                                    let ltenv2 = match stm with
+                                                                                 | Block(decl, stml) -> tcLDecs ltenv decl
+                                                                                 | _ -> ltenv                                                                                                                               
+                                                                    //Map.iter (fun key value -> printfn "%s" key) ltenv
+                                                                    //printfn "%A" decs
+                                                                    
+
+
+
                                                                     let gtenv' = Map.add f (FTyp(ts,Some t)) gtenv
-                                                                    ignore(tcS gtenv' ltenv stm)
+                                                                    ignore(tcS gtenv' ltenv2 stm)
+                                                                    if not (checkReturnStatement gtenv' ltenv2 stm) then failwith "Doesn't return for all branches"
                                                                     gtenv'
                                                         | None   -> failwith "procedure declarations not yet supported"
+
+   and checkReturnStatement gtenv ltenv = function
+                                           | Return stm -> (tcS gtenv ltenv (Return(stm)))
+                                                           true                                                  
+                                           | Block (decList, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist
+                                           //Checks for all branches in an alternate statement, that there is at least one return. If there is, the function will return
+                                           | Alt(GC(gclist)) -> List.forall (fun (_, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist) gclist
+                                           //Same as above
+                                           | Do(GC(gclist))  -> List.forall (fun (_, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist) gclist
+                                           //If it is not a return statement
+                                           | _ -> false
+
+//   and checkReturnStatementList getnv' ltenv = function
+//                                               | list -> List.forall checkReturnStatement list
 
 ///Adds all elements from a list to a map. Classic functional iteration through list.
    and tcGDecs gtenv = function

@@ -89,6 +89,7 @@ Stm:
   | IF GuardedCommand FI              { Alt $2 }
   | DO GuardedCommand OD              { Do $2  }
   | RETURN Exp						  { Return(Some($2)) }
+  | NAME LP ExpL RP                   { Call($1, $3)}//Procedure call
 
 StmL:
                                       { [] } 
@@ -137,6 +138,7 @@ ArrayDec:
 
 FuncDec:
     FUNCTION NAME LP VarL RP COLON BasicTyp EQ Stm    { FunDec(Some($7),$2,$4,$9) }
+  | FUNCTION NAME LP VarL RP EQ Stm	                  { FunDec(None,    $2,$4,$7) }//Procedure definition
 
 BlockDecL:
     BlockDec                              { [$1] }
