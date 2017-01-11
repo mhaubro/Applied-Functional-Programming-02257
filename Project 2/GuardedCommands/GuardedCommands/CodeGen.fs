@@ -95,14 +95,7 @@ module CodeGeneration =
       let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+1)
       let code = [INCSP 1]
       (newEnv, code)
-
-
-
-                      
-/// CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
-//Creates the code                      
-//vEnv = variable environment, fenv = function
-   let rec CS vEnv fEnv = function
+   let rec CSF vEnv fEnv = function
                             //Gets code for an expression e, prints, reduces stack with 1 (Removes last thing pushed, the value of e)
        | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
 
@@ -117,6 +110,39 @@ module CodeGeneration =
        | Block(decs,stms) -> let vEnv',vCode = decs
                                                 |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
                                                 |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate LocVar dec vE in (vE',code@code')) (vEnv,[])
+                             let decsSize = List.fold(fun size dec -> match dec with
+                                                                          | VarDec(ATyp(_,Some(i)),_) -> size + i + 1
+                                                                          | VarDec(_,_) -> size + 1
+                                                                          | _ -> failwith "CS: invalid declaration in Block statement") 0 decs
+                             vCode @ CSs vEnv' fEnv stms @
+                             [INCSP -decsSize]
+                             
+
+       | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
+       | Return None            -> [RET (snd vEnv - 1)]
+                                                          
+       | _                -> failwith "CS: this statement is not supported yet"
+
+
+                      
+/// CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
+//Creates the code                      
+//vEnv = variable environment, fenv = function
+   and CS vEnv fEnv = function
+                            //Gets code for an expression e, prints, reduces stack with 1 (Removes last thing pushed, the value of e)
+       | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
+
+       | Ass(acc,e)       -> CA vEnv fEnv acc @ CE vEnv fEnv e @ [STI; INCSP -1]
+
+       //If-statement. 
+       | Alt(gcl)         -> CSalt vEnv fEnv gcl
+       //Do-while statement. 
+       | Do(gcl)          -> CSrep vEnv fEnv gcl
+
+       | Block([],stms)   -> CSs vEnv fEnv stms
+       | Block(decs,stms) -> let vEnv',vCode = decs
+                                                |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
+                                                |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate GloVar dec vE in (vE',code@code')) (vEnv,[])
                              let decsSize = List.fold(fun size dec -> match dec with
                                                                           | VarDec(ATyp(_,Some(i)),_) -> size + i + 1
                                                                           | VarDec(_,_) -> size + 1
@@ -215,7 +241,7 @@ module CodeGeneration =
        let compileFun (tyOpt, f, xs, body) =
             let (labf, _, paras) = Map.find f fEnv
             let (envf, fdepthf) = bindParams paras (gvM, 0)//<- altså lige her!
-            let code = CS (envf, fdepthf) fEnv body 
+            let code = CSF (envf, fdepthf) fEnv body 
             [Label labf] @ code @ [RET (List.length paras-1)]
             (*  is it necesarry to handle local variables explicitly? will block handle it?
                 tune in later to find out the answers to these and other similarly trivial questions.*)

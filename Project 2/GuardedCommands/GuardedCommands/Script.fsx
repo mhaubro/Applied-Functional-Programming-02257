@@ -89,7 +89,7 @@ List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
 
 //((goTrace (parseFromFile "Ex3.gc")));;
 //CP(parseFromFile "LocalBlockTest.gc");;
-//((goTrace (parseFromFile "LocalBlockTest.gc")));;
+((goTrace (parseFromFile "LocalBlockTest.gc")));;
 
 CP(parseFromFile "fact.gc");;
 ((goTrace (parseFromFile "fact.gc")));;
