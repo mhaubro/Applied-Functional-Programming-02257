@@ -86,11 +86,17 @@ System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 // Test of programs covered by the second task (Section 4.3): check!!!
 List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
 
-((goTrace (parseFromFile "A0.gc")))
+
+//((goTrace (parseFromFile "Ex3.gc")));;
+//CP(parseFromFile "LocalBlockTest.gc");;
+//((goTrace (parseFromFile "LocalBlockTest.gc")));;
+
+CP(parseFromFile "fact.gc");;
+((goTrace (parseFromFile "fact.gc")));;
 
 // Test of programs covered by the fourth task (Section 5.4):
 List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
-
+((goTrace (parseFromFile "A2.gc")));;
 // Test of programs covered by the fifth task (Section 6.1):
 //List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
 

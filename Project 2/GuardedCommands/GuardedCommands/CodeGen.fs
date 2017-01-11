@@ -85,7 +85,7 @@ module CodeGeneration =
     | ATyp (ATyp _, _) -> 
       raise (Failure "allocate: array of arrays not permitted")
     | ATyp (t, Some i) -> 
-      let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+i+1)
+      let newEnv = (Map.add x (kind (fdepth+i), typ) env, fdepth+i+1)
       let code = [INCSP i] // increment the stackposition by i, to leave room for the array
                @ [GETSP] // push the address of the current stack position
                @ [CSTI (i-1)] // push the size-1 of the array
@@ -117,7 +117,13 @@ module CodeGeneration =
        | Block(decs,stms) -> let vEnv',vCode = decs
                                                 |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
                                                 |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate LocVar dec vE in (vE',code@code')) (vEnv,[])
-                             vCode @ CSs vEnv' fEnv stms
+                             let decsSize = List.fold(fun size dec -> match dec with
+                                                                          | VarDec(ATyp(_,Some(i)),_) -> size + i + 1
+                                                                          | VarDec(_,_) -> size + 1
+                                                                          | _ -> failwith "CS: invalid declaration in Block statement") 0 decs
+                             vCode @ CSs vEnv' fEnv stms @
+                             [INCSP -decsSize]
+                             
 
        | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
        | Return None            -> [RET (snd vEnv - 1)]
@@ -215,10 +221,12 @@ module CodeGeneration =
                 tune in later to find out the answers to these and other similarly trivial questions.*)
        //The above and the following are adapted from MICRO-C
        let funcode = decs
-                      |> List.choose (function | FunDec(topt, f, paras, stm) -> Some (topt, f, paras, stm) | _-> None)
+                      |> List.choose (function 
+                                        | FunDec(topt, f, paras, stm) -> Some (topt, f, paras, stm) 
+                                        | _-> None)
                       |> List.map compileFun
                       |> List.collect (fun l->l)
-       initCode @ CSs gvEnv fEnv stms @ [STOP]  @ funcode
+       initCode @ CSs gvEnv fEnv stms @ [STOP] @ funcode
 
 
 
