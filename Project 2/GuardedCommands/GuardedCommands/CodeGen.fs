@@ -38,12 +38,18 @@ module CodeGeneration =
                                 CE vEnv fEnv b1 @ [IFZERO labfalse] @ CE vEnv fEnv b2
                                 @ [GOTO labend; Label labfalse; CSTI 0; Label labend]
 
-       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["-";"+"; "*"; "="]
+       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["-";"+"; "*"; "=";"<";"!";">";"<=";"<>"]
                              -> let ins = match o with
                                           | "-"  -> [SUB]
                                           | "+"  -> [ADD]
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
+                                          | "<"  -> [LT]
+                                          | "!"  -> [NOT]
+                                          | ">"  -> [SWAP; LT; NOT] 
+                                          | "<="  -> [SWAP; LT; NOT]
+                                          | ">="  -> [LT; NOT]
+                                          | "<>"  -> [EQ; NOT] 
                                           | _    -> failwith "CE: this case is not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
        | Apply(f,es)        -> match Map.tryFind f fEnv with
@@ -64,7 +70,11 @@ module CodeGeneration =
    and CA vEnv fEnv = function | AVar x         -> match Map.find x (fst vEnv) with
                                                    | (GloVar addr,_) -> [CSTI addr]
                                                    | (LocVar addr,_) -> [GETBP; CSTI addr; ADD]
-                               | AIndex(acc, e) -> failwith "CA: array indexing not supported yet" 
+                               | AIndex(acc, e) -> CA vEnv fEnv acc // push the adress of the array to the stack
+//                                                 @ [LDI] // goes to the address of the index
+                                                 @ CE vEnv fEnv e // push the index from the expression to the stack                                                                                                  
+                                                 @ [ADD] // adds the index to the array pointer
+
                                | ADeref e       -> failwith "CA: pointer dereferencing not supported yet"
 
   
@@ -74,7 +84,13 @@ module CodeGeneration =
     match typ with
     | ATyp (ATyp _, _) -> 
       raise (Failure "allocate: array of arrays not permitted")
-    | ATyp (t, Some i) -> failwith "allocate: array not supported yet"
+    | ATyp (t, Some i) -> 
+      let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+i+1)
+      let code = [INCSP i] // increment the stackposition by i, to leave room for the array
+               @ [GETSP] // push the address of the current stack position
+               @ [CSTI (i-1)] // push the size-1 of the array
+               @ [SUB] // substract size-1 of the array from the address to get the address of the first element on the top of the stack
+      (newEnv, code) // return the envirionment and code
     | _ -> 
       let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+1)
       let code = [INCSP 1]

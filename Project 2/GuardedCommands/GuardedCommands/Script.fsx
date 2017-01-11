@@ -84,10 +84,12 @@ System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 //List.iter exec ["Ex3ill.gc"];;
 
 // Test of programs covered by the second task (Section 4.3): check!!!
-List.iter exec ["Ex7.gc"(*; "fact.gc"; "factRec.gc"; "factCBV.gc"*)];;
+List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
+
+((goTrace (parseFromFile "A0.gc")))
 
 // Test of programs covered by the fourth task (Section 5.4):
-//List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
+List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
 
 // Test of programs covered by the fifth task (Section 6.1):
 //List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
@@ -98,4 +100,4 @@ List.iter exec ["Ex7.gc"(*; "fact.gc"; "factRec.gc"; "factCBV.gc"*)];;
 // Test of programs covered by the fifth task using optimized compilation (Section 8.2):
 //List.iter execOpt ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
 
- parseFromFile "Ex7.gc";; 
+// parseFromFile "Ex7.gc";; 
