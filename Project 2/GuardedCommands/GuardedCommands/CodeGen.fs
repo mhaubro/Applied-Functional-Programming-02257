@@ -79,7 +79,7 @@ module CodeGeneration =
     | ATyp (ATyp _, _) -> 
       raise (Failure "allocate: array of arrays not permitted")
     | ATyp (t, Some i) -> 
-      let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+i)
+      let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+i+1)
       let code = [INCSP i] // increment the stackposition by i, to leave room for the array
                @ [GETSP] // push the address of the current stack position
                @ [CSTI (i-1)] // push the size-1 of the array

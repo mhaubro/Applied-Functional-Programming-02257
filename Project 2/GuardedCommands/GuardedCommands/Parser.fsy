@@ -29,7 +29,7 @@ open GuardedCommands.Frontend.AST
 %type <(Exp * Stm list) list> GCList
 %type <GuardedCommand> GuardedCommand
 %type <Stm list> StmList StmL
-%type <Stm> Stm
+%type <Stm> Stm FuncBody
 %type <Typ> BasicTyp Typ
 %type <Dec> Dec FuncDec ArrayDec
 %type <Dec list> DecL DecList VarL VarList
@@ -85,7 +85,6 @@ Stm:
   | Access ASG Exp                    { Ass($1,$3)  }
   | SKIP                              { Do (GC []) }
   | ABORT                             { Alt (GC []) } 
-  | Block                             { $1 } 
   | IF GuardedCommand FI              { Alt $2 }
   | DO GuardedCommand OD              { Do $2  }
   | RETURN Exp						  { Return(Some($2)) }
@@ -135,8 +134,12 @@ ExpList:
 ArrayDec:
 	NAME COLON BasicTyp LSP INT RSP {VarDec(ATyp($3, Some($5)), $1)}
 
+FuncBody:
+	Stm								{ $1 }
+  | Block                             { $1 } 
+
 FuncDec:
-    FUNCTION NAME LP VarL RP COLON BasicTyp EQ Stm    { FunDec(Some($7),$2,$4,$9) }
+    FUNCTION NAME LP VarL RP COLON BasicTyp EQ FuncBody    { FunDec(Some($7),$2,$4,$9) }
 
 BlockDecL:
     BlockDec                              { [$1] }
