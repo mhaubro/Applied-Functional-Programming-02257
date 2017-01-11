@@ -71,7 +71,7 @@ module CodeGeneration =
                                                    | (GloVar addr,_) -> [CSTI addr]
                                                    | (LocVar addr,_) -> [GETBP; CSTI addr; ADD]
                                | AIndex(acc, e) -> CA vEnv fEnv acc // push the adress of the array to the stack
-//                                                 @ [LDI] // goes to the address of the index
+                                                 @ [LDI] // goes to the address of the index
                                                  @ CE vEnv fEnv e // push the index from the expression to the stack                                                                                                  
                                                  @ [ADD] // adds the index to the array pointer
 
