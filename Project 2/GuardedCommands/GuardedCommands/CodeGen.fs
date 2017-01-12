@@ -30,38 +30,44 @@ module CodeGeneration =
        | B b          -> [CSTI (if b then 1 else 0)]
        | Access acc   -> CA vEnv fEnv acc @ [LDI] 
 
+        // code generations for unary functions i.e. negation of ints and booleans
        | Apply("-", [e]) -> CE vEnv fEnv e @  [CSTI 0; SWAP; SUB]
        | Apply("!", [e]) -> CE vEnv fEnv e @  [NOT]
 
-       | Apply("&&",[b1;b2]) -> let labend   = newLabel()
-                                let labfalse = newLabel()
-                                CE vEnv fEnv b1 @ [IFZERO labfalse] @ CE vEnv fEnv b2
-                                @ [GOTO labend; Label labfalse; CSTI 0; Label labend]
-
-       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["-";"+"; "*"; "=";"<";"!";">";"<=";"<>"]
+        // code geneartion for binary operators - at least those without short circuit semantics
+       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["-";"+"; "*"; "=";"<";">";"<=";"<>"]
                              -> let ins = match o with
                                           | "-"  -> [SUB]
                                           | "+"  -> [ADD]
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
                                           | "<"  -> [LT]
-                                          | "!"  -> [NOT]
                                           | ">"  -> [SWAP; LT; NOT] 
                                           | "<="  -> [SWAP; LT; NOT]
                                           | ">="  -> [LT; NOT]
-                                          | "<>"  -> [EQ; NOT] 
+                                          | "<>"  -> [EQ; NOT]
                                           | _    -> failwith "CE: this case is not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
-       | Apply(f,es)        -> match Map.tryFind f fEnv with
+
+         // code generation for composition of boolean statements with conjunction and disjunction
+       | Apply(o,[e1;e2]) when List.exists (fun x -> o=x) ["&&";"||"]
+                             -> let label = newLabel();
+                                let jt = match o with // we jump differently depending on wether true or false should dominate
+                                              | "&&" -> [IFZERO label]
+                                              | "||" -> [IFNZRO label]
+                                              | _    -> failwith "CE: this case is not possible"
+                                CE vEnv fEnv e1     // Evaluate first expression
+                              @ [DUP] @ jt          // duplicate and jump if value of first dominates
+                              @ [INCSP -1]          // if no jump, then second of second dominates, so first value can be disregarded
+                              @ CE vEnv fEnv e2     // evaluate second expression
+                              @ [Label label]       // label used for jumping
+
+        // code generation for application of programatically defined functions
+       | Apply(f,es)        -> match Map.tryFind f fEnv with                                // get function
                                 | Some(label,Some(t),pDecs) -> let ps = List.length es
-                                                               let dps = List.length pDecs
-                                                               if ps = dps then
-                                                                  List.collect (CE vEnv fEnv) es
-                                                                   @ [CALL(ps, label)]
-                                                               else failwith("CE: The function " + f + " takes " + dps.ToString() + 
-                                                                        " arguments, but it was only supplied with " + ps.ToString())
-                                | None -> failwith ("CE: The function " + f + " has not been defined")
-                                | _    -> failwith "CE: Cannot use procedure as function"
+                                                               List.collect (CE vEnv fEnv) es    // evaluate parameter values
+                                                                @ [CALL(ps, label)]              // perform function call
+                                | _    -> failwith "CE: Please perform typecheck to find out what you did wrong"
 
        | _            -> failwith "CE: not supported yet"
        
@@ -117,6 +123,11 @@ module CodeGeneration =
                              vCode @ CSs vEnv' fEnv stms @
                              [INCSP -decsSize]
                              
+       | Call(f,es)        -> match Map.tryFind f fEnv with                                // get function
+                                | Some(label,Some(t),pDecs) -> let ps = List.length es
+                                                               List.collect (CE vEnv fEnv) es    // evaluate parameter values
+                                                                @ [CALL(ps, label)]              // perform function call
+                                | _    -> failwith "CE: Please perform typecheck to find out what you did wrong"
 
        | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
        | Return None            -> [RET (snd vEnv - 1)]
@@ -242,7 +253,7 @@ module CodeGeneration =
             let (labf, _, paras) = Map.find f fEnv
             let (envf, fdepthf) = bindParams paras (gvM, 0)//<- altså lige her!
             let code = CSF (envf, fdepthf) fEnv body 
-            [Label labf] @ code @ [RET (List.length paras-1)]
+            [Label labf] @ code @ [RET (fdepthf-1)] //return in case of procedure - in function they are enforced by typecheck
             (*  is it necesarry to handle local variables explicitly? will block handle it?
                 tune in later to find out the answers to these and other similarly trivial questions.*)
        //The above and the following are adapted from MICRO-C
