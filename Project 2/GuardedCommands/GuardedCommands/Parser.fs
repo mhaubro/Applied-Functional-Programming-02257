@@ -252,15 +252,15 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 28 -> NONTERM_Stm 
     | 29 -> NONTERM_Stm 
     | 30 -> NONTERM_Stm 
-    | 31 -> NONTERM_StmL 
+    | 31 -> NONTERM_Stm 
     | 32 -> NONTERM_StmL 
-    | 33 -> NONTERM_StmList 
+    | 33 -> NONTERM_StmL 
     | 34 -> NONTERM_StmList 
-    | 35 -> NONTERM_GuardedCommand 
+    | 35 -> NONTERM_StmList 
     | 36 -> NONTERM_GuardedCommand 
-    | 37 -> NONTERM_GCList 
+    | 37 -> NONTERM_GuardedCommand 
     | 38 -> NONTERM_GCList 
-    | 39 -> NONTERM_Exp 
+    | 39 -> NONTERM_GCList 
     | 40 -> NONTERM_Exp 
     | 41 -> NONTERM_Exp 
     | 42 -> NONTERM_Exp 
@@ -276,18 +276,20 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 52 -> NONTERM_Exp 
     | 53 -> NONTERM_Exp 
     | 54 -> NONTERM_Exp 
-    | 55 -> NONTERM_ExpL 
+    | 55 -> NONTERM_Exp 
     | 56 -> NONTERM_ExpL 
-    | 57 -> NONTERM_ExpList 
+    | 57 -> NONTERM_ExpL 
     | 58 -> NONTERM_ExpList 
-    | 59 -> NONTERM_ArrayDec 
-    | 60 -> NONTERM_FuncDec 
-    | 61 -> NONTERM_BlockDecL 
-    | 62 -> NONTERM_BlockDecL 
-    | 63 -> NONTERM_BlockDec 
-    | 64 -> NONTERM_BlockDec 
-    | 65 -> NONTERM_Block 
-    | 66 -> NONTERM_Block 
+    | 59 -> NONTERM_ExpList 
+    | 60 -> NONTERM_ArrayDec 
+    | 61 -> NONTERM_FuncDec 
+    | 62 -> NONTERM_FuncDec 
+    | 63 -> NONTERM_BlockDecL 
+    | 64 -> NONTERM_BlockDecL 
+    | 65 -> NONTERM_BlockDec 
+    | 66 -> NONTERM_BlockDec 
+    | 67 -> NONTERM_Block 
+    | 68 -> NONTERM_Block 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
 let _fsyacc_endOfInputTag = 43 
@@ -382,18 +384,18 @@ let _fsyacc_dataOfToken (t:token) =
   | STRING _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | BOOL _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | INT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 0us; 65535us; 1us; 65535us; 0us; 1us; 2us; 65535us; 0us; 4us; 2us; 3us; 3us; 65535us; 20us; 15us; 21us; 16us; 109us; 110us; 2us; 65535us; 20us; 22us; 21us; 22us; 6us; 65535us; 6us; 30us; 28us; 27us; 34us; 30us; 106us; 27us; 114us; 116us; 118us; 116us; 1us; 65535us; 106us; 107us; 2us; 65535us; 28us; 29us; 106us; 26us; 2us; 65535us; 6us; 33us; 34us; 33us; 0us; 65535us; 2us; 65535us; 6us; 7us; 34us; 35us; 28us; 65535us; 6us; 43us; 8us; 43us; 38us; 67us; 41us; 67us; 44us; 67us; 49us; 67us; 52us; 67us; 55us; 67us; 59us; 43us; 63us; 43us; 65us; 67us; 70us; 67us; 73us; 67us; 75us; 67us; 87us; 67us; 88us; 67us; 89us; 67us; 90us; 67us; 91us; 67us; 92us; 67us; 93us; 67us; 94us; 67us; 95us; 67us; 96us; 67us; 100us; 67us; 111us; 43us; 118us; 43us; 120us; 43us; 7us; 65535us; 6us; 58us; 8us; 58us; 59us; 58us; 63us; 58us; 111us; 112us; 118us; 58us; 120us; 58us; 5us; 65535us; 6us; 11us; 8us; 9us; 63us; 64us; 118us; 123us; 120us; 121us; 6us; 65535us; 6us; 57us; 8us; 57us; 59us; 60us; 63us; 57us; 118us; 57us; 120us; 57us; 2us; 65535us; 49us; 50us; 52us; 53us; 3us; 65535us; 49us; 61us; 52us; 61us; 65us; 66us; 21us; 65535us; 38us; 39us; 41us; 42us; 44us; 45us; 49us; 62us; 52us; 62us; 55us; 56us; 65us; 62us; 70us; 71us; 73us; 74us; 75us; 76us; 87us; 77us; 88us; 78us; 89us; 79us; 90us; 80us; 91us; 81us; 92us; 82us; 93us; 83us; 94us; 84us; 95us; 85us; 96us; 86us; 100us; 86us; 1us; 65535us; 96us; 97us; 2us; 65535us; 96us; 99us; 100us; 101us; 4us; 65535us; 6us; 32us; 34us; 32us; 114us; 117us; 118us; 117us; 2us; 65535us; 6us; 31us; 34us; 31us; 2us; 65535us; 114us; 115us; 118us; 119us; 2us; 65535us; 114us; 113us; 118us; 113us; 7us; 65535us; 6us; 48us; 8us; 48us; 59us; 48us; 63us; 48us; 111us; 48us; 118us; 48us; 120us; 48us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 2us; 4us; 7us; 11us; 14us; 21us; 23us; 26us; 29us; 30us; 33us; 62us; 70us; 76us; 83us; 86us; 90us; 112us; 114us; 117us; 122us; 125us; 128us; 131us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 2us; 1us; 2us; 2us; 3us; 4us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 4us; 1us; 4us; 1us; 5us; 1us; 6us; 2us; 7us; 9us; 3us; 7us; 9us; 59us; 2us; 8us; 9us; 5us; 8us; 9us; 21us; 22us; 59us; 3us; 8us; 9us; 59us; 2us; 8us; 9us; 3us; 8us; 9us; 59us; 1us; 8us; 1us; 9us; 2us; 9us; 59us; 1us; 9us; 1us; 11us; 2us; 12us; 13us; 1us; 13us; 1us; 13us; 1us; 14us; 1us; 15us; 1us; 16us; 2us; 19us; 20us; 1us; 20us; 1us; 20us; 2us; 21us; 22us; 3us; 21us; 22us; 54us; 1us; 22us; 10us; 22us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 22us; 1us; 23us; 10us; 23us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 24us; 1us; 24us; 10us; 24us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 25us; 1us; 26us; 1us; 27us; 1us; 28us; 1us; 28us; 1us; 28us; 1us; 29us; 1us; 29us; 1us; 29us; 1us; 30us; 10us; 30us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 32us; 2us; 33us; 34us; 1us; 34us; 1us; 34us; 1us; 36us; 11us; 37us; 38us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 2us; 37us; 38us; 2us; 37us; 38us; 1us; 38us; 1us; 38us; 1us; 39us; 1us; 40us; 1us; 41us; 1us; 42us; 10us; 42us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 42us; 1us; 43us; 10us; 43us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 1us; 44us; 10us; 44us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 48us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 49us; 49us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 49us; 50us; 50us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 51us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 52us; 53us; 10us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 53us; 11us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 57us; 58us; 1us; 45us; 1us; 46us; 1us; 47us; 1us; 48us; 1us; 49us; 1us; 50us; 1us; 51us; 1us; 52us; 1us; 53us; 1us; 54us; 1us; 54us; 1us; 54us; 1us; 56us; 1us; 58us; 1us; 58us; 1us; 59us; 1us; 59us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 1us; 60us; 2us; 61us; 62us; 1us; 62us; 1us; 62us; 1us; 63us; 1us; 64us; 2us; 65us; 66us; 1us; 65us; 1us; 65us; 1us; 65us; 1us; 65us; 1us; 66us; 1us; 66us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 15us; 17us; 19us; 21us; 23us; 25us; 27us; 29us; 31us; 34us; 38us; 41us; 47us; 51us; 54us; 58us; 60us; 62us; 65us; 67us; 69us; 72us; 74us; 76us; 78us; 80us; 82us; 85us; 87us; 89us; 92us; 96us; 98us; 109us; 111us; 113us; 124us; 126us; 128us; 139us; 141us; 143us; 145us; 147us; 149us; 151us; 153us; 155us; 157us; 159us; 170us; 172us; 175us; 177us; 179us; 181us; 193us; 196us; 199us; 201us; 203us; 205us; 207us; 209us; 211us; 222us; 224us; 226us; 237us; 239us; 250us; 261us; 272us; 283us; 294us; 305us; 316us; 327us; 338us; 349us; 361us; 363us; 365us; 367us; 369us; 371us; 373us; 375us; 377us; 379us; 381us; 383us; 385us; 387us; 389us; 391us; 393us; 395us; 397us; 399us; 401us; 403us; 405us; 407us; 409us; 411us; 413us; 416us; 418us; 420us; 422us; 424us; 427us; 429us; 431us; 433us; 435us; 437us; |]
-let _fsyacc_action_rows = 125
-let _fsyacc_actionTableElements = [|1us; 32768us; 27us; 6us; 0us; 49152us; 1us; 32768us; 27us; 6us; 0us; 49152us; 1us; 32768us; 3us; 5us; 0us; 16386us; 9us; 16415us; 0us; 55us; 1us; 104us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 18us; 1us; 32768us; 20us; 8us; 8us; 16415us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 36us; 1us; 32768us; 28us; 10us; 0us; 16387us; 1us; 32768us; 28us; 12us; 0us; 16388us; 0us; 16389us; 0us; 16390us; 1us; 16391us; 31us; 23us; 1us; 16391us; 31us; 24us; 1us; 32768us; 19us; 20us; 2us; 16405us; 19us; 21us; 31us; 38us; 1us; 32768us; 19us; 21us; 2us; 32768us; 35us; 14us; 36us; 13us; 2us; 32768us; 35us; 14us; 36us; 13us; 0us; 16392us; 1us; 32768us; 34us; 25us; 2us; 32768us; 34us; 25us; 40us; 102us; 0us; 16393us; 0us; 16395us; 1us; 16396us; 18us; 28us; 1us; 32768us; 37us; 17us; 0us; 16397us; 0us; 16398us; 0us; 16399us; 0us; 16400us; 1us; 16403us; 18us; 34us; 2us; 32768us; 1us; 104us; 37us; 19us; 0us; 16404us; 1us; 16405us; 31us; 38us; 2us; 16405us; 29us; 96us; 31us; 38us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 10us; 32768us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 34us; 40us; 0us; 16406us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 9us; 16407us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 1us; 32768us; 5us; 44us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 9us; 16408us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 0us; 16409us; 0us; 16410us; 0us; 16411us; 6us; 16419us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 1us; 32768us; 24us; 51us; 0us; 16412us; 6us; 16419us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 1us; 32768us; 26us; 54us; 0us; 16413us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 9us; 16414us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 0us; 16416us; 1us; 16417us; 20us; 59us; 8us; 32768us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 36us; 0us; 16418us; 0us; 16420us; 10us; 32768us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 22us; 63us; 8us; 16415us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 36us; 1us; 16421us; 21us; 65us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 0us; 16422us; 0us; 16423us; 0us; 16424us; 0us; 16425us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 10us; 32768us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 32us; 72us; 0us; 16426us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 1us; 16427us; 11us; 87us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 8us; 16428us; 9us; 88us; 10us; 89us; 11us; 87us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 0us; 16429us; 1us; 16430us; 11us; 87us; 1us; 16431us; 11us; 87us; 8us; 16432us; 9us; 88us; 10us; 89us; 11us; 87us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 3us; 16433us; 9us; 88us; 10us; 89us; 11us; 87us; 3us; 16434us; 9us; 88us; 10us; 89us; 11us; 87us; 3us; 16435us; 9us; 88us; 10us; 89us; 11us; 87us; 3us; 16436us; 9us; 88us; 10us; 89us; 11us; 87us; 3us; 16437us; 9us; 88us; 10us; 89us; 11us; 87us; 10us; 16441us; 9us; 88us; 10us; 89us; 11us; 87us; 12us; 90us; 13us; 91us; 14us; 92us; 15us; 94us; 16us; 93us; 17us; 95us; 18us; 100us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 6us; 16439us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 1us; 32768us; 32us; 98us; 0us; 16438us; 0us; 16440us; 6us; 32768us; 8us; 75us; 10us; 73us; 29us; 70us; 37us; 37us; 39us; 69us; 40us; 68us; 0us; 16442us; 1us; 32768us; 34us; 103us; 0us; 16443us; 1us; 32768us; 37us; 105us; 1us; 32768us; 29us; 106us; 1us; 16394us; 37us; 17us; 1us; 32768us; 32us; 108us; 1us; 32768us; 19us; 109us; 2us; 32768us; 35us; 14us; 36us; 13us; 1us; 32768us; 13us; 111us; 8us; 32768us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 36us; 0us; 16444us; 1us; 16445us; 18us; 114us; 1us; 32768us; 37us; 19us; 0us; 16446us; 0us; 16447us; 0us; 16448us; 8us; 16415us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 18us; 1us; 32768us; 20us; 120us; 8us; 16415us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 118us; 37us; 36us; 1us; 32768us; 33us; 122us; 0us; 16449us; 1us; 32768us; 33us; 124us; 0us; 16450us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 5us; 6us; 8us; 9us; 19us; 21us; 30us; 32us; 33us; 35us; 36us; 37us; 38us; 40us; 42us; 44us; 47us; 49us; 52us; 55us; 56us; 58us; 61us; 62us; 63us; 65us; 67us; 68us; 69us; 70us; 71us; 73us; 76us; 77us; 79us; 82us; 89us; 100us; 101us; 108us; 118us; 120us; 127us; 137us; 138us; 139us; 140us; 147us; 149us; 150us; 157us; 159us; 160us; 167us; 177us; 178us; 180us; 189us; 190us; 191us; 202us; 211us; 213us; 220us; 221us; 222us; 223us; 224us; 231us; 242us; 243us; 250us; 252us; 259us; 268us; 269us; 271us; 273us; 282us; 286us; 290us; 294us; 298us; 302us; 313us; 320us; 327us; 334us; 341us; 348us; 355us; 362us; 369us; 376us; 383us; 385us; 386us; 387us; 394us; 395us; 397us; 398us; 400us; 402us; 404us; 406us; 408us; 411us; 413us; 422us; 423us; 425us; 427us; 428us; 429us; 430us; 439us; 441us; 450us; 452us; 453us; 455us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 1us; 2us; 5us; 3us; 1us; 1us; 1us; 3us; 5us; 0us; 1us; 1us; 3us; 1us; 1us; 1us; 0us; 1us; 1us; 3us; 1us; 4us; 2us; 3us; 1us; 1us; 1us; 3us; 3us; 2us; 0us; 1us; 1us; 3us; 0us; 1us; 3us; 5us; 1us; 1us; 1us; 3us; 2us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 4us; 0us; 1us; 1us; 3us; 6us; 9us; 1us; 3us; 1us; 1us; 5us; 3us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 3us; 3us; 4us; 4us; 5us; 6us; 6us; 7us; 7us; 8us; 8us; 9us; 9us; 9us; 10us; 10us; 11us; 11us; 12us; 12us; 13us; 13us; 13us; 13us; 13us; 13us; 13us; 13us; 14us; 14us; 15us; 15us; 16us; 16us; 17us; 17us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 19us; 19us; 20us; 20us; 21us; 22us; 23us; 23us; 24us; 24us; 25us; 25us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 49152us; 65535us; 16386us; 65535us; 65535us; 65535us; 65535us; 16387us; 65535us; 16388us; 16389us; 16390us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16392us; 65535us; 65535us; 16393us; 16395us; 65535us; 65535us; 16397us; 16398us; 16399us; 16400us; 65535us; 65535us; 16404us; 65535us; 65535us; 65535us; 65535us; 16406us; 65535us; 65535us; 65535us; 65535us; 65535us; 16409us; 16410us; 16411us; 65535us; 65535us; 16412us; 65535us; 65535us; 16413us; 65535us; 65535us; 16416us; 65535us; 65535us; 16418us; 16420us; 65535us; 65535us; 65535us; 65535us; 16422us; 16423us; 16424us; 16425us; 65535us; 65535us; 16426us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16438us; 16440us; 65535us; 16442us; 65535us; 16443us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16444us; 65535us; 65535us; 16446us; 16447us; 16448us; 65535us; 65535us; 65535us; 65535us; 16449us; 65535us; 16450us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 0us; 65535us; 1us; 65535us; 0us; 1us; 2us; 65535us; 0us; 4us; 2us; 3us; 3us; 65535us; 20us; 15us; 21us; 16us; 112us; 113us; 2us; 65535us; 20us; 22us; 21us; 22us; 6us; 65535us; 6us; 30us; 28us; 27us; 34us; 30us; 109us; 27us; 119us; 121us; 123us; 121us; 1us; 65535us; 109us; 110us; 2us; 65535us; 28us; 29us; 109us; 26us; 2us; 65535us; 6us; 33us; 34us; 33us; 0us; 65535us; 2us; 65535us; 6us; 7us; 34us; 35us; 30us; 65535us; 6us; 43us; 8us; 43us; 38us; 70us; 41us; 70us; 44us; 70us; 49us; 70us; 52us; 70us; 55us; 70us; 57us; 70us; 62us; 43us; 66us; 43us; 68us; 70us; 73us; 70us; 76us; 70us; 78us; 70us; 90us; 70us; 91us; 70us; 92us; 70us; 93us; 70us; 94us; 70us; 95us; 70us; 96us; 70us; 97us; 70us; 98us; 70us; 99us; 70us; 103us; 70us; 114us; 43us; 116us; 43us; 123us; 43us; 125us; 43us; 8us; 65535us; 6us; 61us; 8us; 61us; 62us; 61us; 66us; 61us; 114us; 115us; 116us; 117us; 123us; 61us; 125us; 61us; 5us; 65535us; 6us; 11us; 8us; 9us; 66us; 67us; 123us; 128us; 125us; 126us; 6us; 65535us; 6us; 60us; 8us; 60us; 62us; 63us; 66us; 60us; 123us; 60us; 125us; 60us; 2us; 65535us; 49us; 50us; 52us; 53us; 3us; 65535us; 49us; 64us; 52us; 64us; 68us; 69us; 22us; 65535us; 38us; 39us; 41us; 42us; 44us; 45us; 49us; 65us; 52us; 65us; 55us; 56us; 57us; 89us; 68us; 65us; 73us; 74us; 76us; 77us; 78us; 79us; 90us; 80us; 91us; 81us; 92us; 82us; 93us; 83us; 94us; 84us; 95us; 85us; 96us; 86us; 97us; 87us; 98us; 88us; 99us; 89us; 103us; 89us; 2us; 65535us; 57us; 58us; 99us; 100us; 3us; 65535us; 57us; 102us; 99us; 102us; 103us; 104us; 4us; 65535us; 6us; 32us; 34us; 32us; 119us; 122us; 123us; 122us; 2us; 65535us; 6us; 31us; 34us; 31us; 2us; 65535us; 119us; 120us; 123us; 124us; 2us; 65535us; 119us; 118us; 123us; 118us; 8us; 65535us; 6us; 48us; 8us; 48us; 62us; 48us; 66us; 48us; 114us; 48us; 116us; 48us; 123us; 48us; 125us; 48us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 2us; 4us; 7us; 11us; 14us; 21us; 23us; 26us; 29us; 30us; 33us; 64us; 73us; 79us; 86us; 89us; 93us; 116us; 119us; 123us; 128us; 131us; 134us; 137us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 2us; 1us; 2us; 2us; 3us; 4us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 4us; 1us; 4us; 1us; 5us; 1us; 6us; 2us; 7us; 9us; 3us; 7us; 9us; 60us; 2us; 8us; 9us; 6us; 8us; 9us; 21us; 22us; 31us; 60us; 3us; 8us; 9us; 60us; 2us; 8us; 9us; 3us; 8us; 9us; 60us; 1us; 8us; 1us; 9us; 2us; 9us; 60us; 1us; 9us; 1us; 11us; 2us; 12us; 13us; 1us; 13us; 1us; 13us; 1us; 14us; 1us; 15us; 1us; 16us; 2us; 19us; 20us; 1us; 20us; 1us; 20us; 3us; 21us; 22us; 31us; 3us; 21us; 22us; 55us; 1us; 22us; 10us; 22us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 22us; 1us; 23us; 10us; 23us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 24us; 1us; 24us; 10us; 24us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 25us; 1us; 26us; 1us; 27us; 1us; 28us; 1us; 28us; 1us; 28us; 1us; 29us; 1us; 29us; 1us; 29us; 1us; 30us; 10us; 30us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 31us; 1us; 31us; 1us; 31us; 1us; 33us; 2us; 34us; 35us; 1us; 35us; 1us; 35us; 1us; 37us; 11us; 38us; 39us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 2us; 38us; 39us; 2us; 38us; 39us; 1us; 39us; 1us; 39us; 1us; 40us; 1us; 41us; 1us; 42us; 1us; 43us; 10us; 43us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 43us; 1us; 44us; 10us; 44us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 1us; 45us; 10us; 45us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 49us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 50us; 50us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 50us; 51us; 51us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 52us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 53us; 54us; 10us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 54us; 11us; 46us; 47us; 48us; 49us; 50us; 51us; 52us; 53us; 54us; 58us; 59us; 1us; 46us; 1us; 47us; 1us; 48us; 1us; 49us; 1us; 50us; 1us; 51us; 1us; 52us; 1us; 53us; 1us; 54us; 1us; 55us; 1us; 55us; 1us; 55us; 1us; 57us; 1us; 59us; 1us; 59us; 1us; 60us; 1us; 60us; 2us; 61us; 62us; 2us; 61us; 62us; 2us; 61us; 62us; 2us; 61us; 62us; 2us; 61us; 62us; 1us; 61us; 1us; 61us; 1us; 61us; 1us; 61us; 1us; 62us; 1us; 62us; 2us; 63us; 64us; 1us; 64us; 1us; 64us; 1us; 65us; 1us; 66us; 2us; 67us; 68us; 1us; 67us; 1us; 67us; 1us; 67us; 1us; 67us; 1us; 68us; 1us; 68us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 15us; 17us; 19us; 21us; 23us; 25us; 27us; 29us; 31us; 34us; 38us; 41us; 48us; 52us; 55us; 59us; 61us; 63us; 66us; 68us; 70us; 73us; 75us; 77us; 79us; 81us; 83us; 86us; 88us; 90us; 94us; 98us; 100us; 111us; 113us; 115us; 126us; 128us; 130us; 141us; 143us; 145us; 147us; 149us; 151us; 153us; 155us; 157us; 159us; 161us; 172us; 174us; 176us; 178us; 180us; 183us; 185us; 187us; 189us; 201us; 204us; 207us; 209us; 211us; 213us; 215us; 217us; 219us; 230us; 232us; 234us; 245us; 247us; 258us; 269us; 280us; 291us; 302us; 313us; 324us; 335us; 346us; 357us; 369us; 371us; 373us; 375us; 377us; 379us; 381us; 383us; 385us; 387us; 389us; 391us; 393us; 395us; 397us; 399us; 401us; 403us; 406us; 409us; 412us; 415us; 418us; 420us; 422us; 424us; 426us; 428us; 430us; 433us; 435us; 437us; 439us; 441us; 444us; 446us; 448us; 450us; 452us; 454us; |]
+let _fsyacc_action_rows = 130
+let _fsyacc_actionTableElements = [|1us; 32768us; 27us; 6us; 0us; 49152us; 1us; 32768us; 27us; 6us; 0us; 49152us; 1us; 32768us; 3us; 5us; 0us; 16386us; 9us; 16416us; 0us; 55us; 1us; 107us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 18us; 1us; 32768us; 20us; 8us; 8us; 16416us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 1us; 32768us; 28us; 10us; 0us; 16387us; 1us; 32768us; 28us; 12us; 0us; 16388us; 0us; 16389us; 0us; 16390us; 1us; 16391us; 31us; 23us; 1us; 16391us; 31us; 24us; 1us; 32768us; 19us; 20us; 3us; 16405us; 19us; 21us; 29us; 57us; 31us; 38us; 1us; 32768us; 19us; 21us; 2us; 32768us; 35us; 14us; 36us; 13us; 2us; 32768us; 35us; 14us; 36us; 13us; 0us; 16392us; 1us; 32768us; 34us; 25us; 2us; 32768us; 34us; 25us; 40us; 105us; 0us; 16393us; 0us; 16395us; 1us; 16396us; 18us; 28us; 1us; 32768us; 37us; 17us; 0us; 16397us; 0us; 16398us; 0us; 16399us; 0us; 16400us; 1us; 16403us; 18us; 34us; 2us; 32768us; 1us; 107us; 37us; 19us; 0us; 16404us; 2us; 16405us; 29us; 57us; 31us; 38us; 2us; 16405us; 29us; 99us; 31us; 38us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 10us; 32768us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 34us; 40us; 0us; 16406us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 9us; 16407us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 1us; 32768us; 5us; 44us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 9us; 16408us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 0us; 16409us; 0us; 16410us; 0us; 16411us; 6us; 16420us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 1us; 32768us; 24us; 51us; 0us; 16412us; 6us; 16420us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 1us; 32768us; 26us; 54us; 0us; 16413us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 9us; 16414us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 6us; 16440us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 1us; 32768us; 32us; 59us; 0us; 16415us; 0us; 16417us; 1us; 16418us; 20us; 62us; 8us; 32768us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 0us; 16419us; 0us; 16421us; 10us; 32768us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 22us; 66us; 8us; 16416us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 1us; 16422us; 21us; 68us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 0us; 16423us; 0us; 16424us; 0us; 16425us; 0us; 16426us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 10us; 32768us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 32us; 75us; 0us; 16427us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 1us; 16428us; 11us; 90us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 8us; 16429us; 9us; 91us; 10us; 92us; 11us; 90us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 0us; 16430us; 1us; 16431us; 11us; 90us; 1us; 16432us; 11us; 90us; 8us; 16433us; 9us; 91us; 10us; 92us; 11us; 90us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 3us; 16434us; 9us; 91us; 10us; 92us; 11us; 90us; 3us; 16435us; 9us; 91us; 10us; 92us; 11us; 90us; 3us; 16436us; 9us; 91us; 10us; 92us; 11us; 90us; 3us; 16437us; 9us; 91us; 10us; 92us; 11us; 90us; 3us; 16438us; 9us; 91us; 10us; 92us; 11us; 90us; 10us; 16442us; 9us; 91us; 10us; 92us; 11us; 90us; 12us; 93us; 13us; 94us; 14us; 95us; 15us; 97us; 16us; 96us; 17us; 98us; 18us; 103us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 6us; 16440us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 1us; 32768us; 32us; 101us; 0us; 16439us; 0us; 16441us; 6us; 32768us; 8us; 78us; 10us; 76us; 29us; 73us; 37us; 37us; 39us; 72us; 40us; 71us; 0us; 16443us; 1us; 32768us; 34us; 106us; 0us; 16444us; 1us; 32768us; 37us; 108us; 1us; 32768us; 29us; 109us; 1us; 16394us; 37us; 17us; 1us; 32768us; 32us; 111us; 2us; 32768us; 13us; 116us; 19us; 112us; 2us; 32768us; 35us; 14us; 36us; 13us; 1us; 32768us; 13us; 114us; 8us; 32768us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 0us; 16445us; 8us; 32768us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 0us; 16446us; 1us; 16447us; 18us; 119us; 1us; 32768us; 37us; 19us; 0us; 16448us; 0us; 16449us; 0us; 16450us; 8us; 16416us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 18us; 1us; 32768us; 20us; 125us; 8us; 16416us; 0us; 55us; 4us; 41us; 6us; 46us; 7us; 47us; 23us; 49us; 25us; 52us; 30us; 123us; 37us; 36us; 1us; 32768us; 33us; 127us; 0us; 16451us; 1us; 32768us; 33us; 129us; 0us; 16452us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 5us; 6us; 8us; 9us; 19us; 21us; 30us; 32us; 33us; 35us; 36us; 37us; 38us; 40us; 42us; 44us; 48us; 50us; 53us; 56us; 57us; 59us; 62us; 63us; 64us; 66us; 68us; 69us; 70us; 71us; 72us; 74us; 77us; 78us; 81us; 84us; 91us; 102us; 103us; 110us; 120us; 122us; 129us; 139us; 140us; 141us; 142us; 149us; 151us; 152us; 159us; 161us; 162us; 169us; 179us; 186us; 188us; 189us; 190us; 192us; 201us; 202us; 203us; 214us; 223us; 225us; 232us; 233us; 234us; 235us; 236us; 243us; 254us; 255us; 262us; 264us; 271us; 280us; 281us; 283us; 285us; 294us; 298us; 302us; 306us; 310us; 314us; 325us; 332us; 339us; 346us; 353us; 360us; 367us; 374us; 381us; 388us; 395us; 397us; 398us; 399us; 406us; 407us; 409us; 410us; 412us; 414us; 416us; 418us; 421us; 424us; 426us; 435us; 436us; 445us; 446us; 448us; 450us; 451us; 452us; 453us; 462us; 464us; 473us; 475us; 476us; 478us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 1us; 2us; 5us; 3us; 1us; 1us; 1us; 3us; 5us; 0us; 1us; 1us; 3us; 1us; 1us; 1us; 0us; 1us; 1us; 3us; 1us; 4us; 2us; 3us; 1us; 1us; 1us; 3us; 3us; 2us; 4us; 0us; 1us; 1us; 3us; 0us; 1us; 3us; 5us; 1us; 1us; 1us; 3us; 2us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 3us; 4us; 0us; 1us; 1us; 3us; 6us; 9us; 7us; 1us; 3us; 1us; 1us; 5us; 3us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 3us; 3us; 4us; 4us; 5us; 6us; 6us; 7us; 7us; 8us; 8us; 9us; 9us; 9us; 10us; 10us; 11us; 11us; 12us; 12us; 13us; 13us; 13us; 13us; 13us; 13us; 13us; 13us; 13us; 14us; 14us; 15us; 15us; 16us; 16us; 17us; 17us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 18us; 19us; 19us; 20us; 20us; 21us; 22us; 22us; 23us; 23us; 24us; 24us; 25us; 25us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 49152us; 65535us; 16386us; 65535us; 65535us; 65535us; 65535us; 16387us; 65535us; 16388us; 16389us; 16390us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16392us; 65535us; 65535us; 16393us; 16395us; 65535us; 65535us; 16397us; 16398us; 16399us; 16400us; 65535us; 65535us; 16404us; 65535us; 65535us; 65535us; 65535us; 16406us; 65535us; 65535us; 65535us; 65535us; 65535us; 16409us; 16410us; 16411us; 65535us; 65535us; 16412us; 65535us; 65535us; 16413us; 65535us; 65535us; 65535us; 65535us; 16415us; 16417us; 65535us; 65535us; 16419us; 16421us; 65535us; 65535us; 65535us; 65535us; 16423us; 16424us; 16425us; 16426us; 65535us; 65535us; 16427us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16439us; 16441us; 65535us; 16443us; 65535us; 16444us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16445us; 65535us; 16446us; 65535us; 65535us; 16448us; 16449us; 16450us; 65535us; 65535us; 65535us; 65535us; 16451us; 65535us; 16452us; |]
 let _fsyacc_reductions ()  =    [| 
-# 396 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 398 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Program)) in
             Microsoft.FSharp.Core.Operators.box
@@ -402,7 +404,7 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startMain));
-# 405 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 407 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Program)) in
             Microsoft.FSharp.Core.Operators.box
@@ -411,7 +413,7 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startProg));
-# 414 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 416 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Program)) in
             Microsoft.FSharp.Core.Operators.box
@@ -422,7 +424,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 41 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Program));
-# 425 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 427 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
@@ -434,7 +436,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 44 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Program));
-# 437 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 439 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
@@ -445,7 +447,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 45 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Program));
-# 448 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 450 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -455,7 +457,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 48 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Typ));
-# 458 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 460 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -465,7 +467,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 49 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Typ));
-# 468 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 470 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Typ)) in
             Microsoft.FSharp.Core.Operators.box
@@ -476,7 +478,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 52 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Typ));
-# 479 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 481 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Typ)) in
@@ -488,7 +490,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 55 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'Var));
-# 491 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 493 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Typ)) in
@@ -500,7 +502,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 56 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'Var));
-# 503 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 505 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -510,7 +512,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 59 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 513 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 515 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
             Microsoft.FSharp.Core.Operators.box
@@ -521,7 +523,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 60 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 524 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 526 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Var)) in
             Microsoft.FSharp.Core.Operators.box
@@ -532,7 +534,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 63 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 535 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 537 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Var)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
@@ -544,7 +546,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 64 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 547 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 549 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Var)) in
             Microsoft.FSharp.Core.Operators.box
@@ -555,7 +557,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 67 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec));
-# 558 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 560 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec)) in
             Microsoft.FSharp.Core.Operators.box
@@ -566,7 +568,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 68 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec));
-# 569 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 571 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec)) in
             Microsoft.FSharp.Core.Operators.box
@@ -577,7 +579,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 69 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec));
-# 580 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 582 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -587,7 +589,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 72 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 590 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 592 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
             Microsoft.FSharp.Core.Operators.box
@@ -598,7 +600,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 73 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 601 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 603 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec)) in
             Microsoft.FSharp.Core.Operators.box
@@ -609,7 +611,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 76 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 612 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 614 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
@@ -621,7 +623,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 77 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec list));
-# 624 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 626 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
@@ -632,7 +634,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 80 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Access));
-# 635 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 637 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
@@ -644,7 +646,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 81 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Access));
-# 647 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 649 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
@@ -655,7 +657,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 84 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 658 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 660 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Access)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
@@ -667,7 +669,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 85 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 670 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 672 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -677,7 +679,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 86 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 680 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 682 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -687,7 +689,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 87 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 690 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 692 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Block)) in
             Microsoft.FSharp.Core.Operators.box
@@ -698,7 +700,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 88 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 701 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 703 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : GuardedCommand)) in
             Microsoft.FSharp.Core.Operators.box
@@ -709,7 +711,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 89 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 712 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 714 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : GuardedCommand)) in
             Microsoft.FSharp.Core.Operators.box
@@ -720,7 +722,7 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 90 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 723 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 725 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
@@ -731,84 +733,96 @@ let _fsyacc_reductions ()  =    [|
                    )
 # 91 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm));
-# 734 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 736 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'ExpL)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 92 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+                                                             Call(_1, _3)
+                   )
+# 92 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+                 : Stm));
+# 748 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 94 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 95 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              [] 
                    )
-# 94 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 95 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm list));
-# 744 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 758 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 95 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 96 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              _1 
                    )
-# 95 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 96 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm list));
-# 755 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 769 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Stm)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 98 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 99 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              [_1] 
                    )
-# 98 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 99 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm list));
-# 766 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 780 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Stm)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 99 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 100 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              _1 :: _3 
                    )
-# 99 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 100 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Stm list));
-# 778 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 792 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 102 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 103 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              GC [] 
                    )
-# 102 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 103 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : GuardedCommand));
-# 788 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 802 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : (Exp * Stm list) list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 103 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 104 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              GC _1 
                    )
-# 103 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 104 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : GuardedCommand));
-# 799 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 813 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 106 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 107 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              [(_1,_3)]   
                    )
-# 106 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 107 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : (Exp * Stm list) list));
-# 811 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 825 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
@@ -816,242 +830,242 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 107 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 108 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                          (_1,_3)::_5 
                    )
-# 107 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 108 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : (Exp * Stm list) list));
-# 824 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 838 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Access)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 110 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 111 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Access _1 
                    )
-# 110 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 111 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 835 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 849 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 111 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 112 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              N _1 
                    )
-# 111 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 112 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 846 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 860 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : bool)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 112 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 113 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              B _1 
                    )
-# 112 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 113 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 857 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 871 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 113 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 114 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              _2 
                    )
-# 113 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 114 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 868 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 882 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 114 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 115 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("-", [_2])
                    )
-# 114 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 115 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 879 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 893 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 115 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 116 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("!", [_2])
                    )
-# 115 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 116 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 890 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 904 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 116 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 117 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("*", [_1; _3])
                    )
-# 116 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 117 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 902 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 916 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 117 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 118 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("+", [_1; _3])
                    )
-# 117 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 118 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 914 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 928 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 118 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 119 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("-", [_1; _3])
                    )
-# 118 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 119 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 926 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 940 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 119 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 120 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("&&", [_1; _3])
                    )
-# 119 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 120 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 938 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 952 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 120 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 121 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("=", [_1; _3])
                    )
-# 120 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 121 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 950 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 964 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 121 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 122 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("<=", [_1; _3])
                    )
-# 121 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 122 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 962 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 976 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 122 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 123 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply(">", [_1; _3])
                    )
-# 122 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 123 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 974 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 988 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 123 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 124 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("<", [_1; _3])
                    )
-# 123 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 124 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 986 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1000 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 124 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 125 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply("<>", [_1; _3])
                    )
-# 124 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 125 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 998 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1012 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'ExpL)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 125 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 126 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Apply(_1, _3) 
                    )
-# 125 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 126 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Exp));
-# 1010 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1024 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 128 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 129 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              [] 
                    )
-# 128 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 129 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'ExpL));
-# 1020 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1034 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'ExpList)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 129 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 130 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              _1 
                    )
-# 129 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 130 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'ExpL));
-# 1031 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1045 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 132 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 133 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              [_1] 
                    )
-# 132 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 133 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'ExpList));
-# 1042 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1056 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Exp)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'ExpList)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 133 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 134 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              _1 :: _3 
                    )
-# 133 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 134 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'ExpList));
-# 1054 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1068 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : Typ)) in
@@ -1059,12 +1073,12 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 136 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 137 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                        VarDec(ATyp(_3, Some(_5)), _1)
                    )
-# 136 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 137 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec));
-# 1067 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1081 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
@@ -1073,81 +1087,94 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 139 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 140 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                              FunDec(Some(_7),_2,_4,_9) 
                    )
-# 139 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 140 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : Dec));
-# 1081 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1095 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : Dec list)) in
+            let _7 = (let data = parseState.GetInput(7) in (Microsoft.FSharp.Core.Operators.unbox data : Stm)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 141 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+                                                                             FunDec(None,    _2,_4,_7) 
+                   )
+# 141 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+                 : Dec));
+# 1108 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'BlockDec)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 142 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 144 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                  [_1] 
                    )
-# 142 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 144 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'BlockDecL));
-# 1092 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1119 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'BlockDec)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'BlockDecL)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 143 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 145 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                    _1 :: _3 
                    )
-# 143 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 145 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'BlockDecL));
-# 1104 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1131 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Var)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 146 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 148 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                   _1 
                    )
-# 146 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 148 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'BlockDec));
-# 1115 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1142 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Dec)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 147 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 149 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                   _1 
                    )
-# 147 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 149 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'BlockDec));
-# 1126 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1153 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'BlockDecL)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 150 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 152 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                                Block(_2,_4) 
                    )
-# 150 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 152 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'Block));
-# 1138 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1165 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Stm list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 151 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 153 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                                                              Block([],_2) 
                    )
-# 151 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
+# 153 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fsy"
                  : 'Block));
 |]
-# 1150 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
+# 1177 "C:\Users\Martin\Documents\GitHub\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Parser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;

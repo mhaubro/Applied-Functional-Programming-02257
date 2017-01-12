@@ -1,0 +1,18 @@
+﻿
+begin 
+   x: int, y: int; 
+   x:= 3; 
+   y:= 5;
+   print x;
+   print y;
+
+   {
+	 temp: int;
+	 temp := x;
+	 x := y;
+	 y := temp;
+	 print x
+   };
+
+   print y
+end
