@@ -42,10 +42,10 @@ module CodeGeneration =
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
                                           | "<"  -> [LT]
-                                          | ">"  -> [SWAP; LT] 
-                                          | "<="  -> [SWAP; LT; NOT]
-                                          | ">="  -> [LT; NOT]//possibly superfluous
-                                          | "<>"  -> [EQ; NOT]          
+                                          | ">"  -> [SWAP; LT]      //gt is lt with arguments reversed
+                                          | "<="  -> [SWAP; LT; NOT]//leq is negated gt
+                                          | ">="  -> [LT; NOT]//geq is negated lt and is possibly superfluous
+                                          | "<>"  -> [EQ; NOT]//neq is trivially negated eq
                                           | _    -> failwith "CE: this case should not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
 
