@@ -44,8 +44,17 @@ module TypeCheck =
                                                                 | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
                                                                 | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
                                          ft
- 
-   and tcNaryProcedure gtenv ltenv f es = failwith "tcNaryProcedre: procedures not supported yet"
+ ///Very borrowed from tcNaryFunction
+   and tcNaryProcedure gtenv ltenv f es =let pts =  match Map.tryFind f gtenv with
+                                                       | Some(FTyp(pts, None)) -> (pts)
+                                                       | _ -> failwith ("tcNaryProcedure: no declaration for procedure " + f)
+                                         let ets = List.map (tcE gtenv ltenv) es
+                                         if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
+                                         List.iter2 (fun e p -> match e, p with
+                                                                  //Checks if one is of array-type. If it is, checks that both are either bool or int
+                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
+                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
+                                         ()
       
 
 /// tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
@@ -109,6 +118,7 @@ module TypeCheck =
                                                                  then ()
                                                                  else failwith "tcS: illtyped return"   
                                         | None    -> failwith "tcS: procedures not yet supported"
+                         | Call(name, paramList) -> tcNaryProcedure gtenv ltenv name paramList
                          | _              -> failwith "tcS: this statement is not supported yet"
 
 ///Adds an element tuple (t,s) to a map gtenv

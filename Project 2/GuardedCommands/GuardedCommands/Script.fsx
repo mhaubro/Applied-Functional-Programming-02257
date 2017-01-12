@@ -98,6 +98,7 @@ CP(parseFromFile "fact.gc");;
 List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
 ((goTrace (parseFromFile "A2.gc")));;
 // Test of programs covered by the fifth task (Section 6.1):
+List.iter (fun l -> tcP (parseFromFile l)) ["A4.gc"(*; "Swap.gc"; "QuickSortV1.gc"*)];;
 //List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
 
 // Test of programs covered by the fifth task (Section 7.4):
