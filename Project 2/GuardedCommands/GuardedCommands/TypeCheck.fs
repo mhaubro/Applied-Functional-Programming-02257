@@ -119,7 +119,7 @@ module TypeCheck =
                                                                  else failwith "tcS: illtyped return"   
                                         | None    -> failwith "tcS: procedures not yet supported"
                          | Call(name, paramList) -> tcNaryProcedure gtenv ltenv name paramList
-                         | _              -> failwith "tcS: this statement is not supported yet"
+                        // | _              -> failwith "tcS: this statement is not supported yet"
 
 ///Adds an element tuple (t,s) to a map gtenv
    and tcGDec gtenv = function  
@@ -147,11 +147,35 @@ module TypeCheck =
                                                                     ignore(tcS gtenv' ltenv2 stm)
                                                                     if not (checkReturnStatement gtenv' ltenv2 stm) then failwith "Doesn't return for all branches"
                                                                     gtenv'
-                                                        | None   -> failwith "tcGDec: procedure declarations not yet supported"
+
+                                                        | None   -> let ts,ps = decs |> List.map (function | VarDec(t',a)-> (t',a)| _ -> failwith "tcGDec: Cannot have nested function declarations")
+                                                                                     |> List.unzip
+                                                                    let doubles = ps |> Seq.countBy (fun a -> a)
+                                                                                     |> Seq.where (fun (a,i) -> i > 1)
+                                                                    if not(Seq.isEmpty doubles) then failwith("tcGDec: The following parameters where declared more than once in function " + f + ":\n" + doubles.ToString())
+                                                                    let ltenv = tcFDecs Map.empty decs
+                                                                    //            |> Map.add "return" t
+                                                                    
+                                                                    let ltenv2 = match stm with
+                                                                                 | Block(decl, stml) -> tcLDecs ltenv decl
+                                                                                 | _ -> ltenv                                                                                                                               
+                                                                    //Map.iter (fun key value -> printfn "%s" key) ltenv
+                                                                    //printfn "%A" decs
+                                                                    
+
+
+
+                                                                    let gtenv' = Map.add f (FTyp(ts,None)) gtenv
+                                                                    ignore(tcS gtenv' ltenv2 stm)
+                                                                    gtenv'
+                                                        
+                                                        
+                                                        
+                                                        //failwith "tcGDec: procedure declarations not yet supported"
 
    and checkReturnStatement gtenv ltenv = function
-                                           | Return stm -> (tcS gtenv ltenv (Return(stm)))
-                                                           true                                                  
+                                           | Return (Some(stm)) -> (tcS gtenv ltenv (Return (Some(stm))))
+                                                                   true                                                  
                                            | Block (decList, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist
                                            //Checks for all branches in an alternate statement, that there is at least one return. If there is, the function will return
                                            | Alt(GC(gclist)) -> List.forall (fun (_, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist) gclist
@@ -159,9 +183,6 @@ module TypeCheck =
                                            | Do(GC(gclist))  -> List.forall (fun (_, stmlist) -> List.exists (checkReturnStatement gtenv ltenv) stmlist) gclist
                                            //If it is not a return statement
                                            | _ -> false
-
-//   and checkReturnStatementList getnv' ltenv = function
-//                                               | list -> List.forall checkReturnStatement list
 
 ///Adds all elements from a list to a map. Classic functional iteration through list.
    and tcGDecs gtenv = function
