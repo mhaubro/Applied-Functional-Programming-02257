@@ -42,7 +42,7 @@ module CodeGeneration =
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
                                           | "<"  -> [LT]
-                                          | ">"  -> [SWAP; LT; NOT] 
+                                          | ">"  -> [SWAP; LT] 
                                           | "<="  -> [SWAP; LT; NOT]
                                           | ">="  -> [LT; NOT]
                                           | "<>"  -> [EQ; NOT]
