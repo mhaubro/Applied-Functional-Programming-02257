@@ -2,14 +2,64 @@
 <doc>
 <assembly><name>GuardedCommands</name></assembly>
 <members>
-<member name="M:Parser.prodIdxToNonTerminal(System.Int32)">
+<member name="M:GuardedCommands.Backend.CodeGeneration.CP(GuardedCommands.Frontend.AST.Program)">
 <summary>
- This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
+ CP prog gives the code for a program prog
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.CSrep``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.GuardedCommand)">
+<summary>
+Transforms do..od to code
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.CSalt``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.GuardedCommand)">
+<summary>
+Transforms if..fi to code
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.CS``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.Stm)">
+<summary>
+ CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.CA``4(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,``0}},``1,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``2},``3}},GuardedCommands.Frontend.AST.Access)">
+<summary>
+ CA vEnv fEnv acc gives the code for an access acc on the basis of a variable and a function environment
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.CE``4(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,``0}},``1,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``2},``3}},GuardedCommands.Frontend.AST.Exp)">
+<summary>
+ CE vEnv fEnv e gives the code for an expression e on the basis of a variable and a function environment
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CS``3(GuardedCommands.Frontend.AST.Stm,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
+<summary>
+ CS s vEnv fEnv k gives the code for a statement s on the basis of a variable and a function environment and continuation k                            
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CA``3(GuardedCommands.Frontend.AST.Access,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
+<summary>
+ CA acc vEnv fEnv k gives the code for an access acc on the basis of a variable and a function environment and continuation k
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CE``3(GuardedCommands.Frontend.AST.Exp,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
+<summary>
+ CE e vEnv fEnv k gives the code for an expression e on the basis of a variable and a function environment and continuation k
 </summary>
 </member>
 <member name="M:GuardedCommands.Frontend.TypeCheck.tcP(GuardedCommands.Frontend.AST.Program)">
 <summary>
  tcP prog checks the well-typeness of a program prog
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcLDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
+<summary>
+For block type-check
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcVarDec(GuardedCommands.Frontend.AST.Typ)">
+<summary>
+Checks if a type declared in a block or the main program has a negative length/no length
 </summary>
 </member>
 <member name="M:GuardedCommands.Frontend.TypeCheck.tcGDecs(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Dec})">
@@ -34,55 +84,15 @@ Adds an element tuple (t,s) to a map gtenv
  for global and local variables 
 </summary>
 </member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcNaryProcedure(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},System.String,Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Exp})">
+<summary>
+Very borrowed from tcNaryFunction
+</summary>
+</member>
 <member name="M:GuardedCommands.Frontend.TypeCheck.tcE(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Exp)">
 <summary>
  tcE gtenv ltenv e gives the type for expression e on the basis of type environments gtenv and ltenv
  for global and local variables 
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CP(GuardedCommands.Frontend.AST.Program)">
-<summary>
- CP prog gives the code for a program prog
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CSrep``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},Microsoft.FSharp.Collections.FSharpList{``1}}},GuardedCommands.Frontend.AST.GuardedCommand)">
-<summary>
-Transforms do..od to code
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CSalt``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},Microsoft.FSharp.Collections.FSharpList{``1}}},GuardedCommands.Frontend.AST.GuardedCommand)">
-<summary>
-Transforms if..fi to code
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CS``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},Microsoft.FSharp.Collections.FSharpList{``1}}},GuardedCommands.Frontend.AST.Stm)">
-<summary>
- CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CA``4(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,``0}},``1,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``2},Microsoft.FSharp.Collections.FSharpList{``3}}},GuardedCommands.Frontend.AST.Access)">
-<summary>
- CA vEnv fEnv acc gives the code for an access acc on the basis of a variable and a function environment
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CE``4(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,``0}},``1,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``2},Microsoft.FSharp.Collections.FSharpList{``3}}},GuardedCommands.Frontend.AST.Exp)">
-<summary>
- CE vEnv fEnv e gives the code for an expression e on the basis of a variable and a function environment
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CS``3(GuardedCommands.Frontend.AST.Stm,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
-<summary>
- CS s vEnv fEnv k gives the code for a statement s on the basis of a variable and a function environment and continuation k                            
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CA``3(GuardedCommands.Frontend.AST.Access,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
-<summary>
- CA acc vEnv fEnv k gives the code for an access acc on the basis of a variable and a function environment and continuation k
-</summary>
-</member>
-<member name="M:GuardedCommands.Backend.CodeGenerationOpt.CE``3(GuardedCommands.Frontend.AST.Exp,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGenerationOpt.Var,``0}},``1,``2,Microsoft.FSharp.Collections.FSharpList{Machine.instr})">
-<summary>
- CE e vEnv fEnv k gives the code for an expression e on the basis of a variable and a function environment and continuation k
 </summary>
 </member>
 <member name="M:GuardedCommands.Util.CompilerUtil.execTrace(System.String)">
@@ -113,6 +123,11 @@ Transforms if..fi to code
 <member name="M:GuardedCommands.Util.CompilerUtil.goOpt(GuardedCommands.Frontend.AST.Program)">
 <summary>
  goOpt p compiles (using the optimized version) and runs an abstract syntax for a program  
+</summary>
+</member>
+<member name="M:Parser.prodIdxToNonTerminal(System.Int32)">
+<summary>
+ This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
 </summary>
 </member>
 </members>
