@@ -51,6 +51,15 @@ open GuardedCommands.Frontend.TypeCheck
 
 module CompilerUtil =
 
+///fail test function helper
+   let failtest test value =
+        let failflag = ref false
+        try test value
+        with | Failure(msg) -> failflag:=true
+                               printfn "Failure expected, carry on."
+        if not !failflag then failwith "The expected failure did not occur."
+
+
 /// goOpt p compiles (using the optimized version) and runs an abstract syntax for a program  
    let goOpt p = run(code2ints(CodeGenerationOpt.CP p))
 

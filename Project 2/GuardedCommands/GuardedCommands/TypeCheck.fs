@@ -50,10 +50,10 @@ module TypeCheck =
                                                        | _ -> failwith ("tcNaryProcedure: no declaration for procedure " + f)
                                          let ets = List.map (tcE gtenv ltenv) es
                                          if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
-                                         List.iter2 (fun e p -> match e, p with
+                                         List.iter2 (fun e p -> match p, e with
                                                                   //Checks if one is of array-type. If it is, checks that both are either bool or int
                                                                 | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryProcedure: (1)parameter type mismatch in call to function " + f)
-                                                                | _                                 -> if e=p then () else failwith ("tcNaryProcedure: (2)parameter type mismatch in call to function " + f)) pts ets
+                                                                | PTyp(innerTyp),  Typ              -> if e=p then () else failwith ("tcNaryProcedure: (2)parameter type mismatch in call to function " + f)) pts ets
                                          ()
       
 

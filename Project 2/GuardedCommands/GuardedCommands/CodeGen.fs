@@ -42,10 +42,10 @@ module CodeGeneration =
                                           | "*"  -> [MUL]
                                           | "="  -> [EQ] 
                                           | "<"  -> [LT]
-                                          | ">"  -> [SWAP; LT; NOT] 
-                                          | "<="  -> [SWAP; LT; NOT]
-                                          | ">="  -> [LT; NOT]
-                                          | "<>"  -> [EQ; NOT]
+                                          | ">"  -> [SWAP; LT;] 
+                                          | "<=" -> [SWAP; LT; NOT]
+                                          | ">=" -> [LT; NOT]
+                                          | "<>" -> [EQ; NOT]
                                           | _    -> failwith "CE: this case is not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
 

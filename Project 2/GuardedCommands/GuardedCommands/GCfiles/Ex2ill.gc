@@ -1,0 +1,8 @@
+﻿begin
+  res : int,
+  x: int;
+  { res := 4;
+    x:= res * 2;
+    print -res + x }
+  x := res
+end
