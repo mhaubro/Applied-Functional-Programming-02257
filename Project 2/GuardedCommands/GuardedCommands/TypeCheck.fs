@@ -7,8 +7,8 @@ open GuardedCommands.Frontend.AST
 
 module TypeCheck = 
 
-/// tcE gtenv ltenv e gives the type for expression e on the basis of type environments gtenv and ltenv
-/// for global and local variables 
+   /// tcE gtenv ltenv e gives the type for expression e on the basis of type environments gtenv and ltenv
+   /// for global and local variables 
    let rec tcE gtenv ltenv = function                            
          | N _              -> ITyp   
          | B _              -> BTyp   
@@ -44,7 +44,7 @@ module TypeCheck =
                                                                 | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
                                                                 | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
                                          ft
- ///Very borrowed from tcNaryFunction
+   ///Very borrowed from tcNaryFunction
    and tcNaryProcedure gtenv ltenv f es =let pts =  match Map.tryFind f gtenv with
                                                        | Some(FTyp(pts, None)) -> (pts)
                                                        | _ -> failwith ("tcNaryProcedure: no declaration for procedure " + f)
@@ -57,15 +57,13 @@ module TypeCheck =
                                          ()
       
 
-/// tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
-/// for global and local variables 
+   /// tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
+   /// for global and local variables 
    and tcA gtenv ltenv = 
          function 
          | AVar x         -> match Map.tryFind x ltenv with
                              | None   -> match Map.tryFind x gtenv with
-                                         | None   -> //Map.iter (fun key value -> (printf "Local %A" key))  ltenv
-                                                     //Map.iter (fun key value -> (printf "Global %A" key))  gtenv
-                                                     failwith ("tcA: no declaration for : " + x)
+                                         | None   -> failwith ("tcA: no declaration for : " + x)
                                          | Some t -> t
                              | Some t -> t            
          //Array Indexing
@@ -77,9 +75,6 @@ module TypeCheck =
                                             | Some t -> tcE gtenv Map.empty e
                                 //Found in global vars
                                 | Some t -> tcE Map.empty ltenv e            
-         
-         //failwith "tcA: array indexing not supported yes"
-
 
          //Error messages for unimplemented stuff
          | AIndex(ADeref e, _) -> failwith "tcA: Pointer dereferencing in array not supported yet"
@@ -93,9 +88,8 @@ module TypeCheck =
                                                ) expDeclList
     
 
-
-/// tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
-/// for global and local variables and the possible type of return expressions 
+   /// tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
+   /// for global and local variables and the possible type of return expressions 
    and tcS gtenv ltenv = function                           
                          | PrintLn e -> ignore(tcE gtenv ltenv e)
                          //Tests an assignment. tcA gets the type of acc, while tcE gets the type of e.
@@ -119,9 +113,9 @@ module TypeCheck =
                                                                  else failwith "tcS: illtyped return"   
                                         | None    -> failwith "tcS: procedures not yet supported"
                          | Call(name, paramList) -> tcNaryProcedure gtenv ltenv name paramList
-                        // | _              -> failwith "tcS: this statement is not supported yet"
 
-///Adds an element tuple (t,s) to a map gtenv
+
+   /// Adds an element tuple (t,s) to a map gtenv
    and tcGDec gtenv = function  
                       | VarDec(t,s)               -> tcVarDec t
                                                      Map.add s t gtenv
@@ -137,11 +131,7 @@ module TypeCheck =
                                                                     let ltenv2 = match stm with
                                                                                  | Block(decl, stml) -> tcLDecs ltenv decl
                                                                                  | _ -> ltenv                                                                                                                               
-                                                                    //Map.iter (fun key value -> printfn "%s" key) ltenv
-                                                                    //printfn "%A" decs
-                                                                    
-
-
+                                                                 
 
                                                                     let gtenv' = Map.add f (FTyp(ts,Some t)) gtenv
                                                                     ignore(tcS gtenv' ltenv2 stm)
@@ -154,24 +144,16 @@ module TypeCheck =
                                                                                      |> Seq.where (fun (a,i) -> i > 1)
                                                                     if not(Seq.isEmpty doubles) then failwith("tcGDec: The following parameters where declared more than once in function " + f + ":\n" + doubles.ToString())
                                                                     let ltenv = tcFDecs Map.empty decs
-                                                                    //            |> Map.add "return" t
                                                                     
                                                                     let ltenv2 = match stm with
                                                                                  | Block(decl, stml) -> tcLDecs ltenv decl
                                                                                  | _ -> ltenv                                                                                                                               
-                                                                    //Map.iter (fun key value -> printfn "%s" key) ltenv
-                                                                    //printfn "%A" decs
-                                                                    
-
-
+                                                                 
 
                                                                     let gtenv' = Map.add f (FTyp(ts,None)) gtenv
                                                                     ignore(tcS gtenv' ltenv2 stm)
                                                                     gtenv'
                                                         
-                                                        
-                                                        
-                                                        //failwith "tcGDec: procedure declarations not yet supported"
 
    and checkReturnStatement gtenv ltenv = function
                                            | Return (Some(stm)) -> (tcS gtenv ltenv (Return (Some(stm))))
@@ -184,7 +166,7 @@ module TypeCheck =
                                            //If it is not a return statement
                                            | _ -> false
 
-///Adds all elements from a list to a map. Classic functional iteration through list.
+    ///Adds all elements from a list to a map. Classic functional iteration through list.
    and tcGDecs gtenv = function
                        | dec::decs -> tcGDecs (tcGDec gtenv dec) decs
                        | _         -> gtenv
@@ -197,7 +179,7 @@ module TypeCheck =
                               | ATyp(a, Some(b)) -> failwith "tcVarDecFunc: Array in function parameter with length declared"
                               | _ -> ()
 
-///For block type-check
+    ///For block type-check
    and tcLDec ltenv = function
                        | VarDec(t,s) -> tcVarDec t
                                         Map.add s t ltenv
@@ -216,9 +198,7 @@ module TypeCheck =
                        | _         -> ltenv
                         
 
-/// tcP prog checks the well-typeness of a program prog
+   /// tcP prog checks the well-typeness of a program prog
    and tcP(P(decs, stms)) = let gtenv = tcGDecs Map.empty decs//Creates a decl list           
                             //Iterates through all statements with the list of decls, applying tcS <decls> Map.empty on all statements
                             List.iter (tcS gtenv Map.empty) stms
-
-  
