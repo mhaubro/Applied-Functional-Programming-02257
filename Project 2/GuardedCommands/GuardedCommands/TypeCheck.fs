@@ -21,7 +21,7 @@ module TypeCheck =
                             -> tcDyadic gtenv ltenv f e1 e2
          | Apply(f, es) -> tcNaryFunction gtenv ltenv f es
 
-         | _                -> failwith "tcE: not supported yet"
+         | Addr acc        -> tcA gtenv ltenv acc
 
    and tcMonadic gtenv ltenv f e = match (f, tcE gtenv ltenv e) with
                                    | ("-", ITyp) -> ITyp
@@ -41,8 +41,8 @@ module TypeCheck =
                                          if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
                                          List.iter2 (fun e p -> match e, p with
                                                                   //Checks if one is of array-type. If it is, checks that both are either bool or int
-                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
-                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
+                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: (1)parameter type mismatch in call to function " + f)
+                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: (2)parameter type mismatch in call to function " + f)) pts ets
                                          ft
  ///Very borrowed from tcNaryFunction
    and tcNaryProcedure gtenv ltenv f es =let pts =  match Map.tryFind f gtenv with
@@ -52,8 +52,8 @@ module TypeCheck =
                                          if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
                                          List.iter2 (fun e p -> match e, p with
                                                                   //Checks if one is of array-type. If it is, checks that both are either bool or int
-                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
-                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
+                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryProcedure: (1)parameter type mismatch in call to function " + f)
+                                                                | _                                 -> if e=p then () else failwith ("tcNaryProcedure: (2)parameter type mismatch in call to function " + f)) pts ets
                                          ()
       
 
@@ -82,9 +82,14 @@ module TypeCheck =
 
 
          //Error messages for unimplemented stuff
-         | AIndex(ADeref e, _) -> failwith "tcA: Pointer dereferencing in array not supported yet"
          | AIndex(AIndex (a,b), _) -> failwith "tcA: Not possible to access array in array"
-         | ADeref e       -> failwith "tcA: pointer dereferencing not supported yes"
+         | ADeref e       -> match (tcE gtenv ltenv e) with
+                             | PTyp(innerTyp) -> innerTyp
+//                             | P -> PTyp(tcA gtenv ltenv acc)
+                             | _ -> failwith "tcA: Trying to get address of something not a variable"
+                                //failwith "tcA: pointer dereferencing not supported yes"
+         | AIndex(ADeref e, _) ->                   
+                                failwith "tcA: Accessing the i'the element of a pointer not possible"
  
 
    and tgC expDeclList gtenv ltenv = List.iter(fun (exp,stmList) -> match tcE gtenv ltenv exp with
@@ -158,13 +163,7 @@ module TypeCheck =
                                                                     
                                                                     let ltenv2 = match stm with
                                                                                  | Block(decl, stml) -> tcLDecs ltenv decl
-                                                                                 | _ -> ltenv                                                                                                                               
-                                                                    //Map.iter (fun key value -> printfn "%s" key) ltenv
-                                                                    //printfn "%A" decs
-                                                                    
-
-
-
+                                                                                 | _ -> ltenv
                                                                     let gtenv' = Map.add f (FTyp(ts,None)) gtenv
                                                                     ignore(tcS gtenv' ltenv2 stm)
                                                                     gtenv'

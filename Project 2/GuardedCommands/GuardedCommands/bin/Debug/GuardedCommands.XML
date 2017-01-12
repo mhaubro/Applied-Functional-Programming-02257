@@ -7,17 +7,17 @@
  CP prog gives the code for a program prog
 </summary>
 </member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CSrep``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.GuardedCommand)">
+<member name="M:GuardedCommands.Backend.CodeGeneration.CSrep``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},System.Boolean,GuardedCommands.Frontend.AST.GuardedCommand)">
 <summary>
 Transforms do..od to code
 </summary>
 </member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CSalt``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.GuardedCommand)">
+<member name="M:GuardedCommands.Backend.CodeGeneration.CSalt``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},System.Boolean,GuardedCommands.Frontend.AST.GuardedCommand)">
 <summary>
 Transforms if..fi to code
 </summary>
 </member>
-<member name="M:GuardedCommands.Backend.CodeGeneration.CS``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},GuardedCommands.Frontend.AST.Stm)">
+<member name="M:GuardedCommands.Backend.CodeGeneration.CS``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},System.Boolean,GuardedCommands.Frontend.AST.Stm)">
 <summary>
  CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
 </summary>
