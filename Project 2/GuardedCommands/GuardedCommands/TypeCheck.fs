@@ -17,7 +17,7 @@ module TypeCheck =
          | Apply(f,[e]) when List.exists (fun x ->  x=f) ["!";"-"]  
                             -> tcMonadic gtenv ltenv f e        
 
-         | Apply(f,[e1;e2]) when List.exists (fun x ->  x=f) ["-";"+";"*"; "="; "&&";"<";">";"<>";"<="]        
+         | Apply(f,[e1;e2]) when List.exists (fun x ->  x=f) ["-";"+";"*"; "="; "&&";"||";"<";">";"<>";"<="]        
                             -> tcDyadic gtenv ltenv f e1 e2
          | Apply(f, es) -> tcNaryFunction gtenv ltenv f es
 
@@ -33,28 +33,32 @@ module TypeCheck =
                                       | (o, ITyp, ITyp) when List.exists (fun x ->  x=o) ["=";"<";">";"<>";"<="] -> BTyp
                                       | (o, BTyp, BTyp) when List.exists (fun x ->  x=o) ["&&";"=";"||"]     -> BTyp 
                                       | _                      -> failwith("tcDyadic: illegal/illtyped dyadic expression: " + f)
+   ///Typecheck of function call, returns return type of function, fails between mismatch of type of or number of parameters supplied
+   and tcNaryFunction gtenv ltenv f es = match tcNaryCall gtenv ltenv f es with
+                                            | Some t -> t // return return type, for further type checking
+                                            | None -> failwith"tcNaryFunction: Cannot use procedures as functions"
 
-   and tcNaryFunction gtenv ltenv f es = let pts,ft =  match Map.tryFind f gtenv with
-                                                       | Some(FTyp(pts, Some ft)) -> (pts,ft)
-                                                       | _ -> failwith ("tcNaryFunction: no declaration for function " + f)
+   ///Typecheck of procedure call, returns unit, fails on mismatch between type of or number of parameters supplied
+   and tcNaryProcedure gtenv ltenv f es = match tcNaryCall gtenv ltenv f es with
+                                            | Some t -> failwith"tcNaryProcedure: Cannot use functions as procedures"
+                                            | None -> () // return  for further type checking
+
+    ///Get the type, if any, of the function/procedure f, also check type and numbers of parameters with the supplied expressions
+    and tcNaryCall gtenv ltenv f es =    let pts,ft =  match Map.tryFind f gtenv with   //find type in global type environment
+                                                       | Some(FTyp(pts, ft)) -> (pts,ft) //extract list of parameter types and return type if any
+                                                       | _ -> failwith ("tcNaryCall: no declaration for function/procedure " + f)
+                                         //get types of expressions supplied on call
                                          let ets = List.map (tcE gtenv ltenv) es
-                                         if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
-                                         List.iter2 (fun e p -> match e, p with
-                                                                  //Checks if one is of array-type. If it is, checks that both are either bool or int
-                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
-                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
-                                         ft
-   ///Very borrowed from tcNaryFunction
-   and tcNaryProcedure gtenv ltenv f es =let pts =  match Map.tryFind f gtenv with
-                                                       | Some(FTyp(pts, None)) -> (pts)
-                                                       | _ -> failwith ("tcNaryProcedure: no declaration for procedure " + f)
-                                         let ets = List.map (tcE gtenv ltenv) es
-                                         if ets.Length<>pts.Length then failwith ("tcNaryFunction: Expected " + pts.Length.ToString() + " for function "+ f + " but had "+ets.Length.ToString())
-                                         List.iter2 (fun e p -> match e, p with
-                                                                  //Checks if one is of array-type. If it is, checks that both are either bool or int
-                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) -> if vartyp = vartyp2 then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)
-                                                                | _                                 -> if e=p then () else failwith ("tcNaryFunction: parameter type mismatch in call to function " + f)) pts ets
-                                         ()
+                                         //check that the two lists are of equal length
+                                         if ets.Length<>pts.Length then failwith ("tcNaryCall: Expected " + pts.Length.ToString() + " for function/procedure "+ f + " but had "+ets.Length.ToString())
+                                         //check that each expression in the call has the same type as the formal parameter.
+                                         List.iter2 (fun e p -> match e, p with                                                                  
+                                                                | ATyp(vartyp, _), ATyp(vartyp2, _) //Check if one is of array-type. If it is, checks that both are either bool or int
+                                                                    -> if vartyp = vartyp2 then () else failwith ("tcNaryCall: parameter type mismatch in call to function/procedure " + f)                                                                  
+                                                                | _                                 //Otherwise simply compare types
+                                                                    -> if e=p then () else failwith ("tcNaryCall: parameter type mismatch in call to function/procedure " + f)
+                                                                    ) ets pts
+                                         ft // return return type, if any for further type checking
       
 
    /// tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv

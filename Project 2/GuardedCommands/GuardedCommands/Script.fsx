@@ -32,81 +32,25 @@ open VirtualMachine
 // You must revise this path
 System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 
-// The Ex0.gc example:
-
-//let ex0Tree = parseFromFile "Ex0.gc";;
-//
-//let _ = tcP ex0Tree;;
-//
-//let ex0Code = CP ex0Tree;; 
-//
-//let _ = go ex0Tree;;
-//
-//let _ = goTrace ex0Tree;;
-//
-//
-//// Parsing of Ex1.gc
-//
-//let ex1Tree = parseFromFile "Ex1.gc";; 
-//
-//// -- is typechecked as follows:
-//
-//let _ = tcP ex1Tree;;
-//
-//// obtain symbolic code:
-//let ex1Code = CP ex1Tree;; 
-//
-//// -- is executed with trace as follows:
-//let stack = goTrace ex1Tree;;
-//
-//// -- is executed as follows (no trace):
-//let sameStack = go ex1Tree;;
-//
-//// "All in one" parse from file, type check, compile and run 
-//
-//let _ = exec "Ex1.gc";;
-//
-//let _ = exec "Ex2.gc";;
-
-// Test of programs covered by the fifth task using optimized compilation (Section 8.2):
-//List.iter execOpt ["Ex1.gc"; "Ex2.gc"];;
-
-// All programs relating to the basic version can be parsed:
-//let pts = List.map parseFromFile ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip.gc"];;
-
-// The parse tree for Ex3.gc
-//List.nth pts 2;
-
-
-// Test of programs covered by the first task (Section 3.7): check!!!
+// Test of programs covered by the first task (Section 3.7):
 List.iter exec ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip.gc"];;
+List.iter (failtest exec) ["Ex1ill.gc"; "Ex2ill.gc";"Ex3ill.gc"; "Ex4ill.gc"; "Ex5ill.gc"; "Ex6ill.gc"];;
 
-//List.iter exec ["Ex3ill.gc"];;
-
-// Test of programs covered by the second task (Section 4.3): check!!!
+// Test of programs covered by the second task (Section 4.3):
 List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
-
-
-//((goTrace (parseFromFile "Ex3.gc")));;
-//CP(parseFromFile "LocalBlockTest.gc");;
-//((goTrace (parseFromFile "LocalBlockTest.gc")));;
-
-//CP(parseFromFile "fact.gc");;
-//((goTrace (parseFromFile "fact.gc")));;
+List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
 
 // Test of programs covered by the fourth task (Section 5.4):
 List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
-//((goTrace (parseFromFile "A2.gc")));;
+List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
+
 // Test of programs covered by the fifth task (Section 6.1):
-//List.iter (fun l -> tcP (parseFromFile l)) ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
 List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
-//((goTrace (parseFromFile "QuickSortV1.gc")));;
 
-
+(* Cannot execute the following
 // Test of programs covered by the fifth task (Section 7.4):
-//List.iter exec ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
+List.iter exec ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
 
 // Test of programs covered by the fifth task using optimized compilation (Section 8.2):
-//List.iter execOpt ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
-
-// parseFromFile "Ex7.gc";; 
+List.iter execOpt ["par1.gc"; "factImpPTyp.gc"; "QuickSortV2.gc"; "par2.gc"];;
+ *)

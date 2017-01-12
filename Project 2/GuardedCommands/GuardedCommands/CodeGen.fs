@@ -44,7 +44,7 @@ module CodeGeneration =
                                           | "<"  -> [LT]
                                           | ">"  -> [SWAP; LT] 
                                           | "<="  -> [SWAP; LT; NOT]
-                                          | ">="  -> [LT; NOT]
+                                          | ">="  -> [LT; NOT]//possibly superfluous
                                           | "<>"  -> [EQ; NOT]          
                                           | _    -> failwith "CE: this case should not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
@@ -127,9 +127,9 @@ module CodeGeneration =
                                                 |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
                                                 |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate vartyp dec vE in (vE',code@code')) (vEnv,[])
                              let decsSize = List.fold(fun size dec -> match dec with
-                                                                          | VarDec(ATyp(_,Some(i)),_) -> size + i + 1
-                                                                          | VarDec(_,_) -> size + 1
-                                                                          | _ -> failwith "CS: invalid declaration in Block statement") 0 decs
+                                                                      | VarDec(ATyp(_,Some(i)),_)   -> size + i + 1
+                                                                      | VarDec(_,_)                 -> size + 1
+                                                                      | _                           -> failwith "CS: invalid declaration in Block statement") 0 decs
                              vCode @ CSs vEnv' fEnv stms isFunctionDeclaration @
                              [INCSP -decsSize]
                              
@@ -138,7 +138,7 @@ module CodeGeneration =
                                                                // Evaluates the expressions for all parameters
                                                                List.collect (CE vEnv fEnv) es
                                                                 @ [CALL(ps, label) ; INCSP -1] // perform function call
-                                | _    -> failwith "CE: Please perform typecheck to find out what you did wrong"
+                                | _    -> failwith "CS: Please perform typecheck to find out what you did wrong"
 
                                    // Evaluate the expression e and return if from the top of the stack
        | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)]
@@ -176,19 +176,19 @@ module CodeGeneration =
        //If b = 1, execute some code, goto start line of code (of do).
    and CSrep vEnv fEnv isFunctionDeclaration = function
        | GC []               -> []  
-       | GC gcl              -> let firstLabel = newLabel() in
-                                let lastLabel = newLabel() in
-                                let nextLabel = ref "" in
-                                let currLabel = ref lastLabel in
-                                [Label firstLabel] @
-                                List.foldBack (fun (b, sl) c ->
-                                                nextLabel := !currLabel
-                                                currLabel := newLabel()
-                                                [Label !currLabel] @
-                                                CE vEnv fEnv b @
-                                                [IFZERO !nextLabel] @
-                                                CSs vEnv fEnv sl isFunctionDeclaration @ 
-                                                [GOTO firstLabel] @
+       | GC gcl              -> let firstLabel = newLabel() in  // make label for begining so we can repeat
+                                let lastLabel = newLabel() in   // make label for very end
+                                let nextLabel = ref "" in       // reference to next guard
+                                let currLabel = ref lastLabel in// reference to current guard
+                                [Label firstLabel] @            // label for repetition
+                                List.foldBack (fun (b, sl) c -> // fold back so last guard/command ends up last
+                                                nextLabel := !currLabel // update label so next guard continues to this guard
+                                                currLabel := newLabel() // make new label for this guard
+                                                [Label !currLabel] @    // label current guard
+                                                CE vEnv fEnv b @        // evaluate guard
+                                                [IFZERO !nextLabel] @   // if guard is FALSE go to next guard
+                                                CSs vEnv fEnv sl isFunctionDeclaration @ // otherwise evaluate statements
+                                                [GOTO firstLabel] @                      // and repeat
                                                  c)
                                               gcl [Label lastLabel]
 
