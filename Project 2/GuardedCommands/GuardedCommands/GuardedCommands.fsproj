@@ -64,6 +64,7 @@
     <Compile Include="CodeGenOpt.fs" />
     <Compile Include="Util.fs" />
     <None Include="Script.fsx" />
+    <None Include="TestScript.fsx" />
     <Content Include="README.txt" />
     <None Include="Ex0.gc" />
     <None Include="Ex1.gc" />
