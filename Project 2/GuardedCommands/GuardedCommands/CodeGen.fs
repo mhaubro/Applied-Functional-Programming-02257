@@ -45,8 +45,8 @@ module CodeGeneration =
                                           | ">"  -> [SWAP; LT] 
                                           | "<="  -> [SWAP; LT; NOT]
                                           | ">="  -> [LT; NOT]
-                                          | "<>"  -> [EQ; NOT]
-                                          | _    -> failwith "CE: this case is not possible"
+                                          | "<>"  -> [EQ; NOT]          
+                                          | _    -> failwith "CE: this case should not possible"
                                 CE vEnv fEnv e1 @ CE vEnv fEnv e2 @ ins
 
          // code generation for composition of boolean statements with conjunction and disjunction
@@ -55,7 +55,7 @@ module CodeGeneration =
                                 let jt = match o with // we jump differently depending on wether true or false should dominate
                                               | "&&" -> [IFZERO label]
                                               | "||" -> [IFNZRO label]
-                                              | _    -> failwith "CE: this case is not possible"
+                                              | _    -> failwith "CE: this case should not possible"
                                 CE vEnv fEnv e1     // Evaluate first expression
                               @ [DUP] @ jt          // duplicate and jump if value of first dominates
                               @ [INCSP -1]          // if no jump, then second of second dominates, so first value can be disregarded
@@ -101,39 +101,6 @@ module CodeGeneration =
       let newEnv = (Map.add x (kind fdepth, typ) env, fdepth+1)
       let code = [INCSP 1]
       (newEnv, code)
-(*   let rec CSF vEnv fEnv = function
-                            //Gets code for an expression e, prints, reduces stack with 1 (Removes last thing pushed, the value of e)
-       | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
-
-       | Ass(acc,e)       -> CA vEnv fEnv acc @ CE vEnv fEnv e @ [STI; INCSP -1]
-
-       //If-statement. 
-       | Alt(gcl)         -> CSalt vEnv fEnv gcl
-       //Do-while statement. 
-       | Do(gcl)          -> CSrep vEnv fEnv gcl
-
-       | Block([],stms)   -> CSs vEnv fEnv stms
-       | Block(decs,stms) -> let vEnv',vCode = decs
-                                                |> List.choose (function |VarDec(t,s)->Some(t,s)|_->None)
-                                                |> List.fold (fun (vE,code) dec -> let (vE',code') = allocate LocVar dec vE in (vE',code@code')) (vEnv,[])
-                             let decsSize = List.fold(fun size dec -> match dec with
-                                                                          | VarDec(ATyp(_,Some(i)),_) -> size + i + 1
-                                                                          | VarDec(_,_) -> size + 1
-                                                                          | _ -> failwith "CS: invalid declaration in Block statement") 0 decs
-                             vCode @ CSs vEnv' fEnv stms @
-                             [INCSP -decsSize]
-                             
-       | Call(f,es)        -> match Map.tryFind f fEnv with                                // get function
-                                | Some(label,None   ,pDecs) -> let ps = List.length es
-                                                               List.collect (CE vEnv fEnv) es    // evaluate parameter values
-                                                                @ [CALL(ps, label);INCSP -1]              // perform function call
-                                | _    -> failwith "CE: Please perform typecheck to find out what you did wrong"
-
-       | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
-       | Return None            -> [RET (snd vEnv - 1)]
-                                                          
-       | _                -> failwith "CS: this statement is not supported yet"*)
-
 
                       
 /// CS vEnv fEnv s gives the code for a statement s on the basis of a variable and a function environment   
@@ -143,7 +110,9 @@ module CodeGeneration =
                             //Gets code for an expression e, prints, reduces stack with 1 (Removes last thing pushed, the value of e)
        | PrintLn e        -> CE vEnv fEnv e @ [PRINTI; INCSP -1] 
 
-       | Ass(acc,e)       -> CA vEnv fEnv acc @ CE vEnv fEnv e @ [STI; INCSP -1]
+       | Ass(acc,e)       -> CA vEnv fEnv acc @ // evaluates the address of the variable to be assigned
+                             CE vEnv fEnv e @ // evalutes the new value from expression e
+                             [STI; INCSP -1] // stores the result in the address, and cleans the stack.
 
        //If-statement. 
        | Alt(gcl)         -> CSalt vEnv fEnv isFunctionDeclaration gcl
@@ -164,14 +133,16 @@ module CodeGeneration =
                              vCode @ CSs vEnv' fEnv stms isFunctionDeclaration @
                              [INCSP -decsSize]
                              
-       | Call(f,es)        -> match Map.tryFind f fEnv with                                // get function
-                                | Some(label,None ,pDecs) ->   let ps = List.length es
-                                                               List.collect (CE vEnv fEnv) es    // evaluate parameter values
-                                                                @ [CALL(ps, label) ; INCSP -1]              // perform function call
+       | Call(f,es)        -> match Map.tryFind f fEnv with // get function
+                                | Some(label,None ,pDecs) ->   let ps = List.length es 
+                                                               // Evaluates the expressions for all parameters
+                                                               List.collect (CE vEnv fEnv) es
+                                                                @ [CALL(ps, label) ; INCSP -1] // perform function call
                                 | _    -> failwith "CE: Please perform typecheck to find out what you did wrong"
 
-
-       | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)] //snd vEnv contains the height of the current frame on the stack
+                                   // Evaluate the expression e and return if from the top of the stack
+       | Return (Some e)        -> CE vEnv fEnv e @ [RET (snd vEnv)]
+                                   // since there is no result on the stack, the return length has to be adjusted.
        | Return None            -> [RET (snd vEnv - 1)]
                                                           
        | _                -> failwith "CS: this statement is not supported yet"
@@ -195,7 +166,7 @@ module CodeGeneration =
                                                 [Label !currLabel] @        //label this position in case previous guard was TRUE
                                                 CE vEnv fEnv b @            //evaluate guard, leaves value on top of stack
                                                 [IFZERO !nextLabel] @       //if FALSE continue to next guard
-                                                CSs vEnv fEnv sl isFunctionDeclaration @          //otherwise evaluate statements
+                                                CSs vEnv fEnv sl isFunctionDeclaration @ //otherwise evaluate statements
                                                 [GOTO lastLabel] @          //and leave this if..fi
                                                  c)                         // and collect code
                                               gcl [STOP; Label lastLabel]   //terminate if no applicable guard otherwise there was a goto lastlabel
@@ -220,31 +191,30 @@ module CodeGeneration =
                                                 [GOTO firstLabel] @
                                                  c)
                                               gcl [Label lastLabel]
+
 (* ------------------------------------------------------------------- *)
 
-(* Build environments for global variables and functions *)
-//Obs: This function is running despite not implementing as/if, since it is only related to variable declaration
+   /// Build environments for global variables and functions
    let makeGlobalEnvs decs = 
-       //Function definition
+       // Function definition
        let rec addv decs vEnv fEnv = 
            match decs with 
            | []         -> (vEnv, fEnv, [])
            | dec::decr  -> 
              match dec with
-             //Variable declaration in guardedcommands-code
-             | VarDec (typ, var) -> //Allokerer dec - bliver kørt på samtlige elementer
+             // Variable declaration in guardedcommands-code
+             | VarDec (typ, var) -> // Allocates dec - runs on all elementes
                                     let (vEnv1, code1) = allocate GloVar (typ, var) vEnv
-                                    //Allokerer decs ved at køre rekursivt på resten
+                                    // Allocates decs by running recursice on the rest
                                     let (vEnv2, fEnv2, code2) = addv decr vEnv1 fEnv
                                     //Returns global environment, which is a list of code
                                     (vEnv2, fEnv2, code1 @ code2)
-             //inspired by MICRO-C, we simply add the function to the environment, saving a label for it. Compiling functions comes later.
+             // inspired by MICRO-C, we simply add the function to the environment, saving a label for it. Compiling functions comes later.
              | FunDec (tyOpt, f, xs, body) -> addv decr vEnv (Map.add f (newLabel(),tyOpt,List.choose (function | VarDec(t,s)->Some(t,s)|_-> None) xs) fEnv)
-       //Return element
+       // Return element
        addv decs (Map.empty, 0) Map.empty
 
-(* Bind declared parameters in env: *)
-
+   /// Bind declared parameters in env:
    let bindParam (env, fdepth) (typ, x)  : varEnv =
        let env' = env |> Map.add x (LocVar fdepth, typ)
        (env', fdepth+1)
@@ -256,15 +226,14 @@ module CodeGeneration =
 /// CP prog gives the code for a program prog
    let CP (P(decs,stms)) = 
        resetLabels()
-       //(It seems that "(gvM, _) as" is unnecessary, since gvM isn't used?//MH --- den skal bruges til funktionerne :)
+       
        let ((gvM,_) as gvEnv, fEnv, initCode) = makeGlobalEnvs decs
        let compileFun (tyOpt, f, xs, body) =
             let (labf, _, paras) = Map.find f fEnv
-            let (envf, fdepthf) = bindParams paras (gvM, 0)//<- altså lige her!
+            let (envf, fdepthf) = bindParams paras (gvM, 0)
             let code = CS (envf, fdepthf) fEnv true body
             [Label labf] @ code @ [RET (fdepthf-1)] //return in case of procedure - in function they are enforced by typecheck
-            (*  is it necesarry to handle local variables explicitly? will block handle it?
-                tune in later to find out the answers to these and other similarly trivial questions.*)
+            
        //The above and the following are adapted from MICRO-C
        let funcode = decs
                       |> List.choose (function 
