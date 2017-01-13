@@ -12,11 +12,12 @@
 
     and TreeFromAcc = function
                             | AIndex(acc,e)     -> Node("AIndex",
-                                                [TreeFromAcc acc;
-                                                 TreeFromExp e ])
+                                                       [TreeFromAcc acc;
+                                                        TreeFromExp e ])
                             | value             -> Node (value.ToString(),[])
                             //| AVar s        -> Node("AVar",[Node (s,[])])
                             //| ADeref e      -> Node("ADeref", [oTreeFromExp e])
+
     and TreeFromStm = function
                             | PrintLn e         -> Node("",[])
                             | Ass(acc,e)        -> Node("Assign",
