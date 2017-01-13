@@ -1,4 +1,4 @@
-﻿module TreeeGenerator
+﻿module TreeGenerator
 
     open Trees
     open System
