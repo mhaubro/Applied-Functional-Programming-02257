@@ -2,62 +2,19 @@
 <doc>
 <assembly><name>GuardedCommands</name></assembly>
 <members>
-<member name="M:Parser.prodIdxToNonTerminal(System.Int32)">
-<summary>
- This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcP(GuardedCommands.Frontend.AST.Program)">
-<summary>
- tcP prog checks the well-typeness of a program prog
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcLDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
-<summary>
-For block type-check
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcVarDec(GuardedCommands.Frontend.AST.Typ)">
-<summary>
-Checks if a type declared in a block or the main program has a negative length/no length
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcGDecs(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Dec})">
-<summary>
-Adds all elements from a list to a map. Classic functional iteration through list.
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcGDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
-<summary>
-Adds an element tuple (t,s) to a map gtenv
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcS(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Stm)">
-<summary>
- tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
- for global and local variables and the possible type of return expressions 
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcA(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Access)">
-<summary>
- tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
- for global and local variables 
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcNaryProcedure(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},System.String,Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Exp})">
-<summary>
-Very borrowed from tcNaryFunction
-</summary>
-</member>
-<member name="M:GuardedCommands.Frontend.TypeCheck.tcE(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Exp)">
-<summary>
- tcE gtenv ltenv e gives the type for expression e on the basis of type environments gtenv and ltenv
- for global and local variables 
-</summary>
-</member>
 <member name="M:GuardedCommands.Backend.CodeGeneration.CP(GuardedCommands.Frontend.AST.Program)">
 <summary>
  CP prog gives the code for a program prog
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.bindParam(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,GuardedCommands.Frontend.AST.Typ,System.String)">
+<summary>
+ Bind declared parameters in env:
+</summary>
+</member>
+<member name="M:GuardedCommands.Backend.CodeGeneration.makeGlobalEnvs(Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Dec})">
+<summary>
+ Build environments for global variables and functions
 </summary>
 </member>
 <member name="M:GuardedCommands.Backend.CodeGeneration.CSrep``2(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{GuardedCommands.Backend.CodeGeneration.Var,GuardedCommands.Frontend.AST.Typ}},System.Int32,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{``0},``1}},System.Boolean,GuardedCommands.Frontend.AST.GuardedCommand)">
@@ -100,6 +57,64 @@ Transforms if..fi to code
  CE e vEnv fEnv k gives the code for an expression e on the basis of a variable and a function environment and continuation k
 </summary>
 </member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcP(GuardedCommands.Frontend.AST.Program)">
+<summary>
+ tcP prog checks the well-typeness of a program prog
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcLDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
+<summary>
+For block type-check
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcVarDec(GuardedCommands.Frontend.AST.Typ)">
+<summary>
+Checks if a type declared in a block or the main program has a negative length/no length
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcGDecs(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Dec})">
+<summary>
+Adds all elements from a list to a map. Classic functional iteration through list.
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcGDec(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Dec)">
+<summary>
+ Adds an element tuple (t,s) to a map gtenv
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcS(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Stm)">
+<summary>
+ tcS gtenv ltenv retOpt s checks the well-typeness of a statement s on the basis of type environments gtenv and ltenv
+ for global and local variables and the possible type of return expressions 
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcA(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Access)">
+<summary>
+ tcA gtenv ltenv e gives the type for access acc on the basis of type environments gtenv and ltenv
+ for global and local variables 
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcNaryCall(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},System.String,Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Exp})">
+<summary>
+Get the type, if any, of the function/procedure f, also check type and numbers of parameters with the supplied expressions
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcNaryProcedure(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},System.String,Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Exp})">
+<summary>
+Typecheck of procedure call, returns unit, fails on mismatch between type of or number of parameters supplied
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcNaryFunction(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},System.String,Microsoft.FSharp.Collections.FSharpList{GuardedCommands.Frontend.AST.Exp})">
+<summary>
+Typecheck of function call, returns return type of function, fails between mismatch of type of or number of parameters supplied
+</summary>
+</member>
+<member name="M:GuardedCommands.Frontend.TypeCheck.tcE(Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},Microsoft.FSharp.Collections.FSharpMap{System.String,GuardedCommands.Frontend.AST.Typ},GuardedCommands.Frontend.AST.Exp)">
+<summary>
+ tcE gtenv ltenv e gives the type for expression e on the basis of type environments gtenv and ltenv
+ for global and local variables 
+</summary>
+</member>
 <member name="M:GuardedCommands.Util.CompilerUtil.execTrace(System.String)">
 <summary>
  execTrace filename parses, type checks, compiles and runs a program in a file showing a program trace
@@ -133,6 +148,11 @@ Transforms if..fi to code
 <member name="M:GuardedCommands.Util.CompilerUtil.failtest``1(Microsoft.FSharp.Core.FSharpFunc{``0,Microsoft.FSharp.Core.Unit},``0)">
 <summary>
 fail test function helper
+</summary>
+</member>
+<member name="M:Parser.prodIdxToNonTerminal(System.Int32)">
+<summary>
+ This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
 </summary>
 </member>
 </members>

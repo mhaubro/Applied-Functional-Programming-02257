@@ -51,10 +51,13 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <None Include="Script.fsx" />
     <Content Include="packages.config" />
     <Compile Include="Extents.fs" />
     <Compile Include="Trees.fs" />
+    <Compile Include="PearlSignatures.fsi" />
+    <Compile Include="ASTToGeneralTreeConverter.fs" />
+    <Compile Include="GeneralTreeToPostScript.fs" />
+    <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -69,6 +72,13 @@
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GuardedCommands\GuardedCommands.fsproj">
+      <Name>GuardedCommands</Name>
+      <Project>{e1814333-cdb8-461f-9ac2-1f11c1fc0af3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
