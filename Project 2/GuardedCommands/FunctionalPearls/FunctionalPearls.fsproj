@@ -57,7 +57,8 @@
     <Compile Include="PearlSignatures.fsi" />
     <Compile Include="ASTToGeneralTreeConverter.fs" />
     <Compile Include="GeneralTreeToPostScript.fs" />
-    <None Include="Script.fsx" />
+    <Compile Include="PearlUtil.fs" />
+    <None Include="Script1.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

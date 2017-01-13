@@ -5,21 +5,19 @@
     let rec TreeFromExp = function
                             | Access acc        -> Node("Access", [TreeFromAcc acc])
                             | Addr acc          -> Node("Address", [TreeFromAcc acc])
-                            | Apply(f,es)       -> Node("Apply "+f, List.map TreeFromExp es)
-                            | value             -> Node (value.ToString(),[])
-                            //| N i           -> Branch("Integer",[Leaf (i.ToString())])
-                            //| B b           -> Branch("Boolean",[Leaf (b.ToString())])
+                            | Apply(f,es)       -> Node("Apply: " + f, List.map TreeFromExp es)
+                            | N i               -> Node("Integer: " + i.ToString(),[])
+                            | B b               -> Node("Boolean: " + b.ToString(),[])
 
     and TreeFromAcc = function
                             | AIndex(acc,e)     -> Node("AIndex",
                                                        [TreeFromAcc acc;
                                                         TreeFromExp e ])
-                            | value             -> Node (value.ToString(),[])
-                            //| AVar s        -> Node("AVar",[Node (s,[])])
-                            //| ADeref e      -> Node("ADeref", [oTreeFromExp e])
+                            | AVar s        -> Node("AVar",[Node (s,[])])
+                            | ADeref e      -> Node("ADeref", [TreeFromExp e])
 
     and TreeFromStm = function
-                            | PrintLn e         -> Node("",[])
+                            | PrintLn e         -> Node("PrintLn",[TreeFromExp e])
                             | Ass(acc,e)        -> Node("Assign",
                                                        [TreeFromAcc acc;
                                                         TreeFromExp e ])

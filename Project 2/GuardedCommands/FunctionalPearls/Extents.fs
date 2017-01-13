@@ -7,7 +7,7 @@
                              | [], qs->qs
                              | ps, []->ps
                              | (p,_)::ps, (_,q)::qs->(p,q):: merge ps qs
-    let mergelist list =  list |> List.fold (merge) []
+    let mergelist list =  List.foldBack (merge) list []
 
     let rmax a b =if a>b then a else b
 
@@ -15,18 +15,18 @@
                              | (_,p)::ps, (q,_)::qs -> rmax (fit ps qs) (p-q+1.0)
                              | _, _ -> 0.0
 
-    let rec fitll acc l = match acc,l with 
-                             | _, [] ->[]
-                             |acc', e::es -> let v = fit acc (e) in
-                                                 v::(fitll (merge (acc) (moveextent(e,v)) ) es)
-    let fitlistl list = List.rev (fitll ([]) (List.rev list))
+    let rec fitl acc l = match l with 
+                             | [] ->[]
+                             | e::es -> let v = fit acc (e) in
+                                        v::(fitl (merge (acc) (moveextent(e,v)) ) es)
+    let fitlistl list = fitl [] list
     
-    let rec fitlr acc l = match acc,l with 
-                             | _, [] ->[]
-                             |acc', e::es -> let v = fit (e) acc in
-                                                 v::(fitlr (merge (moveextent(e,v)) (acc) ) es)
-    let fitlistr list = fitlr [] list
+    let rec fitr acc l = match l with 
+                             | [] ->[]
+                             | e::es -> let v = -(fit (e) acc) in
+                                        v::(fitr (merge (moveextent(e,v)) (acc) ) es)
+    let fitlistr list = List.rev (fitr [] (List.rev list))
 
-    let fitllist es = List.map (fun (x, y) -> (x + y)/2.0) (List.zip (fitlistl es) (fitlistr es))
+    let fitlist es = List.map (fun (x, y) -> (x + y)/2.0) (List.zip (fitlistl es) (fitlistr es))
 
 
