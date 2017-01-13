@@ -1,5 +1,7 @@
 ﻿module Extents
-    let moveextent = function (a,b), (d:float) -> (d + a,d + b)
+    type Extent = (float * float) list
+
+    let moveextent = function (e:Extent, x) -> List.map (fun (a, b) -> (a + x,b + x)) e
 
     let rec merge a b = match a, b with
                              | [], qs->qs
