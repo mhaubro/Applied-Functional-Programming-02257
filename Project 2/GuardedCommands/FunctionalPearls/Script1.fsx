@@ -24,4 +24,4 @@ System.IO.Directory.SetCurrentDirectory (__SOURCE_DIRECTORY__ + @"\GCfiles");;
 
 ["Ex7"; "fact"; "factRec"; "factCBV"]
     |> List.map (fun f -> (f+".gc",f+".ps"))
-    |> List.iter (producePS 80.0)
+    |> List.iter (producePS 40 40)

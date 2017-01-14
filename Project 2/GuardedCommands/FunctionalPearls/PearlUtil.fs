@@ -3,11 +3,11 @@
     open ASTToGeneralTreeConverter
     open GeneralTreeToPostScript
     
-    let producePS w (sourceFile, targetFile) =
+    let producePS w h (sourceFile, targetFile) =
         let target = (FileInfo(targetFile)).CreateText()
         GuardedCommands.Util.ParserUtil.parseFromFile sourceFile
                 |> TreeFromPro
-                |> createPostScript w
+                |> createPostScript w h
                 |> target.Write
         target.Flush()
         target.Close()

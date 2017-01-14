@@ -17,7 +17,8 @@
     //Translated from the SML code in the paper                                                    
     let design tree = fst (design' tree)
 
-    let rec intDesign v = function Node((label, x:float), subtrees) -> Node((label,(int) (System.Math.Round (x*v))), List.map (intDesign v) subtrees)
+    let rec intDesign (w:int) = function Node((label, x:float), subtrees)
+                                        -> Node((label,(int) (System.Math.Round (x * ((float) w)))), List.map (intDesign w) subtrees)
 
               
     
