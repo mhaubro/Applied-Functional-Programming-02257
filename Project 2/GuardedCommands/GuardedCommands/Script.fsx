@@ -33,19 +33,19 @@ open VirtualMachine
 System.IO.Directory.SetCurrentDirectory __SOURCE_DIRECTORY__;;
 
 // Test of programs covered by the first task (Section 3.7):
-List.iter exec ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip.gc"];;
-List.iter (failtest exec) ["Ex1ill.gc"; "Ex2ill.gc";"Ex3ill.gc"; "Ex4ill.gc"; "Ex5ill.gc"; "Ex6ill.gc"];;
+//List.iter exec ["Ex1.gc"; "Ex2.gc";"Ex3.gc"; "Ex4.gc"; "Ex5.gc"; "Ex6.gc"; "Skip.gc"];;
+//List.iter (failtest exec) ["Ex1ill.gc"; "Ex2ill.gc";"Ex3ill.gc"; "Ex4ill.gc"; "Ex5ill.gc"; "Ex6ill.gc"];;
 
 // Test of programs covered by the second task (Section 4.3):
-List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
-List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
+//List.iter exec ["Ex7.gc"; "fact.gc"; "factRec.gc"; "factCBV.gc"];;
+//List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
 
 // Test of programs covered by the fourth task (Section 5.4):
-List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
-List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
+//List.iter exec ["A0.gc"; "A1.gc"; "A2.gc"; "A3.gc"];;
+//List.iter (failtest exec) ["Ex7ill.gc"; "factill.gc";"A0ill.gc"; "A1ill.gc"; "A2ill.gc"; "A3ill.gc" ];;
 
 // Test of programs covered by the fifth task (Section 6.1):
-List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
+//List.iter exec ["A4.gc"; "Swap.gc"; "QuickSortV1.gc"];;
 
 (* Cannot execute the following
 // Test of programs covered by the fifth task (Section 7.4):

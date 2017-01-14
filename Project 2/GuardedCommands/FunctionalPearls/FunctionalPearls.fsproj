@@ -54,7 +54,7 @@
     <Content Include="packages.config" />
     <Compile Include="Extents.fs" />
     <Compile Include="Trees.fs" />
-    <Compile Include="PearlSignatures.fsi" />
+    <None Include="PearlSignatures.fsi" />
     <Compile Include="ASTToGeneralTreeConverter.fs" />
     <Compile Include="GeneralTreeToPostScript.fs" />
     <Compile Include="PearlUtil.fs" />
