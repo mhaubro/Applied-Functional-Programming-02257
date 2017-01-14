@@ -59,6 +59,7 @@
     <Compile Include="ASTToGeneralTreeConverter.fs" />
     <Compile Include="GeneralTreeToPostScript.fs" />
     <None Include="Script.fsx" />
+    <None Include="GenerateTreeTest.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
