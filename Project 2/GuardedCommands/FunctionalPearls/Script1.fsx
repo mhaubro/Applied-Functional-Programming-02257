@@ -21,7 +21,11 @@ System.IO.Directory.SetCurrentDirectory (__SOURCE_DIRECTORY__ + @"\GCfiles");;
 //createPostScript factRecTree
 //flattenTree factRecTree;;
 
-
-["Ex7"; "fact"; "factRec"; "factCBV"]
+#time
+["Ex1"; "Ex2";"Ex3"; "Ex4"; "Ex5"; "Ex6"; "Skip";
+ "Ex7"; "fact"; "factRec"; "factCBV";
+ "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
+ (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
     |> List.map (fun f -> (f+".gc",f+".ps"))
-    |> List.iter (producePS 40 40)
+    |> List.iter (producePS 42 37)
+#time

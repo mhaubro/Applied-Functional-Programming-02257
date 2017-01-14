@@ -2,21 +2,26 @@
     module ASTToGeneralTreeConverter
         open GuardedCommands.Frontend.AST
         open Trees
+        let nameFormat s = "[ "+s+" ]"
+        let vardecFormat s = "Var: [ "+s+" ]"
+        let fundecFormat s = "Fun: [ "+s+" ]"
+        let procdecFormat s = "Proc: [ "+s+" ]"
+
 
         let rec TreeFromExp = function
                                 | Access acc        -> Node("Access", [TreeFromAcc acc])
                                 | Addr acc          -> Node("Address", [TreeFromAcc acc])
                                 | Apply(f,es) when List.exists (fun x ->  x=f) ["!";"-";"+";"*"; "="; "&&";"||";"<";">";"<>";"<="]
-                                                    -> Node("( "+f+" )", List.map TreeFromExp es)
-                                | Apply(f,es)       -> Node("[ "+f+" ]", List.map TreeFromExp es)
-                                | N i               -> Node("( "+i.ToString()+" )",[])
-                                | B b               -> Node("( "+b.ToString()+" )",[])
+                                                    -> Node(f, List.map TreeFromExp es)
+                                | Apply(f,es)       -> Node(nameFormat f, List.map TreeFromExp es)
+                                | N i               -> Node(i.ToString(),[])
+                                | B b               -> Node(b.ToString(),[])
 
         and TreeFromAcc = function
                                 | AIndex(acc,e)     -> Node("AIndex",
                                                            [TreeFromAcc acc;
                                                             TreeFromExp e ])
-                                | AVar s            -> Node ("[ "+s+" ]",[])
+                                | AVar x            -> Node (nameFormat x,[])
                                 | ADeref e          -> Node("ADeref", [TreeFromExp e])
 
         and TreeFromStm = function
@@ -30,31 +35,34 @@
                                 | Alt (GC gcl)      -> Node("Alt",List.map TreeFromGC gcl)
                                 | Do (GC [])        -> Node("Skip",[])
                                 | Do (GC gcl)       -> Node("Rep",List.map TreeFromGC gcl)
-                                | Block([],stml)    -> Node("Block",List.map TreeFromStm stml)
+                                | Block([],stml)    -> Node("Block",[TreeFromStml stml])
                                 | Block(decl,stml)  -> Node("Block",
-                                                           [Node("Declarations",List.map TreeFromDec decl);
-                                                            Node("Body",List.map TreeFromStm stml)])
-                                | Call(f,es)        -> Node("[ "+f+" ]", List.map TreeFromExp es)
+                                                           [TreeFromDecl decl;
+                                                            TreeFromStml stml])
+                                | Call(f,es)        -> Node(nameFormat f, List.map TreeFromExp es)
+        and TreeFromStml stml = Node("Body",List.map TreeFromStm stml)
         and TreeFromGC = function
                                 | e,stml            -> Node("GC",
                                                            [Node("guard", [TreeFromExp e]);
-                                                            Node("body", List.map TreeFromStm stml)])
+                                                            TreeFromStml stml])
     
         and TreeFromDec = function
-                                | VarDec(t,x)       -> Node("Var: "+ x,[TreeFromTyp t])
-                                | FunDec(Some t, f,
-                                          decl, stm)-> Node("Fun: "+ f,
-                                                                    [Node("args",
-                                                                        List.map TreeFromDec decl);
+                                | VarDec(t,s)       -> Node(vardecFormat s,[TreeFromTyp t])
+                                | FunDec(Some t, s,
+                                          decl, stm)-> Node(fundecFormat s,
+                                                                    [TreeFromArgs decl;
                                                                      Node("returns",
                                                                         [TreeFromTyp t]);
                                                                      TreeFromStm stm])
-                                | FunDec(None, f,
-                                          decl, stm)-> Node("Proc: "+f,
-                                                                    [Node("args",
-                                                                        List.map TreeFromDec decl);
+                                | FunDec(None, s,
+                                          decl, stm)-> Node(procdecFormat s,
+                                                                    [TreeFromArgs decl;
                                                                      TreeFromStm stm])
-    
+        and TreeFromDecl decl = Node("Decl",List.map TreeFromDec decl)
+        and TreeFromArgs decl = Node("Args", match decl with
+                                                | [] -> [Node("none",[]) ]
+                                                | _  -> List.map TreeFromDec decl
+                                        )
         and TreeFromTyp = function
                                 | ITyp              -> Node("ITyp",[])
                                 | BTyp              -> Node("BTyp",[])
@@ -64,20 +72,18 @@
                                                           Node("type",
                                                             [TreeFromTyp t])])
                                 | ATyp(t,None)      -> Node("Array",[TreeFromTyp t])
-                                | PTyp t            -> Node("Pointer",[TreeFromTyp t])
-                                | FTyp(ts, Some t)  -> Node("Function",
+                                | PTyp t            -> Node("Pointer",[TreeFromTyp t])// will probably not be used
+                                | FTyp(ts, Some t)  -> Node("Function",// is never used
                                                         [Node("return type",
                                                             [TreeFromTyp t]);
                                                          Node("parameter types",
                                                             List.map TreeFromTyp ts)])
-                                | FTyp(ts, None)    -> Node("Procedure",List.map TreeFromTyp ts)
+                                | FTyp(ts, None)    -> Node("Procedure",List.map TreeFromTyp ts)// is never used
 
         and TreeFromPro = function
                                 | P ([], stml)      -> Node("Program",
                                                         List.map TreeFromStm stml)
                                 | P (decl, stml)    -> Node("Program", 
-                                                        [Node("Declarations",
-                                                            List.map TreeFromDec decl);
-                                                         Node("Body",
-                                                            List.map TreeFromStm stml)])
+                                                        [TreeFromDecl decl;
+                                                         TreeFromStml stml])
 
