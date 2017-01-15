@@ -2,6 +2,7 @@
 
     open Trees
     open System
+    open System.Threading
 
     /// Creates a tree with a fixed number of children.
     let rec generatePlainTree depth numChilds = if (depth < 0) then failwith "Wrong input: Can't make tree with negative depth."
@@ -23,3 +24,5 @@
 
     /// Creates a tree with each node having between min and max number of children.
     let generateRandomTree depth minC maxC = generateRandomTree' depth minC maxC (new Random())
+
+    // Tried to make the functions asyncronous, but the overhead of the thread handling was to big for it to be efficient.
