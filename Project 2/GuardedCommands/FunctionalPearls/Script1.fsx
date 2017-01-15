@@ -3,6 +3,7 @@
 #load "Trees.fs"
 #load "ASTToGeneralTreeConverter.fs"
 #load "GeneralTreeToPostScript.fs"
+#load "GeneralTreeToPostScriptAlt.fs"
 #load "PearlUtil.fs"
 
 open Extents
@@ -22,10 +23,22 @@ System.IO.Directory.SetCurrentDirectory (__SOURCE_DIRECTORY__ + @"\GCfiles");;
 //flattenTree factRecTree;;
 
 #time
-["Ex1"; "Ex2";"Ex3"; "Ex4"; "Ex5"; "Ex6"; "Skip";
- "Ex7"; "fact"; "factRec"; "factCBV";
- "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
- (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
-    |> List.map (fun f -> (f+".gc",f+".ps"))
-    |> List.iter (producePS 42 37)
+for i in 1..50000 do 
+    ["Ex1"; "Ex2";"Ex3"; "Ex4"; "Ex5"; "Ex6"; "Skip";
+     "Ex7"; "fact"; "factRec"; "factCBV";
+     "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
+     (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
+        |> List.map (fun f -> (f+".gc",f+".ps"))
+        |> List.iter (producePS 40 40)
+#time
+
+
+#time
+for i in 1..50000 do 
+    ["Ex1"; "Ex2";"Ex3"; "Ex4"; "Ex5"; "Ex6"; "Skip";
+     "Ex7"; "fact"; "factRec"; "factCBV";
+     "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
+     (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
+        |> List.map (fun f -> (f+".gc",f+".ps"))
+        |> List.iter (producePSAlt 40 40)
 #time
