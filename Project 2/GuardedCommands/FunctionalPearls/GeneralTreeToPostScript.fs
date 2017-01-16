@@ -70,5 +70,9 @@
         let createPostScript w h tree = let designtree = intDesign w (design tree)
                                         let leftMax, rightMax, heightMax, treePS = makeTreePS h 0 0 designtree
                                         ((psSetUp leftMax rightMax heightMax h w) @ flatten ( treePS ) @ [psWrapUp])
-
+        
+        let createPostScriptPlus w h tree = let list = createPostScript w h tree
+                                            List.fold (fun str strPsins -> match strPsins with 
+                                                                           |S s -> str + s
+                                                                           |I i -> str + i.ToString()) "" list
 

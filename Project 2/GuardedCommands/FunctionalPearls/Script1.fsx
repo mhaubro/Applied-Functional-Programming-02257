@@ -25,9 +25,18 @@ for i in 1..1 do
      "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
      (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
         |> List.map (fun f -> (f+".gc",f+".ps"))
-        |> List.iter (producePS 40 40)
+        |> List.iter (producePlusOpPS 40 40)
 #time
 
+#time
+for i in 1..1 do 
+    ["Ex1"; "Ex2";"Ex3"; "Ex4"; "Ex5"; "Ex6"; "Skip";
+     "Ex7"; "fact"; "factRec"; "factCBV";
+     "A0"; "A1"; "A2"; "A3";"A4"; "Swap"; "QuickSortV1";
+     (*"par1"; "factImpPTyp"; "QuickSortV2"; "par2";*)]
+        |> List.map (fun f -> (f+".gc",f+".ps"))
+        |> List.iter (producePS 40 40)
+#time
 
 //#time
 //for i in 1..50000 do 
