@@ -41,8 +41,7 @@
                                                                | Node(l,cl) -> Node(l,Node("leaf",[])::cl)
 
     let insertNodesRandomly n m tree = List.init n ( fun _ -> insertNodeRandomly m rnd)
-                                                                        |> List.fold (fun t' insert -> insert t') tree      
-                                                                        
+                                                                        |> List.fold (fun t' insert -> insert t') tree                                             
     
     let rec doToSomeLeaf f tree = match tree with 
                                     | Node(l, []) as n -> f(n)

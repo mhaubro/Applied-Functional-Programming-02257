@@ -19,8 +19,8 @@
                                                           let h = height+lh/2
                                                           [S"<</PageSize[";I w;psSPACE; I h;S"]/ImagingBBox null>> ";//make a bounding box for drawing the tree inside
                                                            S"setpagedevice\n 1 1 scale\n ";//ensure scaling is same on both axis
-                                                            I l;psSPACE;I (h-10);S" translate\n newpath\n";//move coordinates so entire tree fits
-                                                            S"/Times-Roman findfont 10 scalefont setfont\n"]//some font for drawing labels
+                                                           I l;psSPACE;I (h-10);S" translate\n newpath\n";//move coordinates so entire tree fits
+                                                           S"/Times-Roman findfont 10 scalefont setfont\n"]//some font for drawing labels
         ///ensure that the PS actually does something
         let psWrapUp = S"showpage"
         ///Calculate absolute positioning of and PS to draw a node and its subtrees
@@ -63,7 +63,7 @@
                                                        (shiftf, shiftf, levelh, [lineInPS; labelPS; lineOutPS; [psSTROKE]])// starting with absolute extent of this 
                            
         ///Helper function to flatten a list of lists into a list
-        let rec flatten l= (List.collect (fun i -> i) l)
+        let rec flatten l = (List.collect (fun i -> i) l)
 
         ///Generate a list of postscript instructions for a string tree where
         ///each level is h apart vertically and each node is no closer than w to its siblings

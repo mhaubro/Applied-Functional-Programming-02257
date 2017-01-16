@@ -40,7 +40,7 @@
         let target = (FileInfo(targetFile)).CreateText()
         tree
                 |> createPostScript w h
-                |> List.iter (function I i -> target.Write(i)  //Let the streamwriter handle converting integers to strings
-                                     | S s -> target.Write(s))
+                |> List.iter (function I i -> target.Write(i)  // Let the streamwriter handle converting integers to strings
+                                     | S s -> target.Write(s)) // Simply write when it is a string
         target.Flush()
         target.Close()
