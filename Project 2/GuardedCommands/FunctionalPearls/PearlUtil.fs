@@ -2,7 +2,6 @@
     open System.IO
     open ASTToGeneralTreeConverter
     open GeneralTreeToPostScript
-    open GeneralTreeToPostScriptAlt
     
     ///Helper function to read a sourcefile, parse it
     /// generate a tree from it and generate postscript code for that tree
@@ -27,44 +26,13 @@
         target.Flush()
         target.Close()
 
-    let producePSString w h parseTree =
-        (createPostScript w h parseTree)
-        |> List.map (function I i -> i.ToString()
-                             |S s -> s) 
-        |> String.concat ""
-
-    let producePSPlusString w h parseTree =
-        createPostScriptPlus w h parseTree
+    let producePSString w h parseTree = createPostScriptConc w h parseTree
+        
 
     let producePSStringBuilder w h parseTree =
-        createPostScriptStringBuilder w h parseTree
-    ///Helper function to read a sourcefile, parse it
-    /// generate a tree from it and generate postscript code for that tree
-    /// and finally write it to the target file.
-    // Arguments w and h are passed along to generate pretty trees in PS
-    let producePSAlt w h (sourceFile, targetFile) =
-        let target = (FileInfo(targetFile)).CreateText()
-        GuardedCommands.Util.ParserUtil.parseFromFile sourceFile
-                |> TreeFromPro
-                |> createPostScriptAlt w h
-                |> target.Write
-        target.Flush()
-        target.Close()
-
+        createPostScriptStringList w h parseTree
+            |> List.fold (fun (sb:System.Text.StringBuilder) s -> sb.Append(s)) (new System.Text.StringBuilder())
     
-    ///Helper function to read a sourcefile, parse it
-    /// generate a tree from it and generate postscript code for that tree
-    /// and finally write it to the target file.
-    // Arguments w and h are passed along to generate pretty trees in PS
-    let producePSgenTree w h tree targetFile =
-        let target = (FileInfo(targetFile)).CreateText()
-        tree
-                |> createPostScript w h
-                |> List.iter (function I i -> target.Write(i)  // Let the streamwriter handle converting integers to strings
-                                     | S s -> target.Write(s)) // Simply write when it is a string
-        target.Flush()
-        target.Close()
-
     let sw = System.Diagnostics.Stopwatch.StartNew()
     let compare f1 f2 i = let testf = (fun f j -> let starttime = sw.Elapsed
                                                   f j |> ignore
