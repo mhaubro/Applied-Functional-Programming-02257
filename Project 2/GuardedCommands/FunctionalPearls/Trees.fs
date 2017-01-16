@@ -12,6 +12,7 @@
                                                         let positions = fitlist extents
                                                         let ptrees = List.map movetree (List.zip trees positions)
                                                         let pextents = List.map moveextent (List.zip extents positions)
+                                                        let halfRootWidth = (float)(System.Math.Max (label.ToString().Length, 3)) / 2.0 / 20.0;
                                                         let resultextent = (-halfRootWidth, halfRootWidth) :: mergelist pextents
                                                         let resulttree = Node((label, 0.0), ptrees)                                                        
                                                         (resulttree, resultextent)
