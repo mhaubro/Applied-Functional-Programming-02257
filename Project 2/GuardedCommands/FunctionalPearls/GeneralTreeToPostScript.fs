@@ -76,3 +76,10 @@
                                                                            |S s -> str + s
                                                                            |I i -> str + i.ToString()) "" list
 
+        let createPostScriptStringBuilder w h tree = let sb = new System.Text.StringBuilder()
+                                                     let list = createPostScript w h tree
+                                                     ignore(List.fold (fun (stringbuilder:System.Text.StringBuilder) strPsins -> match strPsins with 
+                                                                                                                                 |S s -> stringbuilder.Append(s)
+                                                                                                                                 |I i -> stringbuilder.Append(i.ToString())) sb list)
+                                                     sb.ToString()
+
