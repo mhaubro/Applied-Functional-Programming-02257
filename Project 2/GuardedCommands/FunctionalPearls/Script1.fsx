@@ -22,5 +22,5 @@ System.IO.Directory.SetCurrentDirectory (__SOURCE_DIRECTORY__ + @"\GCfiles");;
 //        |> List.iter (producePS 40 40)
 //#time
 
-#load "Trees.fs"
+//#load "Trees.fs"
 producePS 40 40 ("A0LongName.gc","A0LongName.ps");;
