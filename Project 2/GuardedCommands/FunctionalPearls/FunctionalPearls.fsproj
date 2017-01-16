@@ -57,7 +57,6 @@
     <Compile Include="TreeGenerator.fs" />
     <Compile Include="ASTToGeneralTreeConverter.fs" />
     <Compile Include="GeneralTreeToPostScript.fs" />
-    <Compile Include="GeneralTreeToPostScriptAlt.fs" />
     <Compile Include="PearlUtil.fs" />
     <None Include="Script1.fsx" />
     <None Include="GenerateTreeTest.fsx" />

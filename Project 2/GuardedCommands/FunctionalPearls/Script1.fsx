@@ -4,7 +4,6 @@
 #load "TreeGenerator.fs"
 #load "ASTToGeneralTreeConverter.fs"
 #load "GeneralTreeToPostScript.fs"
-#load "GeneralTreeToPostScriptAlt.fs"
 #load "PearlUtil.fs"
 
 open Extents
