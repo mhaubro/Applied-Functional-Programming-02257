@@ -54,11 +54,15 @@
     <Content Include="packages.config" />
     <Compile Include="Extents.fs" />
     <Compile Include="Trees.fs" />
-    <None Include="PearlSignatures.fsi" />
+    <Compile Include="TreeGenerator.fs" />
     <Compile Include="ASTToGeneralTreeConverter.fs" />
+    <Compile Include="GeneralTreeToPostScript.fsi" />
     <Compile Include="GeneralTreeToPostScript.fs" />
+    <Compile Include="GeneralTreeToPostScriptAlt.fsi" />
+    <Compile Include="GeneralTreeToPostScriptAlt.fs" />
     <Compile Include="PearlUtil.fs" />
     <None Include="Script1.fsx" />
+    <None Include="GenerateTreeTest.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
