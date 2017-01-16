@@ -18,6 +18,26 @@
         target.Flush()
         target.Close()
     
+    let producePlusOpPS w h (sourceFile, targetFile) =
+        let target = (FileInfo(targetFile)).CreateText()
+        GuardedCommands.Util.ParserUtil.parseFromFile sourceFile
+                |> TreeFromPro
+                |> createPostScriptPlus w h
+                |> (fun (s:string) -> target.Write(s))
+        target.Flush()
+        target.Close()
+
+    let producePSString w h parseTree =
+        (createPostScript w h parseTree)
+        |> List.map (function I i -> i.ToString()
+                             |S s -> s) 
+        |> String.concat ""
+
+    let producePSPlusString w h parseTree =
+        createPostScriptPlus w h parseTree
+
+    let producePSStringBuilder w h parseTree =
+        createPostScriptStringBuilder w h parseTree
     ///Helper function to read a sourcefile, parse it
     /// generate a tree from it and generate postscript code for that tree
     /// and finally write it to the target file.
