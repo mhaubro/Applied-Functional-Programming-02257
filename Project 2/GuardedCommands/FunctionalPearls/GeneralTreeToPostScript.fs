@@ -19,7 +19,7 @@
                                                           let h = height+lh/2
                                                           [S"<</PageSize[";I w;psSPACE; I h;S"]/ImagingBBox null>> ";//make a bounding box for drawing the tree inside
                                                            S"setpagedevice\n 1 1 scale\n ";//ensure scaling is same on both axis
-                                                            I l;psSPACE;I (h-1);S" translate\n newpath\n";//move coordinates so entire tree fits
+                                                            I l;psSPACE;I (h-10);S" translate\n newpath\n";//move coordinates so entire tree fits
                                                             S"/Times-Roman findfont 10 scalefont setfont\n"]//some font for drawing labels
         ///ensure that the PS actually does something
         let psWrapUp = S"showpage"
