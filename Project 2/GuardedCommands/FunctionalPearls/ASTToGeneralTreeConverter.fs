@@ -2,10 +2,10 @@
     module ASTToGeneralTreeConverter
         open GuardedCommands.Frontend.AST
         open Trees
-        let nameFormat s = "[ "+s+" ]"
-        let vardecFormat s = "Var: [ "+s+" ]"
-        let fundecFormat s = "Fun: [ "+s+" ]"
-        let procdecFormat s = "Proc: [ "+s+" ]"
+        let nameFormat s = "["+s+"]"
+        let vardecFormat s = "Var:["+s+"]"
+        let fundecFormat s = "Fun:["+s+"]"
+        let procdecFormat s = "Proc:["+s+"]"
 
 
         let rec TreeFromExp = function

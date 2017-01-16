@@ -44,3 +44,13 @@
                                      | S s -> target.Write(s)) // Simply write when it is a string
         target.Flush()
         target.Close()
+
+    let sw = System.Diagnostics.Stopwatch.StartNew()
+    let compare f1 f2 i = let testf = (fun f j -> let starttime = sw.Elapsed
+                                                  f j |> ignore
+                                                  let endtime = sw.Elapsed
+                                                  (starttime, endtime)) in
+                          let t1, t2 = testf f1 i, testf f2 i
+                          (snd t1 - fst t1, snd t2 - fst t2)
+
+    let comparelist f1 f2 = List.map (fun i -> compare f1 f2 i)

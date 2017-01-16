@@ -17,13 +17,17 @@
         let psSetUp (left:int) (right:int) height lh nw = let l, r = (System.Math.Abs left)+nw, (System.Math.Abs right)+nw
                                                           let w = l+r 
                                                           let h = height+lh/2
-                                                          [S"<</PageSize[";I w;psSPACE; I h;S"]/ImagingBBox null>> ";//make a bounding box for drawing the tree inside
-                                                           S"setpagedevice\n 1 1 scale\n ";//ensure scaling is same on both axis
-                                                           I l;psSPACE;I (h-10);S" translate\n newpath\n";//move coordinates so entire tree fits
-                                                           S"/Times-Roman findfont 10 scalefont setfont\n"]//some font for drawing labels
+                                                          //make a bounding box for drawing the tree inside
+                                                          [S"<</PageSize[";I w;psSPACE; I h;S"]/ImagingBBox null>> ";
+                                                          //ensure scaling is same on both axis
+                                                           S"setpagedevice\n 1 1 scale\n ";
+                                                           //move coordinates so entire tree fits
+                                                           I l;psSPACE;I (h-10);S" translate\n newpath\n";
+                                                           S"/Consolas findfont 10 scalefont setfont\n"]//some font for drawing labels
         ///ensure that the PS actually does something
         let psWrapUp = S"showpage"
         ///Calculate absolute positioning of and PS to draw a node and its subtrees
+
         let rec makeTreePS h level shift =
                 function Node ((label,f),st) ->
                            //start by calculating stuff to avoid repetition
@@ -54,14 +58,15 @@
                                                 I (left+shiftf);psSPACE; levelandhalfhString ;psMOVETO; //move to above leftmost child
                                                 I (right+shiftf);psSPACE; levelandhalfhString ;psLINETO]//draw line to above rightmost child
                            //Perform similarly on each subtree and collect information to be returned
-                           st |> List.fold (fun (left, right, height, ps) n -> //fold list so we can collect information on absolute positions
-                                                       let (left', right', height', ps') = makeTreePS h (level + 1) shiftf n // determine absolute extent and height of subtree
+                           st |> List.fold (subtreePS h (level + 1) shiftf) //fold list so we can collect information on absolute positions
+                                                       (shiftf, shiftf, levelh, [lineInPS; labelPS; lineOutPS; [psSTROKE]])// starting with absolute extent of this 
+        
+        and subtreePS h level shiftf (left, right, height, ps) n = 
+                                                       let (left', right', height', ps') = makeTreePS h level shiftf n // determine absolute extent and height of subtree
                                                        let rightMax  = if right' > right then right' else right            // if greater than what we have so far
                                                        let leftMax = if left' < left then left' else left                  // update maximum absolute extent
                                                        let heightMax = if height' > height then height' else height        // and height
-                                                       (leftMax,rightMax,heightMax, ps @ ps'))
-                                                       (shiftf, shiftf, levelh, [lineInPS; labelPS; lineOutPS; [psSTROKE]])// starting with absolute extent of this 
-                           
+                                                       (leftMax,rightMax,heightMax, ps @ ps')
         ///Helper function to flatten a list of lists into a list
         let rec flatten l = (List.collect (fun i -> i) l)
 
@@ -70,5 +75,19 @@
         let createPostScript w h tree = let designtree = intDesign w (design tree)
                                         let leftMax, rightMax, heightMax, treePS = makeTreePS h 0 0 designtree
                                         ((psSetUp leftMax rightMax heightMax h w) @ flatten ( treePS ) @ [psWrapUp])
+        ///Helper for making strings from instructions
+        let instructionRemover = function |I i -> i.ToString() | S s -> s
 
+        ///Get the postscript instruction for a tree as a list of strings
+        let createPostScriptStringList w h tree = createPostScript w h tree
+                                                     |> List.map instructionRemover
+        
+        ///Get the postscript instruction for a tree as a sigle concatenated string
+        let createPostScriptConc w h tree = createPostScriptStringList w h tree
+                                                     |> String.concat ""
+        
+        ///Get the postscript instruction for a tree as a single string concatenated with (+)
+        let createPostScriptPlus w h tree = createPostScriptStringList w h tree
+                                                     |> List.fold ( fun acc s -> acc+s) ""
+        
 

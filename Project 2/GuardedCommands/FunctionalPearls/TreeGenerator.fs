@@ -63,9 +63,11 @@
                 let root = Node("root",[Node("leaf",[])])
                 //insertNodesRandomly (n-2) i root
                 let qq = Math.Max(3,i+1)
-                randomIntsFromSum (n-2) i
+                if n>2 then
+                    randomIntsFromSum (n-2) i
                                     |> List.map (fun j -> insertNodesRandomly (j) (rnd.Next(2,qq)))
                                     |> List.map doToSomeLeaf
                                     |> List.fold (fun t' insert -> insert t') root
+                else root
 
     // Tried to make the functions asyncronous, but the overhead of the thread handling was to big for it to be efficient.
