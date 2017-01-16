@@ -1,4 +1,4 @@
-﻿#load @"C:\Users\Krarup\Source\Repos\Applied-Functional-Programming-02257\Project 2\GuardedCommands\GuardedCommands\Script.fsx"
+﻿#load "../GuardedCommands/Script.fsx"
 #load "Extents.fs"
 #load "Trees.fs"
 #load "TreeGenerator.fs"
