@@ -26,7 +26,7 @@
     
     ///Magical function for ensuring that node labels do not overlap in an AST printed with Consolas font, size 10
     let ASTaugmentation = function label ->
-                                   (float)(System.Math.Max (label.ToString().Length, 3)) / 2.0 / 7.0
+                                   (float)(System.Math.Max (label.ToString().Length, 3)) / 7.0
     
     ///reformated to work with augmented design'
     let design tree = fst (designAugmented' (fun _ -> 0.0) tree)
